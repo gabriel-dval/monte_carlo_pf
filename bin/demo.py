@@ -65,13 +65,82 @@ class HPAminoAcid:
             raise ValueError
 
 
+class Protein:
+    '''Represents a protein - this is constructed from multiple HPAminoAcid objects
+
+    Attributes
+    ---
+    name : name of the protein
+    sequence : HP sequence, also constructed as the protein gets longer
+    neighbour_map : dictionnary of the contacts between proteins
+
+    Methods
+    ---
+    add_aa : add a HPAminoAcid to the protein
+    calc_length : calculate the length of the protein
+    get_sequence : print the composition of the protein
+    build_neighbour_dict : fill in the neighbour map - can only be done 
+                           if the neighbour map is empty
+    '''
+    def __init__(self, name):
+        self.name = name
+        self.sequence = []
+        self.neighbour_map = {}
+    
+
+    def add_aa(self, aa):
+        if isinstance(aa, HPAminoAcid):
+            self.sequence.append(aa)
+
+
+    def calc_length(self):
+        return len(self.sequence)
+    
+
+    def get_sequence(self):
+        return "".join(aa.type for aa in self.sequence)
+    
+
+    def build_neighbour_dict(self):
+        '''Remember this method will only run if the neighbour map
+        if empty - it will tell you to run it again otherwise'''
+        if len(self.neighbour_map) == 0:
+            for i, aa in enumerate(self.sequence[:-1]):
+                self.neighbour_map[aa.name] = {'neighbour' : self.sequence[i+1].name,
+                                               'coords' : self.sequence[i+1].coords}
+        else:
+            print('A neighbour map of this protein has already been built.\nRun delete_neighbour_map and try again')
+
+    
+    def delete_neighbour_map(self):
+        '''Delete the current neighbour map'''
+        self.neighbour_map.clear()
+        print(f'Neighbour map deleted successfully for {self.name}')
+        
+
 
 
 if __name__ == "__main__":
     print('test')
-    aa = HPAminoAcid('H2')
+    aa1 = HPAminoAcid('H1')
+    aa2 = HPAminoAcid('H2')
+    aa3 = HPAminoAcid('P3')
+    aa4 = HPAminoAcid('H4')
 
-    print(aa.coords)
-    print(aa.coords)
+    prot1 = Protein('test')
+    prot1.add_aa(aa1)
+    prot1.add_aa(aa2)
+    prot1.add_aa(aa3)
+    prot1.add_aa(aa4)
+
+    print(prot1.neighbour_map)
+    length = prot1.build_neighbour_dict()
+    prot1.delete_neighbour_map()
+    length = prot1.build_neighbour_dict()
+    print(prot1.neighbour_map)
+
+
+
+    
 
     
