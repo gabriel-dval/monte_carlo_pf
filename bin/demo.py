@@ -118,7 +118,39 @@ class Protein:
         print(f'Neighbour map deleted successfully for {self.name}')
         
 
+class Lattice2D:
+    '''Class representing the lattice on which the protein will be 
+    embedded.
+    
+    Attributes
+    ---
+    length : how long is the lattice
+    width : how wide is the lattice
+    position_manager : 2D np.array keeping track of the position of the
+                       protein on the lattice
 
+    Methods
+    ---
+    border_control : checks that the protein is not too close to the border
+    '''
+    def __init__(self, length, width):
+        self.length = length
+        self.width = width
+        self.position_manager = np.zeros((length, width))
+
+    
+    def border_control(self):
+        '''Checks the values present in the lattice - if there is a 1 present
+        near the border, the whole structure needs to be re-translated'''
+        print('In development')
+
+
+class Conformation:
+    '''This class combines the protein and the lattice into one - it sets their original
+    position and also implements all the methods to update the position of the conformation
+    '''
+
+    
 
 if __name__ == "__main__":
     print('test')
@@ -134,8 +166,6 @@ if __name__ == "__main__":
     prot1.add_aa(aa4)
 
     print(prot1.neighbour_map)
-    length = prot1.build_neighbour_dict()
-    prot1.delete_neighbour_map()
     length = prot1.build_neighbour_dict()
     print(prot1.neighbour_map)
 
