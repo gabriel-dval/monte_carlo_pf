@@ -23,3 +23,55 @@ Output : grid/matrix/graph representation of the sequence
 
 
 '''
+
+
+# Import of necessary modules
+
+import numpy as np
+import math as m
+
+
+# Experimenting with first class architectures
+
+class HPAminoAcid:
+    '''Base class recording the type of amino acid : Hydrophobic (H) or Polar (P)
+    
+    Attributes 
+    ---
+    name : corresponds to the identity of the HP amino acid (H2, P9 etc)
+    type : type of the amino acid
+    coords : np array, containing coordinates of this AA - the initial
+            values of this are always empty
+
+    Methods
+    ---
+    get_coords : access the coordinates of the amino acid
+    set_coords : set the coordinates of the amino acid
+    '''
+    def __init__(self, name):
+        self.name = name
+        self.type = name[0]
+        self.coords = np.array([0, 0])
+
+    @property
+    def coords(self):
+        return self._coordinates
+    
+    @coords.setter
+    def coords(self, new_coords):
+        if new_coords.shape == (2,):
+            self._coordinates = new_coords
+        else:
+            raise ValueError
+
+
+
+
+if __name__ == "__main__":
+    print('test')
+    aa = HPAminoAcid('H2')
+
+    print(aa.coords)
+    print(aa.coords)
+
+    
