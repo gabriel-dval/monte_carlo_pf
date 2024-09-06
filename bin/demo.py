@@ -188,11 +188,22 @@ class Conformation:
         energy = 0
         for i, aa1 in enumerate(self.protein.sequence[:-1]):
             for aa2 in self.protein.sequence[i + 1:]:
+                print(aa1.name)
+                print(aa2.name)
+                delta = np.sort(np.absolute(aa1.coords - aa2.coords))
                 if aa1.type == 'P' or aa2.type == 'P':
+                    print('skip P')
                     continue
-                elif int(aa1.name[1:]) - int(aa2.name[1:]) < 2:
+                elif int(aa2.name[1:]) - int(aa1.name[1:]) < 2:
+                    print('skip neighbours')
                     continue
-                
+                elif np.array_equal(delta, np.array([0, 1])) :
+                    energy -= 1
+                else:
+                    print('too far')
+        
+        print(energy)
+
 
 
 
@@ -220,6 +231,7 @@ if __name__ == "__main__":
     l1 = Lattice2D(20, 20)
 
     conf1 = Conformation('C1', prot1, l1)
+    conf1.calculate_energy()
 
 
 
