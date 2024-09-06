@@ -112,6 +112,11 @@ class Protein:
             print('A neighbour map of this protein has already been built.\nRun delete_neighbour_map and try again')
 
     
+    def show_neighbour_map(self):
+        '''Display the current neighbour map'''
+        print(self.neighbour_map)
+
+
     def delete_neighbour_map(self):
         '''Delete the current neighbour map'''
         self.neighbour_map.clear()
@@ -153,34 +158,35 @@ class Conformation:
     label : this is the id of the conformation - will be used when RE is implemented
     position_matrix
     '''
-    def __init__(self, label, protein, lattice):
+    def __init__(self, label, protein: Protein, lattice: Lattice2D):
+        '''Automatically initialise the first conformation'''
         self.label = label
-        if isinstance(protein, Protein):
-            self.protein = protein
-        else:
-            raise ValueError('Protein is not of class Protein')
-        if isinstance(lattice, Lattice2D):
-            self.lattice = lattice
-        else:
-            raise ValueError('Lattice is not of class Lattice2D')
+        self.protein = protein
+        self.lattice = lattice
         self.position_manager = np.zeros((lattice.length, lattice.width))
+        self.initialise_horizontal_conformation()
 
     
     def initialise_horizontal_conformation(self):
         '''Function to initialise the conformation'''
-        ref_x = (self.lattice.length / 2) - (self.protein.calc_length() / 2)
-        ref_y = self.lattice.width / 2
-        for aa in zip(self.protein, zip.protein.neighbour_map):
-            aa.coords = np.array([ref_x, ref_y])
-            self.position_manager[ref_x, ref_y] = 1
+        ref_x = int((self.lattice.length / 2) - (self.protein.calc_length() / 2))
+        ref_y = int(self.lattice.width / 2)
+        for aa in self.protein.sequence:
+            aa.coords = np.array([ref_y, ref_x])
+            self.position_manager[ref_y, ref_x] = 1
             ref_x += 1
+        print(self.position_manager)
+
+    
+    def  calculate_energy(self):
+        '''Function to calculate the energy of the current conformation'''
 
 
 
     
 
 if __name__ == "__main__":
-    print('test')
+
     aa1 = HPAminoAcid('H1')
     aa2 = HPAminoAcid('H2')
     aa3 = HPAminoAcid('P3')
@@ -192,9 +198,15 @@ if __name__ == "__main__":
     prot1.add_aa(aa3)
     prot1.add_aa(aa4)
 
-    print(prot1.neighbour_map)
-    length = prot1.build_neighbour_dict()
-    print(prot1.neighbour_map)
+    prot2 = Protein('test2')
+    prot2.add_aa(aa4)
+    prot2.add_aa(aa3)
+    prot2.add_aa(aa2)
+    prot2.build_neighbour_dict()
+
+    l1 = Lattice2D(20, 20)
+
+    conf1 = Conformation('C1', prot1, l1)
 
 
 
