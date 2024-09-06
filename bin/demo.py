@@ -205,7 +205,20 @@ class Conformation:
         print(energy)
 
 
+class MonteCarlo:
+    '''Run a single series of MonteCarlo permutations on a conformation. 
 
+    Attributes
+    ---
+    conformation : initial conformation to optimise
+    steps : number of optimisation steps
+    move_types : which set of moves to use (pull, vhsc or all)
+
+    Methods
+    ---
+    Implementation of each move is in this class
+    run : run the optimisation
+    '''
 
     
 
