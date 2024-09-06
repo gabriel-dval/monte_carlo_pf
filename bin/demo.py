@@ -126,8 +126,7 @@ class Lattice2D:
     ---
     length : how long is the lattice
     width : how wide is the lattice
-    position_manager : 2D np.array keeping track of the position of the
-                       protein on the lattice
+
 
     Methods
     ---
@@ -148,7 +147,35 @@ class Lattice2D:
 class Conformation:
     '''This class combines the protein and the lattice into one - it sets their original
     position and also implements all the methods to update the position of the conformation
+
+    Attributes
+    ---
+    label : this is the id of the conformation - will be used when RE is implemented
+    position_matrix
     '''
+    def __init__(self, label, protein, lattice):
+        self.label = label
+        if isinstance(protein, Protein):
+            self.protein = protein
+        else:
+            raise ValueError('Protein is not of class Protein')
+        if isinstance(lattice, Lattice2D):
+            self.lattice = lattice
+        else:
+            raise ValueError('Lattice is not of class Lattice2D')
+        self.position_manager = np.zeros((lattice.length, lattice.width))
+
+    
+    def initialise_horizontal_conformation(self):
+        '''Function to initialise the conformation'''
+        ref_x = (self.lattice.length / 2) - (self.protein.calc_length() / 2)
+        ref_y = self.lattice.width / 2
+        for aa in zip(self.protein, zip.protein.neighbour_map):
+            aa.coords = np.array([ref_x, ref_y])
+            self.position_manager[ref_x, ref_y] = 1
+            ref_x += 1
+
+
 
     
 
