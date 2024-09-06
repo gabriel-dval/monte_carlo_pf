@@ -171,15 +171,28 @@ class Conformation:
         '''Function to initialise the conformation'''
         ref_x = int((self.lattice.length / 2) - (self.protein.calc_length() / 2))
         ref_y = int(self.lattice.width / 2)
+        i = 1
         for aa in self.protein.sequence:
             aa.coords = np.array([ref_y, ref_x])
-            self.position_manager[ref_y, ref_x] = 1
+            self.position_manager[ref_y, ref_x] = i
             ref_x += 1
+            i += 1
         print(self.position_manager)
 
     
     def  calculate_energy(self):
-        '''Function to calculate the energy of the current conformation'''
+        '''Function to calculate the energy of the current conformation
+        
+        Iterate through atoms of the protein and check its coordinates
+        '''
+        energy = 0
+        for i, aa1 in enumerate(self.protein.sequence[:-1]):
+            for aa2 in self.protein.sequence[i + 1:]:
+                if aa1.type == 'P' or aa2.type == 'P':
+                    continue
+                elif int(aa1.name[1:]) - int(aa2.name[1:]) < 2:
+                    continue
+                
 
 
 
