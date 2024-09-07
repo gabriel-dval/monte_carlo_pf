@@ -29,6 +29,7 @@ Output : grid/matrix/graph representation of the sequence
 
 import numpy as np
 import math as m
+import copy
 
 
 # Experimenting with first class architectures
@@ -63,6 +64,9 @@ class HPAminoAcid:
             self._coordinates = new_coords
         else:
             raise ValueError
+
+    
+
 
 
 class Protein:
@@ -179,6 +183,32 @@ class Conformation:
             i += 1
         print(self.position_manager)
 
+
+    def get_protein_sequence(self):
+        return self.protein.sequence
+    
+
+    def valid_position(self, pos):
+        '''Check if a position is within the lattice and not occupied'''
+        y, x = pos
+        if 0 <= x < self.conformation.lattice.length and 0 <= y < self.conformation.lattice.width:
+            return self.conformation.position_manager[y, x] == 0
+        return False
+    
+
+    def get_neighbors(self, aa):
+        '''Returns neighboring positions around a given residue'''
+        if isinstance(aa, HPAminoAcid):
+            neighbors = [
+                aa.coords + np.array([0, 1]),  # right
+                aa.coords + np.array([0, -1]), # left
+                aa.coords + np.array([1, 0]),  # down
+                aa.coords + np.array([-1, 0])  # up
+            ]
+            return [n for n in neighbors if self.valid_position(n)]
+        else:
+            raise ValueError('Argument is not of class HPAminoAcid')
+
     
     def  calculate_energy(self):
         '''Function to calculate the energy of the current conformation
@@ -188,20 +218,18 @@ class Conformation:
         energy = 0
         for i, aa1 in enumerate(self.protein.sequence[:-1]):
             for aa2 in self.protein.sequence[i + 1:]:
-                print(aa1.name)
-                print(aa2.name)
                 delta = np.sort(np.absolute(aa1.coords - aa2.coords))
                 if aa1.type == 'P' or aa2.type == 'P':
-                    print('skip P')
+                    #print('skip P')
                     continue
                 elif int(aa2.name[1:]) - int(aa1.name[1:]) < 2:
-                    print('skip neighbours')
+                    #print('skip neighbours')
                     continue
                 elif np.array_equal(delta, np.array([0, 1])) :
                     energy -= 1
                 else:
-                    print('too far')
-        
+                    continue
+                    #print('too far')
         print(energy)
 
 
@@ -217,8 +245,47 @@ class MonteCarlo:
     Methods
     ---
     Implementation of each move is in this class
-    run : run the optimisation
     '''
+    def __init__(self, conformation: Conformation, steps: int):
+        self.conformation = conformation
+        self.steps = steps
+    
+
+    def choose_rand_aa(self):
+        prot_length = self.conformation.protein.calc_length()
+        k = np.random.uniform(0, prot_length - 1)
+        return k
+
+    
+    def run_sim(self):
+        '''General function implementing the MC sim
+        
+        Arguments
+        ---
+        none
+
+        Returns
+        ---
+        nothing - modifies the conformation instance in place.
+        '''
+        current_conformation = self.conformation
+        sequence = self.conformation.get_protein_sequence()
+
+        for s in self.steps:
+            test_conformation = copy.deepcopy(self.conformation)
+
+            # Choose an amino acid at random
+            k = self.choose_rand_aa()  
+
+            # Choose a move at random
+            move = self
+
+
+        
+
+
+
+
 
     
 
