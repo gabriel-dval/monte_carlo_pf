@@ -30,6 +30,7 @@ Output : grid/matrix/graph representation of the sequence
 import numpy as np
 import math as m
 import copy
+import random
 
 
 # Experimenting with first class architectures
@@ -63,7 +64,7 @@ class HPAminoAcid:
         if new_coords.shape == (2,):
             self._coordinates = new_coords
         else:
-            raise ValueError
+            raise ValueError('Not the coordinate format')
 
     
 
@@ -196,12 +197,12 @@ class Conformation:
         return False
     
 
-    def get_neighbors(self, pos: int):
+    def get_neighbours(self, pos: int):
         '''Returns neighboring positions around a given residue position
-        This is based around position in the sequence NOT python index.
+        This is based around python index not actual residue position.
         '''
         try:
-            aa = self.get_protein_sequence()[pos - 1]
+            aa = self.get_protein_sequence()[pos]
         except:
             raise IndexError('Given position out of range')
 
@@ -237,7 +238,8 @@ class Conformation:
                 else:
                     continue
                     #print('too far')
-        print(energy)
+        
+        return energy
 
 
 class MonteCarlo:
@@ -265,7 +267,7 @@ class MonteCarlo:
         return k
 
     
-    def try_end_move(self, conformation, k):
+    def try_end_move(self, conf, k):
         '''With the given conformation, try and implement an end
         move at position k.
 
@@ -279,6 +281,40 @@ class MonteCarlo:
         nothing - modifies conformation in place if the move is 
         available
         '''
+        seq = conf.get_protein_sequence()    # Get sequence of the protein
+
+        if k == 0 or k == len(seq) - 1:
+            if k == 0:
+                free_spots = conf.get_neighbours(k + 1)
+                print(free_spots)
+            else: 
+                free_spots = conf.get_neighbours(len(seq) - 2)
+
+            if len(free_spots) != 0:
+                new_y, new_x = random.choice(free_spots)  # Pull coords of new spot
+                old_y, old_x = seq[k].coords              # Pull coords of old spot
+
+                # Swap values of both spots
+                conf.position_manager[new_y, new_x] = conf.position_manager[old_y, old_x]
+                conf.position_manager[old_y, old_x] = 0 
+
+                # Update the aa object of that conformation  
+                seq[k].coords = np.array([new_y, new_x])
+
+                # Report results
+                print('End move successful')
+                return True
+            else:
+                print('End move skipped')
+                return False
+        
+        else:
+            print('End move skipped')
+            return False
+        
+
+    def try_corner_move(self, conformation, k):
+        '''Test and perform a corner move if possible'''
 
 
 
@@ -297,14 +333,14 @@ class MonteCarlo:
         current_conformation = copy.deepcopy(self.conformation)
         sequence = self.conformation.get_protein_sequence()
 
-        for s in self.steps:
+        for s in range(self.steps):
             test_conformation = copy.deepcopy(current_conformation)
 
             # Choose an amino acid at random
-            k = self.choose_rand_aa()  
+            k = self.choose_rand_aa() 
 
-            # Choose a move at random
-            move = self
+            # Choose a move at random (for now only one move available)
+            move = self.try_end_move(test_conformation, k)
 
             # Calculate energy of current and test
             test = test_conformation.calculate_energy()
@@ -317,7 +353,9 @@ class MonteCarlo:
                 q = np.random.uniform(0, 1)
                 if q > np.exp((-delta_e/self.temperature)):
                     current_conformation = copy.deepcopy(test_conformation)
-            
+        
+
+        print(current_conformation.position_manager) 
         return current_conformation
 
         
@@ -356,8 +394,11 @@ if __name__ == "__main__":
 
     conf1 = Conformation('C1', prot1, l1)
     conf1.calculate_energy()
-    neighbours = conf1.get_neighbors(5)
-    print(neighbours)
+    
+
+    # Testing simple Monte Carlo
+    mc1 = MonteCarlo(conf1, 10, 60)
+    mc1.run_sim()
 
 
 
