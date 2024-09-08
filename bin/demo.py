@@ -390,7 +390,7 @@ if __name__ == "__main__":
     prot2.add_aa(aa2)
     prot2.build_neighbour_dict()
 
-    l1 = Lattice2D(20, 20)
+    l1 = Lattice2D(15, 15)
 
     conf1 = Conformation('C1', prot1, l1)
     conf1.calculate_energy()
