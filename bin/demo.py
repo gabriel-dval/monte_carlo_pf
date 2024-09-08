@@ -191,13 +191,20 @@ class Conformation:
     def valid_position(self, pos):
         '''Check if a position is within the lattice and not occupied'''
         y, x = pos
-        if 0 <= x < self.conformation.lattice.length and 0 <= y < self.conformation.lattice.width:
-            return self.conformation.position_manager[y, x] == 0
+        if 0 <= x < self.lattice.length and 0 <= y < self.lattice.width:
+            return self.position_manager[y, x] == 0
         return False
     
 
-    def get_neighbors(self, aa):
-        '''Returns neighboring positions around a given residue'''
+    def get_neighbors(self, pos: int):
+        '''Returns neighboring positions around a given residue position
+        This is based around position in the sequence NOT python index.
+        '''
+        try:
+            aa = self.get_protein_sequence()[pos - 1]
+        except:
+            raise IndexError('Given position out of range')
+
         if isinstance(aa, HPAminoAcid):
             neighbors = [
                 aa.coords + np.array([0, 1]),  # right
@@ -254,8 +261,26 @@ class MonteCarlo:
 
     def choose_rand_aa(self):
         prot_length = self.conformation.protein.calc_length()
-        k = np.random.uniform(0, prot_length - 1)
+        k = np.random.randint(0, prot_length)
         return k
+
+    
+    def try_end_move(self, conformation, k):
+        '''With the given conformation, try and implement an end
+        move at position k.
+
+        Arguments
+        ---
+        conformation : the input conformation
+        k : the amino acid position
+
+        Returns
+        ---
+        nothing - modifies conformation in place if the move is 
+        available
+        '''
+
+
 
     
     def run_sim(self):
@@ -269,17 +294,35 @@ class MonteCarlo:
         ---
         nothing - modifies the conformation instance in place.
         '''
-        current_conformation = self.conformation
+        current_conformation = copy.deepcopy(self.conformation)
         sequence = self.conformation.get_protein_sequence()
 
         for s in self.steps:
-            test_conformation = copy.deepcopy(self.conformation)
+            test_conformation = copy.deepcopy(current_conformation)
 
             # Choose an amino acid at random
             k = self.choose_rand_aa()  
 
             # Choose a move at random
             move = self
+
+            # Calculate energy of current and test
+            test = test_conformation.calculate_energy()
+            current = current_conformation.calculate_energy()
+            delta_e = test - current
+
+            if delta_e <= 0:
+                current_conformation = copy.deepcopy(test_conformation)
+            else:
+                q = np.random.uniform(0, 1)
+                if q > np.exp((-delta_e/self.temperature)):
+                    current_conformation = copy.deepcopy(test_conformation)
+            
+        return current_conformation
+
+        
+
+
 
 
         
@@ -313,6 +356,8 @@ if __name__ == "__main__":
 
     conf1 = Conformation('C1', prot1, l1)
     conf1.calculate_energy()
+    neighbours = conf1.get_neighbors(5)
+    print(neighbours)
 
 
 
