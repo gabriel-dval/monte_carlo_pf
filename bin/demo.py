@@ -246,9 +246,10 @@ class MonteCarlo:
     ---
     Implementation of each move is in this class
     '''
-    def __init__(self, conformation: Conformation, steps: int):
+    def __init__(self, conformation: Conformation, steps: int, temperature: float):
         self.conformation = conformation
         self.steps = steps
+        self.temperature = temperature
     
 
     def choose_rand_aa(self):
