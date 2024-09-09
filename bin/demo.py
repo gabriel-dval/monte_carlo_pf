@@ -100,11 +100,6 @@ class HPAminoAcid:
         else: return False
 
 
-
-    
-
-
-
 class Protein:
     '''Represents a protein - this is constructed from multiple HPAminoAcid objects
 
@@ -362,17 +357,20 @@ class MonteCarlo:
 
         if k != 0 and k != len(seq) - 1:
 
-            # Case 1 : k-1 vertical and k+1 horizontal
-            if seq[k].are_vertical(seq[k-1]) and seq[k].are_horizontal(seq[k+1]):
+            # Calculate vectors with neighbours
+            past_res = seq[k].coords - seq[k-1].coords
+            future_res = seq[k].coords - seq[k+1].coords
+            
+            # If both vectors are orthogonal
+            if np.dot(past_res, future_res) == 0:
 
                 # Check spot is available
-                delta = seq[k-1].coords - seq[k+1].coords
+                mov = past_res + future_res
                 old_y, old_x = seq[k].coords
-                if conf.position_manager[old_y - delta[1], old_x + delta[0]] == 0:
+                if conf.position_manager[old_y - mov[0], old_x - mov[1]] == 0:
 
                     #Update positions
-                    new_y = old_y - delta[1]
-                    new_x = old_x + delta[0]
+                    new_y, new_x = old_y - mov[0], old_x - mov[1]
                     conf.position_manager[new_y, new_x] = conf.position_manager[old_y, old_x]
                     conf.position_manager[old_y, old_x] = 0 
 
@@ -386,37 +384,9 @@ class MonteCarlo:
                 else:
                     print('Corner move skipped')
                     return False
-
-
-            # Case 2 : k-1 horizontal and k+1 vertical
-            elif seq[k].are_horizontal(seq[k-1]) and seq[k].are_vertical(seq[k+1]):
-
-                # Check spot is available
-                delta = seq[k+1].coords - seq[k-1].coords
-                old_y, old_x = seq[k].coords
-                if conf.position_manager[old_y - delta[1], old_x + delta[0]] == 0:
-
-                    #Update positions
-                    new_y = old_y - delta[1]
-                    new_x = old_x + delta[0]
-                    conf.position_manager[new_y, new_x] = conf.position_manager[old_y, old_x]
-                    conf.position_manager[old_y, old_x] = 0 
-
-                    #Update aa objects
-                    seq[k].coords = np.array([new_y, new_x])  
-
-                    #Report
-                    print('Corner move succesful') 
-                    return True
-                         
-                else:
+            else:
                     print('Corner move skipped')
                     return False
-
-            else:
-                print('Corner move skipped')
-                return False
-        
         else:
                 print('Corner move skipped')
                 return False
@@ -479,10 +449,8 @@ class MonteCarlo:
                 q = np.random.uniform(0, 1)
                 if q > np.exp((-delta_e/self.temperature)):
                     current_conformation = copy.deepcopy(test_conformation)
-            print(current_conformation.position_manager)
         
-
-        #print(current_conformation.position_manager) 
+        print(current_conformation.position_manager) 
         return current_conformation
 
         
@@ -530,20 +498,9 @@ if __name__ == "__main__":
     conf1 = Conformation('C1', prot1, l1)
     conf1.calculate_energy()
     
-
     # Testing simple Monte Carlo
-    mc1 = MonteCarlo(conf1, 20, 60)
+    mc1 = MonteCarlo(conf1, 30, 60)
     mc1.run_sim()
-
-    # aa43 = HPAminoAcid('H43')
-    # aa44 = HPAminoAcid('P44')
-    # aa45 = HPAminoAcid('H45')
-
-    # aa43.coords = np.array([2,1])
-    # aa44.coords = np.array([2,2])
-    # aa45.coords = np.array([1,2])
-
-    # print(aa45.are_vertical(aa44))
 
 
 
