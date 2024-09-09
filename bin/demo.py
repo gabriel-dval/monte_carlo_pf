@@ -313,7 +313,7 @@ class MonteCarlo:
     def choose_rand_aa(self):
         prot_length = self.conformation.protein.calc_length()
         k = np.random.randint(0, prot_length)
-        return k
+        return k     
 
     
     def try_end_move(self, conf, k):
@@ -520,7 +520,50 @@ class MonteCarlo:
         '''
         seq = conf.get_protein_sequence()    # Get sequence of the protein
 
-        # First step - form the square
+        # Find L
+
+        if k < len(seq) - 1:
+            
+            current = conf.get_diagonal_neighbours(k)
+            next = conf.get_neighbours(k + 1)
+
+            # Convert each numpy array into tuples to make them hashable
+            set1 = {tuple(arr) for arr in current}
+            set2 = {tuple(arr) for arr in next}
+
+            if len(set1.intersection(set2)) > 0:
+                
+                # Find the common tuples between the two sets
+                common_tuples = set1.intersection(set2)
+
+                # Convert the common tuples back to numpy arrays
+                choices = [np.array(tup) for tup in common_tuples]
+                print(choices)
+
+                l = random.choice(choices)
+
+                # Find C
+                vec_with_k = seq[k+1].coords - seq[k].coords
+                vec_with_l = seq[k+1].coords - l
+
+                vec_sum = vec_with_k + vec_with_l
+                c = np.array([seq[k+1].coords[0] - vec_sum[0], seq[k+1].coords[1] - vec_sum[1]])
+
+                # Case 1 : C is on k - 1
+                if np.array_equal(c, seq[k-1].coords):
+                    self.try_corner_move(conf, k)
+                
+                # Case 2
+                else:
+                    print('nada')
+            
+            
+            else:
+                print('Pull move skipped')
+                return(False)
+        else:
+                print('Pull move skipped')
+                return(False)
 
 
 
@@ -579,7 +622,8 @@ class MonteCarlo:
             print(k)
 
             # Choose a move at random (for now only one move available)
-            move = self.choose_move(test_conformation, k, 'ALL')
+            #move = self.choose_move(test_conformation, k, 'ALL')
+            move = self.try_pull_move(test_conformation, k)
 
             # Calculate energy of current and test
             test = test_conformation.calculate_energy()
@@ -648,7 +692,7 @@ if __name__ == "__main__":
     conf1.calculate_energy()
     
     # Testing simple Monte Carlo
-    mc1 = MonteCarlo(conf1, 40, 60)
+    mc1 = MonteCarlo(conf1, 10, 60)
     mc1.run_sim()
 
 
