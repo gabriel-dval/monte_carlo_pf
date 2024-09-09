@@ -348,10 +348,73 @@ class MonteCarlo:
         seq = conf.get_protein_sequence()    # Get sequence of the protein
 
         if k != 0 and k != len(seq) - 1:
-            print('dev')
+            
+            # Case 1 : k-1 vertical and k+1 horizontal
+            if seq[k].are_vertical(seq[k-1]) and seq[k].are_horizontal(seq[k-1]):
+
+                # Check spot is available
+                delta = seq[k-1].coords - seq[k+1].coords
+                old_y, old_x = seq[k].coords
+                if conf.position_manager[old_y - delta[1], old_x + delta[0]] == 0:
+
+                    #Update positions
+                    conf.position_manager[old_y - delta[1], old_x + delta[0]] = conf.position_manager[old_y, old_x]
+                    conf.position_manager[old_y, old_x] = 0 
+
+                    #Report
+                    print('Corner move succesful') 
+                    return True
+
+                else:
+                    print('Corner move skipped')
+                    return False
 
 
+            # Case 2 : k-1 horizontal and k+1 vertical
+            elif seq[k].are_horizontal(seq[k-1]) and seq[k].are_vertical(seq[k-1]):
 
+                # Check spot is available
+                delta = seq[k-1].coords - seq[k+1].coords
+                old_y, old_x = seq[k].coords
+                if conf.position_manager[old_y - delta[1], old_x + delta[0]] == 0:
+
+                    #Update positions
+                    conf.position_manager[old_y - delta[1], old_x + delta[0]] = conf.position_manager[old_y, old_x]
+                    conf.position_manager[old_y, old_x] = 0  
+
+                    #Report
+                    print('Corner move succesful') 
+                    return True
+                         
+                else:
+                    print('Corner move skipped')
+                    return False
+
+            else:
+                print('Corner move skipped')
+                return False
+
+
+    def choose_move(self, conf, k):
+        '''Function which chooses a random move to perform
+        
+        Arguments
+        ---
+        conformation : the input conformation
+        k : the amino acid position
+        '''
+
+        options = ['end', 'corner']
+        choice = random.choice(options)
+
+        if choice == 'end':
+            print('End move chosen')
+            self.try_end_move(conf, k)
+        if choice == 'corner':
+            print('Corner move chosen')
+            self.try_end_move(conf, k)
+
+        return choice
 
     
     def run_sim(self):
@@ -375,7 +438,7 @@ class MonteCarlo:
             k = self.choose_rand_aa() 
 
             # Choose a move at random (for now only one move available)
-            move = self.try_end_move(test_conformation, k)
+            move = self.choose_move(test_conformation, k)
 
             # Calculate energy of current and test
             test = test_conformation.calculate_energy()
