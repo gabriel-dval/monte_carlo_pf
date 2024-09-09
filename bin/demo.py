@@ -55,16 +55,37 @@ class HPAminoAcid:
         self.type = name[0]
         self.coords = np.array([0, 0])
 
+
     @property
     def coords(self):
         return self._coordinates
     
+
     @coords.setter
     def coords(self, new_coords):
         if new_coords.shape == (2,):
             self._coordinates = new_coords
         else:
             raise ValueError('Not the coordinate format')
+        
+    
+    def are_vertical(self, aa2):
+        '''Check if two amino acids are vertical'''
+        delta = self.coords - aa2.coords
+        if np.absolute(delta) == np.array([1, 0]):
+            return True
+        else:
+            return False
+
+    
+    def are_horizontal(self, aa2):
+        '''Check if two amino acids are horizontal'''
+        delta = self.coords - aa2.coords
+        if np.absolute(delta) == np.array([0, 1]):
+            return True
+        else:
+            return False
+
 
     
 
@@ -278,8 +299,7 @@ class MonteCarlo:
 
         Returns
         ---
-        nothing - modifies conformation in place if the move is 
-        available
+        boolean - whether the move was succesful or not
         '''
         seq = conf.get_protein_sequence()    # Get sequence of the protein
 
@@ -313,8 +333,23 @@ class MonteCarlo:
             return False
         
 
-    def try_corner_move(self, conformation, k):
-        '''Test and perform a corner move if possible'''
+    def try_corner_move(self, conf, k):
+        '''Test and perform a corner move if possible
+        
+        Arguments
+        ---
+        conformation : the input conformation
+        k : the amino acid position
+
+        Returns
+        ---
+        boolean - whether the move was succesful or not
+        '''
+        seq = conf.get_protein_sequence()    # Get sequence of the protein
+
+        if k != 0 and k != len(seq) - 1:
+            print('dev')
+
 
 
 
@@ -377,12 +412,20 @@ if __name__ == "__main__":
     aa2 = HPAminoAcid('H2')
     aa3 = HPAminoAcid('P3')
     aa4 = HPAminoAcid('H4')
+    aa5 = HPAminoAcid('H5')
+    aa6 = HPAminoAcid('P6')
+    aa7 = HPAminoAcid('P7')
+    aa8 = HPAminoAcid('H8')
 
     prot1 = Protein('test')
     prot1.add_aa(aa1)
     prot1.add_aa(aa2)
     prot1.add_aa(aa3)
     prot1.add_aa(aa4)
+    prot1.add_aa(aa5)
+    prot1.add_aa(aa6)
+    prot1.add_aa(aa7)
+    prot1.add_aa(aa8)
 
     prot2 = Protein('test2')
     prot2.add_aa(aa4)
@@ -390,7 +433,7 @@ if __name__ == "__main__":
     prot2.add_aa(aa2)
     prot2.build_neighbour_dict()
 
-    l1 = Lattice2D(15, 15)
+    l1 = Lattice2D(20, 20)
 
     conf1 = Conformation('C1', prot1, l1)
     conf1.calculate_energy()
