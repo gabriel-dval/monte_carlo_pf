@@ -385,11 +385,11 @@ class MonteCarlo:
                     print('Corner move skipped')
                     return False
             else:
-                    print('Corner move skipped')
-                    return False
-        else:
                 print('Corner move skipped')
                 return False
+        else:
+            print('Corner move skipped')
+            return False
 
 
     def choose_move(self, conf, k):
