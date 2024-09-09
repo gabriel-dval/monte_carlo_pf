@@ -538,7 +538,6 @@ class MonteCarlo:
 
                 # Convert the common tuples back to numpy arrays
                 choices = [np.array(tup) for tup in common_tuples]
-                print(choices)
 
                 l = random.choice(choices)
 
