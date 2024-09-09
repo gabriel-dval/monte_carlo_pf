@@ -33,6 +33,49 @@ import copy
 import random
 
 
+
+# Utility functions used in the main programme
+
+def sequence_to_hp(sequence):
+    '''Converts a string of amino acids into a numbered hp sequence
+    to be passed to the main programme. 
+
+    Arguments
+    ---
+    sequence : str
+
+    Returns
+    ---
+    hp_sequence : str
+    '''
+    ref_dico = {
+    'A': 'H',  # Alanine
+    'R': 'P',  # Arginine
+    'N': 'P',  # Asparagine
+    'D': 'P',  # Aspartic acid
+    'C': 'H',  # Cysteine
+    'Q': 'P',  # Glutamine
+    'E': 'P',  # Glutamic acid
+    'G': 'P',  # Glycine
+    'H': 'P',  # Histidine
+    'I': 'H',  # Isoleucine
+    'L': 'H',  # Leucine
+    'K': 'P',  # Lysine
+    'M': 'H',  # Methionine
+    'F': 'H',  # Phenylalanine
+    'P': 'H',  # Proline
+    'S': 'P',  # Serine
+    'T': 'P',  # Threonine
+    'W': 'H',  # Tryptophan
+    'Y': 'P',  # Tyrosine
+    'V': 'H'   # Valine
+    }
+
+    
+
+
+
+
 # Experimenting with first class architectures
 
 class HPAminoAcid:
@@ -563,7 +606,6 @@ class MonteCarlo:
         else:
                 print('Pull move skipped')
                 return(False)
-
 
 
     def choose_move(self, conf, k, move_neighbourhood):
