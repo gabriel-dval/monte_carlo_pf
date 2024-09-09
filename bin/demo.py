@@ -392,6 +392,102 @@ class MonteCarlo:
             return False
 
 
+    def try_crankshaft_move(self, conf, k):
+        '''Try and implement a crankshaft move
+        
+        Arguments
+        ---
+        conformation : the input conformation
+        k : the amino acid position
+
+        Returns
+        ---
+        boolean - whether the move was succesful or not
+        '''
+        seq = conf.get_protein_sequence()    # Get sequence of the protein
+
+        if k != 0 and k != len(seq) - 1:
+            
+            # Calculate useful vectors
+            before_last_res = seq[k-1].coords - seq[k-2].coords
+            last_res = seq[k].coords - seq[k-1].coords
+            next_res = seq[k].coords - seq[k+1].coords
+            next_next_res = seq[k+1].coords - seq[k+2].coords
+
+            # Case 1
+            if np.dot(last_res, next_res) == 0 and np.dot(next_res, next_next_res) == 0:
+                
+                # Check spots are free
+                old_y, old_x = seq[k].coords
+                next_old_y, next_old_x = seq[k+1].coords
+                if conf.position_manager[seq[k-1].coords - last_res[0], 
+                                         seq[k-1].coords - last_res[1]] == 0\
+                and conf.position_manager[seq[k+2].coords - last_res[0], 
+                                         seq[k+2].coords - last_res[1]] == 0:
+                    
+                    #Update positions
+                    new_y, new_x = seq[k-1].coords - last_res[0], seq[k-1].coords - last_res[1]
+                    next_new_y, next_new_x = seq[k+2].coords - last_res[0], seq[k+2].coords - last_res[1]
+                    conf.position_manager[new_y, new_x] = conf.position_manager[old_y, old_x]
+                    conf.position_manager[next_new_y, next_new_x] = conf.position_manager[next_old_y, next_old_x]
+                    
+                    conf.position_manager[old_y, old_x] = 0
+                    conf.position_manager[next_old_y, next_old_x] = 0
+
+                    #Update aa objects
+                    seq[k].coords = np.array([new_y, new_x])
+                    seq[k+1].coords = np.array([next_new_y, next_new_x])
+
+                    #Report
+                    print('Crankshaft move succesful') 
+                    return True
+                
+                else:
+                    print('Crankshaft move skipped')
+                    return False
+  
+            
+            # Case 2
+            if np.dot(before_last_res, last_res) == 0 and np.dot(last_res, next_res) == 0:
+                
+                # Check spots are free
+                old_y, old_x = seq[k].coords
+                last_old_y, last_old_x = seq[k-1].coords
+                if conf.position_manager[seq[k-2].coords - before_last_res[0], 
+                                         seq[k-2].coords - before_last_res[1]] == 0\
+                and conf.position_manager[seq[k+1].coords - before_last_res[0], 
+                                         seq[k+1].coords - before_last_res[1]] == 0:
+                    
+                    #Update positions
+                    new_y, new_x = seq[k-2].coords - before_last_res[0], seq[k-2].coords - before_last_res[1]
+                    last_new_y, last_new_x = seq[k+1].coords - before_last_res[0], seq[k+1].coords - before_last_res[1]
+                    conf.position_manager[new_y, new_x] = conf.position_manager[old_y, old_x]
+                    conf.position_manager[last_new_y, last_new_x] = conf.position_manager[last_old_y, last_old_x]
+                    
+                    conf.position_manager[old_y, old_x] = 0
+                    conf.position_manager[last_old_y, last_old_x] = 0
+
+                    #Update aa objects
+                    seq[k].coords = np.array([new_y, new_x])
+                    seq[k-1].coords = np.array([last_new_y, last_new_x])
+
+                    #Report
+                    print('Crankshaft move succesful') 
+                    return True
+                
+                else:
+                    print('Crankshaft move skipped')
+                    return False
+            else:
+                print('Crankshaft move skipped')
+                return False
+        else:
+            print('Crankshaft move skipped')
+            return False
+
+
+
+
     def choose_move(self, conf, k):
         '''Function which chooses a random move to perform
         
