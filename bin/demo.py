@@ -246,6 +246,26 @@ class Conformation:
         else:
             raise ValueError('Argument is not of class HPAminoAcid')
 
+
+    def get_diagonal_neighbours(self, pos: int):
+        '''Returns the diagonal neighbours of an amino acid'''
+        try:
+            aa = self.get_protein_sequence()[pos]
+        except:
+            raise IndexError('Given position out of range')
+        
+        if isinstance(aa, HPAminoAcid):
+            neighbors = [
+                aa.coords + np.array([1, 1]),  # right up
+                aa.coords + np.array([-1, 1]), # right down
+                aa.coords + np.array([1, -1]),  # left up 
+                aa.coords + np.array([-1, -1])  # left down
+            ]
+            return [n for n in neighbors if self.valid_position(n)]
+        else:
+            raise ValueError('Argument is not of class HPAminoAcid')
+
+
     
     def  calculate_energy(self):
         '''Function to calculate the energy of the current conformation
@@ -484,6 +504,23 @@ class MonteCarlo:
             print('Crankshaft move skipped')
             return False
 
+
+    def try_pull_move(self, conf, k):
+        '''Perform a pull move is possible - this can have many different
+        effects.
+        
+        Arguments
+        ---
+        conformation : the input conformation
+        k : the amino acid position
+
+        Returns
+        ---
+        boolean - whether the move was succesful or not
+        '''
+        seq = conf.get_protein_sequence()    # Get sequence of the protein
+
+        # First step - form the square
 
 
 
