@@ -175,7 +175,6 @@ class Lattice2D:
     def __init__(self, length, width):
         self.length = length
         self.width = width
-        self.position_manager = np.zeros((length, width))
 
     
     def border_control(self):
@@ -198,7 +197,7 @@ class Conformation:
         self.label = label
         self.protein = protein
         self.lattice = lattice
-        self.position_manager = np.zeros((lattice.length, lattice.width))
+        self.position_manager = np.zeros((lattice.length, lattice.width), dtype = int)
         self.initialise_horizontal_conformation()
 
     
@@ -406,7 +405,7 @@ class MonteCarlo:
         '''
         seq = conf.get_protein_sequence()    # Get sequence of the protein
 
-        if k != 0 and k != len(seq) - 1:
+        if k > 1 and k < len(seq) - 2:
             
             # Calculate useful vectors
             before_last_res = seq[k-1].coords - seq[k-2].coords
@@ -420,14 +419,14 @@ class MonteCarlo:
                 # Check spots are free
                 old_y, old_x = seq[k].coords
                 next_old_y, next_old_x = seq[k+1].coords
-                if conf.position_manager[seq[k-1].coords - last_res[0], 
-                                         seq[k-1].coords - last_res[1]] == 0\
-                and conf.position_manager[seq[k+2].coords - last_res[0], 
-                                         seq[k+2].coords - last_res[1]] == 0:
+                if conf.position_manager[seq[k-1].coords[0] - last_res[0], 
+                                        seq[k-1].coords[1] - last_res[1]] == 0\
+                and conf.position_manager[seq[k+2].coords[0] - last_res[0], 
+                                        seq[k+2].coords[1] - last_res[1]] == 0:
                     
                     #Update positions
-                    new_y, new_x = seq[k-1].coords - last_res[0], seq[k-1].coords - last_res[1]
-                    next_new_y, next_new_x = seq[k+2].coords - last_res[0], seq[k+2].coords - last_res[1]
+                    new_y, new_x = seq[k-1].coords[0] - last_res[0], seq[k-1].coords[1] - last_res[1]
+                    next_new_y, next_new_x = seq[k+2].coords[0] - last_res[0], seq[k+2].coords[1] - last_res[1]
                     conf.position_manager[new_y, new_x] = conf.position_manager[old_y, old_x]
                     conf.position_manager[next_new_y, next_new_x] = conf.position_manager[next_old_y, next_old_x]
                     
@@ -453,14 +452,14 @@ class MonteCarlo:
                 # Check spots are free
                 old_y, old_x = seq[k].coords
                 last_old_y, last_old_x = seq[k-1].coords
-                if conf.position_manager[seq[k-2].coords - before_last_res[0], 
-                                         seq[k-2].coords - before_last_res[1]] == 0\
-                and conf.position_manager[seq[k+1].coords - before_last_res[0], 
-                                         seq[k+1].coords - before_last_res[1]] == 0:
+                if conf.position_manager[seq[k-2].coords[0] - before_last_res[0], 
+                                         seq[k-2].coords[1] - before_last_res[1]] == 0\
+                and conf.position_manager[seq[k+1].coords[0] - before_last_res[0], 
+                                         seq[k+1].coords[1] - before_last_res[1]] == 0:
                     
                     #Update positions
-                    new_y, new_x = seq[k-2].coords - before_last_res[0], seq[k-2].coords - before_last_res[1]
-                    last_new_y, last_new_x = seq[k+1].coords - before_last_res[0], seq[k+1].coords - before_last_res[1]
+                    new_y, new_x = seq[k-2].coords[0] - before_last_res[0], seq[k-2].coords[1] - before_last_res[1]
+                    last_new_y, last_new_x = seq[k+1].coords[0] - before_last_res[0], seq[k+1].coords[1] - before_last_res[1]
                     conf.position_manager[new_y, new_x] = conf.position_manager[old_y, old_x]
                     conf.position_manager[last_new_y, last_new_x] = conf.position_manager[last_old_y, last_old_x]
                     
@@ -488,7 +487,7 @@ class MonteCarlo:
 
 
 
-    def choose_move(self, conf, k):
+    def choose_move(self, conf, k, move_neighbourhood):
         '''Function which chooses a random move to perform
         
         Arguments
@@ -497,8 +496,16 @@ class MonteCarlo:
         k : the amino acid position
         '''
 
-        options = ['end', 'corner']
-        choice = random.choice(options)
+        if move_neighbourhood == 'ALL':
+            options = ['end', 'corner', 'crankshaft']
+        elif move_neighbourhood == 'VSHD':
+            options = ['end', 'corner', 'crankshaft']
+        elif move_neighbourhood == 'PULL':
+            options = ['corner', ]
+        else:
+            raise ValueError('Not a valid option')
+        
+        choice = np.random.choice(options, p = [0.4, 0.4, 0.2])
 
         if choice == 'end':
             print('End move chosen')
@@ -506,6 +513,9 @@ class MonteCarlo:
         if choice == 'corner':
             print('Corner move chosen')
             self.try_corner_move(conf, k)
+        if choice == 'crankshaft':
+            print('Crankshaft move chosen')
+            self.try_crankshaft_move(conf, k)
 
         return choice
 
@@ -532,7 +542,7 @@ class MonteCarlo:
             print(k)
 
             # Choose a move at random (for now only one move available)
-            move = self.choose_move(test_conformation, k)
+            move = self.choose_move(test_conformation, k, 'ALL')
 
             # Calculate energy of current and test
             test = test_conformation.calculate_energy()
@@ -572,6 +582,9 @@ if __name__ == "__main__":
     aa6 = HPAminoAcid('P6')
     aa7 = HPAminoAcid('P7')
     aa8 = HPAminoAcid('H8')
+    aa9 = HPAminoAcid('H8')
+    aa10 = HPAminoAcid('H8')
+    aa11 = HPAminoAcid('H8')
 
     prot1 = Protein('test')
     prot1.add_aa(aa1)
@@ -582,6 +595,9 @@ if __name__ == "__main__":
     prot1.add_aa(aa6)
     prot1.add_aa(aa7)
     prot1.add_aa(aa8)
+    prot1.add_aa(aa9)
+    prot1.add_aa(aa10)
+    prot1.add_aa(aa11)
 
     prot2 = Protein('test2')
     prot2.add_aa(aa4)
@@ -589,13 +605,13 @@ if __name__ == "__main__":
     prot2.add_aa(aa2)
     prot2.build_neighbour_dict()
 
-    l1 = Lattice2D(20, 20)
+    l1 = Lattice2D(24, 24)
 
     conf1 = Conformation('C1', prot1, l1)
     conf1.calculate_energy()
     
     # Testing simple Monte Carlo
-    mc1 = MonteCarlo(conf1, 30, 60)
+    mc1 = MonteCarlo(conf1, 40, 60)
     mc1.run_sim()
 
 
