@@ -67,24 +67,38 @@ class HPAminoAcid:
             self._coordinates = new_coords
         else:
             raise ValueError('Not the coordinate format')
-        
-    
-    def are_vertical(self, aa2):
-        '''Check if two amino acids are vertical'''
+
+
+    def is_above(self, aa2):
+        '''Check if amino acid is above another'''
         delta = self.coords - aa2.coords
-        if np.absolute(delta) == np.array([1, 0]):
+        if delta == np.array([1, 0]):
             return True
-        else:
-            return False
+        else: return False
+
+    def is_below(self, aa2):
+        '''Check if amino acid is below another'''
+        delta = self.coords - aa2.coords
+        if delta == np.array([-1, 0]):
+            return True
+        else: return False
 
     
-    def are_horizontal(self, aa2):
-        '''Check if two amino acids are horizontal'''
+    def is_left_of(self, aa2):
+        '''Check if amino acid is left of another'''
         delta = self.coords - aa2.coords
-        if np.absolute(delta) == np.array([0, 1]):
+        if delta == np.array([0, -1]):
             return True
-        else:
-            return False
+        else: return False
+
+    
+    def is_right_of(self, aa2):
+        '''Check is amino acid is right of another'''
+        delta = self.coords - aa2.coords
+        if delta == np.array([0, 1]):
+            return True
+        else: return False
+
 
 
     
@@ -306,7 +320,6 @@ class MonteCarlo:
         if k == 0 or k == len(seq) - 1:
             if k == 0:
                 free_spots = conf.get_neighbours(k + 1)
-                print(free_spots)
             else: 
                 free_spots = conf.get_neighbours(len(seq) - 2)
 
@@ -348,9 +361,9 @@ class MonteCarlo:
         seq = conf.get_protein_sequence()    # Get sequence of the protein
 
         if k != 0 and k != len(seq) - 1:
-            
+
             # Case 1 : k-1 vertical and k+1 horizontal
-            if seq[k].are_vertical(seq[k-1]) and seq[k].are_horizontal(seq[k-1]):
+            if seq[k].are_vertical(seq[k-1]) and seq[k].are_horizontal(seq[k+1]):
 
                 # Check spot is available
                 delta = seq[k-1].coords - seq[k+1].coords
@@ -358,8 +371,13 @@ class MonteCarlo:
                 if conf.position_manager[old_y - delta[1], old_x + delta[0]] == 0:
 
                     #Update positions
-                    conf.position_manager[old_y - delta[1], old_x + delta[0]] = conf.position_manager[old_y, old_x]
+                    new_y = old_y - delta[1]
+                    new_x = old_x + delta[0]
+                    conf.position_manager[new_y, new_x] = conf.position_manager[old_y, old_x]
                     conf.position_manager[old_y, old_x] = 0 
+
+                    #Update aa objects
+                    seq[k].coords = np.array([new_y, new_x])
 
                     #Report
                     print('Corner move succesful') 
@@ -371,16 +389,21 @@ class MonteCarlo:
 
 
             # Case 2 : k-1 horizontal and k+1 vertical
-            elif seq[k].are_horizontal(seq[k-1]) and seq[k].are_vertical(seq[k-1]):
+            elif seq[k].are_horizontal(seq[k-1]) and seq[k].are_vertical(seq[k+1]):
 
                 # Check spot is available
-                delta = seq[k-1].coords - seq[k+1].coords
+                delta = seq[k+1].coords - seq[k-1].coords
                 old_y, old_x = seq[k].coords
                 if conf.position_manager[old_y - delta[1], old_x + delta[0]] == 0:
 
                     #Update positions
-                    conf.position_manager[old_y - delta[1], old_x + delta[0]] = conf.position_manager[old_y, old_x]
-                    conf.position_manager[old_y, old_x] = 0  
+                    new_y = old_y - delta[1]
+                    new_x = old_x + delta[0]
+                    conf.position_manager[new_y, new_x] = conf.position_manager[old_y, old_x]
+                    conf.position_manager[old_y, old_x] = 0 
+
+                    #Update aa objects
+                    seq[k].coords = np.array([new_y, new_x])  
 
                     #Report
                     print('Corner move succesful') 
@@ -391,6 +414,10 @@ class MonteCarlo:
                     return False
 
             else:
+                print('Corner move skipped')
+                return False
+        
+        else:
                 print('Corner move skipped')
                 return False
 
@@ -412,7 +439,7 @@ class MonteCarlo:
             self.try_end_move(conf, k)
         if choice == 'corner':
             print('Corner move chosen')
-            self.try_end_move(conf, k)
+            self.try_corner_move(conf, k)
 
         return choice
 
@@ -436,6 +463,7 @@ class MonteCarlo:
 
             # Choose an amino acid at random
             k = self.choose_rand_aa() 
+            print(k)
 
             # Choose a move at random (for now only one move available)
             move = self.choose_move(test_conformation, k)
@@ -451,9 +479,10 @@ class MonteCarlo:
                 q = np.random.uniform(0, 1)
                 if q > np.exp((-delta_e/self.temperature)):
                     current_conformation = copy.deepcopy(test_conformation)
+            print(current_conformation.position_manager)
         
 
-        print(current_conformation.position_manager) 
+        #print(current_conformation.position_manager) 
         return current_conformation
 
         
@@ -503,8 +532,18 @@ if __name__ == "__main__":
     
 
     # Testing simple Monte Carlo
-    mc1 = MonteCarlo(conf1, 10, 60)
+    mc1 = MonteCarlo(conf1, 20, 60)
     mc1.run_sim()
+
+    # aa43 = HPAminoAcid('H43')
+    # aa44 = HPAminoAcid('P44')
+    # aa45 = HPAminoAcid('H45')
+
+    # aa43.coords = np.array([2,1])
+    # aa44.coords = np.array([2,2])
+    # aa45.coords = np.array([1,2])
+
+    # print(aa45.are_vertical(aa44))
 
 
 
