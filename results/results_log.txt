@@ -62,3 +62,8 @@ Coupling map :
 [[<__main__.Conformation object at 0x1068ea8d0>, 1086.6666666666667, -5], [<__main__.Conformation object at 0x1068ed400>, 1100.0, -6], [<__main__.Conformation object at 0x105aeea80>, 1073.3333333333333, -5], [<__main__.Conformation object at 0x1068efe00>, 1113.3333333333333, -6], [<__main__.Conformation object at 0x1068eba40>, 1066.6666666666667, -5], [<__main__.Conformation object at 0x1068ebd40>, 1126.6666666666667, -9], [<__main__.Conformation object at 0x10684a000>, 1080.0, -6], [<__main__.Conformation object at 0x1068eddf0>, 1093.3333333333333, -5], [<__main__.Conformation object at 0x1068ee000>, 1120.0, -5], [<__main__.Conformation object at 0x1068edc70>, 1106.6666666666667, -5]]
 Coupling map : 
 [[<__main__.Conformation object at 0x1068ea8d0>, 1086.6666666666667, -5], [<__main__.Conformation object at 0x1068ed400>, 1100.0, -6], [<__main__.Conformation object at 0x105aeea80>, 1073.3333333333333, -5], [<__main__.Conformation object at 0x1068efe00>, 1113.3333333333333, -6], [<__main__.Conformation object at 0x1068eba40>, 1066.6666666666667, -5], [<__main__.Conformation object at 0x1068ebd40>, 1126.6666666666667, -9], [<__main__.Conformation object at 0x10684a000>, 1080.0, -6], [<__main__.Conformation object at 0x1068eddf0>, 1120.0, -5], [<__main__.Conformation object at 0x1068ee000>, 1093.3333333333333, -5], [<__main__.Conformation object at 0x1068edc70>, 1106.6666666666667, -5]]
+
+
+
+
+

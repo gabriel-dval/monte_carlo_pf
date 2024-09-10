@@ -1012,8 +1012,6 @@ class REMC:
                 
                 # Increment i
                 i += 2
-                with open('../results/results_log.txt', 'a') as filin:
-                    filin.write(f'Coupling map : \n{self.coupling_map}\n')
             
             # Increment offset
             offset = 1 - offset
@@ -1048,14 +1046,20 @@ if __name__ == "__main__":
 
     # TEST 1 - S1 - HPHPPHHPHPPHPHHPPHPH - CONVERGED in 20 seconds !!!!
 
-    res = [f'{aa}{i + 1}' for i, aa in enumerate('HPHPPHHPHPPHPHHPPHPH')]
-    conf, temp = create_protein_conformations('s1', res, 10)
+    # res = [f'{aa}{i + 1}' for i, aa in enumerate('HPHPPHHPHPPHPHHPPHPH')]
+    # conf, temp = create_protein_conformations('s1', res, 10)
 
-    model = REMC(conf, temp, 500)
-    model.run_remc_sim(-9)
+    # model = REMC(conf, temp, 500)
+    # model.run_remc_sim(-9)
 
 
     # TEST 2 - S2 - HPHPPHHPHPPHPHHPPHPH - CONVERGED !!!!
+
+    res = [f'{aa}{i + 1}' for i, aa in enumerate('HHPPHPPHPPHPPHPPHPPHPPHH')]
+    conf, temp = create_protein_conformations('s1', res, 10)
+
+    model = REMC(conf, temp, 2000)
+    model.run_remc_sim(-9)
 
 
     
