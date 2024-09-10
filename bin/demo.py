@@ -72,6 +72,49 @@ def sequence_to_hp(sequence):
     'V': 'H'   # Valine
     }
 
+    hp_sequence = []
+    for n, aa in enumerate(sequence.upper()):
+        x = ref_dico[aa]
+        hp_sequence.append(f'{x}{n+1}')
+
+    return hp_sequence
+
+
+def create_protein_conformations(protein_name, hp_sequence, nb_conformations):
+    '''Function to create protein object from an input
+    HP sequence
+
+    Args
+    ---
+    protein_name : str
+    hp_sequence : list of strings
+    nb_conformations : int
+
+    Returns
+    ---
+    confs : list
+    temperatures : list
+    '''
+    # Create protein
+    prot = Protein(protein_name)
+
+    # Add amino acids
+    for aa in hp_sequence:
+        prot.add_aa(HPAminoAcid(aa))
+
+    # Create lattice
+    lattice = Lattice2D(4 * len(hp_sequence), 4 * len(hp_sequence))
+
+    # Create conformations
+    confs = [Conformation(f'C{i+1}', prot, lattice) for i in range(nb_conformations)]
+
+    # Create temperatures (NOTE THAT OTHER TEMPERATURE SPACINGS ARE POSSIBLE !!)
+    def t(k):
+        return (160 + (k - 1)) * (220 - 160) / (nb_conformations - 1)
+    
+    temps = [t(k + 1) for k in range(nb_conformations)]
+
+    return confs, temps
 
 
 
@@ -347,7 +390,7 @@ class Conformation:
                 elif int(aa2.name[1:]) - int(aa1.name[1:]) < 2:
                     #print('skip neighbours')
                     continue
-                elif np.array_equal(delta, np.array([0, 1])) :
+                elif np.array_equal(delta, np.array([0, 1])):
                     energy -= 1
                 else:
                     continue
@@ -401,6 +444,30 @@ class Conformation:
             
             print('Structure translated to centre')
             time.sleep(5)
+
+
+    def view_conformation(self):
+        '''Function to view the position manager of the conformation.
+
+        Returns a window of the conformation
+        '''
+        window = self.position_manager
+
+        # Top
+        while np.sum(window[0,:]) == 0:
+            window = window[1:,:]
+        # Bottom
+        while np.sum(window[-1,:]) == 0:
+            window = window[:-1,:]
+        # Right
+        while np.sum(window[:,-1]) == 0:
+            window = window[:,:-1]
+        # Left
+        while np.sum(window[:,1]) == 0:
+            window = window[:, 1:]
+
+        return window
+
 
 
 
@@ -740,9 +807,9 @@ class MonteCarlo:
         if move_neighbourhood == 'ALL':
             options = ['end', 'corner', 'crankshaft', 'pull']
         elif move_neighbourhood == 'VSHD':
-            options = ['end', 'corner', 'crankshaft']
+            options = ['end', 'corner', 'crankshaft', 'corner']
         elif move_neighbourhood == 'PULL':
-            options = ['pull' ]
+            options = ['pull', 'pull', 'pull', 'pull']
         else:
             raise ValueError('Not a valid option')
         
@@ -763,6 +830,18 @@ class MonteCarlo:
 
         return choice
 
+
+    def choose_available_move(self, conf, k, move_neighbourhood):
+        '''This time if a move is not possible then another move is tried.
+        The order of moves presented is different every iteration
+        '''
+
+        if move_neighbourhood == 'ALL':
+            options = ['end', 'corner', 'crankshaft', 'pull']
+        
+        random.shuffle(options)
+
+
     
     def run_sim(self):
         '''General function implementing the MC sim
@@ -776,7 +855,6 @@ class MonteCarlo:
         nothing - modifies the conformation instance in place.
         '''
         current_conformation = copy.deepcopy(self.conformation)
-        sequence = self.conformation.get_protein_sequence()
 
         for s in range(self.steps):
             test_conformation = copy.deepcopy(current_conformation)
@@ -818,23 +896,21 @@ class REMC:
     ---
 
     '''
-    def __init__(self, chi: list, temp: int, steps: int):
+    def __init__(self, chi: list, temps: list, steps: int):
         '''Initialise class
 
         chi : list of replicates (aka list of conformation objects)
-        mc : Single Monte Carlo method
         temps : list of temperatures
         steps: number of iterations for single MC
         coupling_map : array with conformations and associated temperatures and energies
         '''
         self.chi = chi
-        self.temp = temp
+        self.temps = temps
         self.steps = steps
         try:
-            self.coupling_map = np.array([self.chi, self.temp, np.zeros(len(self.temp))])
-            self.coupling_map = np.transpose(self.coupling_map)
+            self.coupling_map = [[c, t, 0] for c, t in zip(self.chi, self.temps)]
         except:
-            ValueError('Incorrect input format')
+            raise ValueError('Incorrect input format')
 
     
     def run_remc_sim(self, E_star):
@@ -855,7 +931,7 @@ class REMC:
         while model_E > E_star:
 
             # Run single MC on all conformation temperature pairs
-            for n, pair in enumerate(self.coupling_map):
+            for pair in self.coupling_map:
 
                 conf = pair[0]
                 temp = pair[1] 
@@ -873,13 +949,14 @@ class REMC:
                     saved_conformation = res
 
                 # Update the coupling map
-                self.coupling_map[n, 0] = res
+                pair[0] = res
             
             # Log results 
+            view = saved_conformation.view_conformation()
             with open('../results/results_log.txt', 'a') as filin:
                 filin.write(f'Current best model energy : {model_E}\n')
                 filin.write('Matrix representation of conformation: \n')
-                filin.write(f'{saved_conformation.position_manager}')
+                filin.write(f'{view}\n')
             
             # Now replica exchange
             i = offset
@@ -888,24 +965,26 @@ class REMC:
                 j = i + 1
 
                 # Recover corresponding conf energies and temperatures
-                ei = self.coupling_map[i, 2]
-                tempi = self.coupling_map[i, 1]
-                ej = self.coupling_map[j, 2]
-                tempj = self.coupling_map[j, 1]
+                ei = self.coupling_map[i][2]
+                tempi = self.coupling_map[i][1]
+                ej = self.coupling_map[j][2]
+                tempj = self.coupling_map[j][1]
 
                 # Determine swap conditions
                 delta = ((1/tempj) - (1/tempi)) * (ei - ej)
                 if delta <= 0:
-                    self.coupling_map[i, 1] = tempj
-                    self.coupling_map[j, 1] = tempi
+                    self.coupling_map[i][1] = tempj
+                    self.coupling_map[j][1] = tempi
                 else:
                     q = np.random.uniform(0,1)
                     if q <= np.exp(-delta):
-                        self.coupling_map[i, 1] = tempj
-                        self.coupling_map[j, 1] = tempi
+                        self.coupling_map[i][1] = tempj
+                        self.coupling_map[j][1] = tempi
                 
                 # Increment i
                 i += 2
+                with open('../results/results_log.txt', 'a') as filin:
+                    filin.write(f'Coupling map : \n{self.coupling_map}\n')
             
             # Increment offset
             offset = 1 - offset
@@ -928,6 +1007,7 @@ def main():
     Returns
     ---
     '''
+    print('In dev')
 
 
 
@@ -935,6 +1015,10 @@ def main():
     
 
 if __name__ == "__main__":
+
+
+    # Seed tests
+    #np.random.seed(456)
 
     aa1 = HPAminoAcid('H1')
     aa2 = HPAminoAcid('H2')
@@ -968,18 +1052,20 @@ if __name__ == "__main__":
     conf3 = Conformation('C3', prot1, l1)
     conf4 = Conformation('C4', prot1, l1)
 
-    confs = [conf1, conf2, conf3, conf4]
-    temperatures = [160, 170, 180, 190]
-
     
     # Testing simple Monte Carlo
     #mc1 = MonteCarlo(conf1, 50, 60)
     #res = mc1.run_sim()
 
 
-    # Testing REMC
-    model = REMC(confs, temperatures, 50)
-    model.run_remc_sim(-3)
+    # TEST 1 - S1 - HPHPPHHPHPPHPHHPPPHP
+
+    res = [f'{aa}{i + 1}' for i, aa in enumerate('HPHPPHHPHPPHPHHPPPHP')]
+    conf, temp = create_protein_conformations('s1', res, 10)
+
+    model = REMC(conf, temp, 500)
+    model.run_remc_sim(-9)
+    
 
 
 
