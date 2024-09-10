@@ -664,7 +664,7 @@ class MonteCarlo:
                     self.try_corner_move(conf, k)
                 
                 # Case 2 : C is on an empty square 
-                else:
+                elif conf.position_manager[c[0], c[1]] == 0:
                     # Make sure not at beginning of chain
                     if k > 0:
 
@@ -715,6 +715,9 @@ class MonteCarlo:
                     else:
                         print('Pull move skipped')
                         return(False)
+                else:
+                    print('Pull move skipped')
+                    return(False)
             else:
                 print('Pull move skipped')
                 return(False)
@@ -847,7 +850,7 @@ if __name__ == "__main__":
     prot2.add_aa(aa2)
     prot2.build_neighbour_dict()
 
-    l1 = Lattice2D(13, 13)
+    l1 = Lattice2D(20, 20)
 
     conf1 = Conformation('C1', prot1, l1)
     ff = conf1.check_valid_conformation()
