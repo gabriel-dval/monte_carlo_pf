@@ -258,7 +258,6 @@ class Conformation:
             self.position_manager[ref_y, ref_x] = i
             ref_x += 1
             i += 1
-        print(self.position_manager)
 
 
     def get_protein_sequence(self):
@@ -843,6 +842,10 @@ class REMC:
 
         E_star : expected optimal energy
         '''
+        # Check input energy
+        if E_star > 0:
+            raise ValueError('You cannot input a positive energy !!')
+
         # Initialise energy and offset for pair comparisons
         saved_conformation = None
         model_E = 0
@@ -876,7 +879,7 @@ class REMC:
             with open('../results/results_log.txt', 'a') as filin:
                 filin.write(f'Current best model energy : {model_E}\n')
                 filin.write('Matrix representation of conformation: \n')
-                filin.write(saved_conformation.position_manager)
+                filin.write(f'{saved_conformation.position_manager}')
             
             # Now replica exchange
             i = offset
@@ -976,6 +979,7 @@ if __name__ == "__main__":
 
     # Testing REMC
     model = REMC(confs, temperatures, 50)
+    model.run_remc_sim(-3)
 
 
 
