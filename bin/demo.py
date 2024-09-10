@@ -619,6 +619,9 @@ class MonteCarlo:
                     # Make sure not at beginning of chain
                     if k > 0:
 
+                        # Create copy of old positions
+                        old_positions = copy.deepcopy(seq)
+
                         # Save previous coordinates of k and k - 1
                         tmp1 = seq[k].coords
                         tmp2 = seq[k-1].coords
@@ -634,21 +637,35 @@ class MonteCarlo:
                         seq[k].coords = l
                         seq[k-1].coords = c
 
-                    # Implement pull move
-                    ref = k
-                    conf_status = conf.check_valid_conformation()
+                        # Implement pull move
+                        ref = k
+                        conf_status = conf.check_valid_conformation()
 
-                    # While index not out of range and the conformation is invalid
-                    while ref - 2 >= 0 and conf_status == False:
+                        # While index not out of range and the conformation is invalid
+                        while ref - 2 >= 0 and conf_status == False:
+                                
+                            # Get old ref coords
+                            k_old = old_positions[ref].coords
+
+                            # Move k - 2 to k
+                            k2_y, k2_x = seq[ref-2].coords
+                            conf.position_manager[k_old[0], k_old[1]] = conf.position_manager[k2_y,k2_x] 
+                            conf.position_manager[k2_y, k2_x] = 0
+
+                            # Update aa object
+                            seq[ref-2].coords = k_old
+
+                            # Check conformation is valid
+                            conf_status = conf.check_valid_conformation()
+
+                            # Substract from ref
+                            ref -= 1
                         
-                        #Store previous coordinates
-                        tmp1 = seq[ref].coords
-                        tmp2 = seq[ref-1].coords
-
-                        seq[ref].coords = l
-                        seq[ref-1].coords = c
-            
-            
+                        print('Pull move succesful')
+                        return True
+                    else:
+                        print('Pull move skipped')
+                        return(False)
             else:
                 print('Pull move skipped')
                 return(False)
