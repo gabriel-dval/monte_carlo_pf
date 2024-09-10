@@ -816,24 +816,58 @@ class REMC:
     ---
 
     '''
-    def __init__(self, chi: int, mc: MonteCarlo, temps: int):
+    def __init__(self, chi: int, mc: MonteCarlo, temp: int, steps: int):
         '''Initialise class
 
         chi : list of replicates (aka list of conformation objects)
         mc : Single Monte Carlo method
         temps : list of temperatures
-
+        steps: number of iterations for single MC
+        coupling_map : array with conformations and associated temperatures
         '''
         self.chi = chi
         self.mc = mc
-        self.temps = temps
-        self.coupling_map = np.array([])
+        self.temp = temp
+        self.steps = steps
+        try:
+            self.coupling_map = np.array([self.chi, self.temp])
+            self.coupling_map = np.transpose(self.coupling_map)
+        except:
+            ValueError('Incorrect input format')
 
 
     
-    def run_remc_sim(self):
+    def run_remc_sim(self, E_star):
         '''Main method to run the REMC
+
+        E_star : expected optimal energy
         '''
+        # Initialise energy and offset for pair comparisons
+        model_E = 0
+        offset = 0
+
+        # Start loop
+        while model_E > E_star:
+
+            # Run single MC on all conformation temperature pairs
+            for i, pair in enumerate(self.coupling_map):
+
+                conf = pair[0]
+                temp = pair[1] 
+
+                # Run monte carlo and save new conformations
+                sim = MonteCarlo(conf, self.steps, temp)
+                res = sim.run_sim()
+
+                # If the energy of conformation is lower than model E, save it
+                e = res.calculate_energy()
+                if e < model_E:
+                    model_E = e
+
+                # Update the coupling map
+                self.coupling_map[i, 0] = res
+
+
 
         
 
@@ -884,7 +918,7 @@ if __name__ == "__main__":
     
     # Testing simple Monte Carlo
     mc1 = MonteCarlo(conf1, 50, 60)
-    mc1.run_sim()
+    #res = mc1.run_sim()
 
 
 
