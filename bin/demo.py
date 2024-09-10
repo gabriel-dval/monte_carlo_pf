@@ -1046,48 +1046,7 @@ def main():
 if __name__ == "__main__":
 
 
-    # Seed tests
-    #np.random.seed(456)
-
-    aa1 = HPAminoAcid('H1')
-    aa2 = HPAminoAcid('H2')
-    aa3 = HPAminoAcid('P3')
-    aa4 = HPAminoAcid('H4')
-    aa5 = HPAminoAcid('H5')
-    aa6 = HPAminoAcid('P6')
-    aa7 = HPAminoAcid('P7')
-    aa8 = HPAminoAcid('H8')
-    aa9 = HPAminoAcid('H8')
-    aa10 = HPAminoAcid('H8')
-    aa11 = HPAminoAcid('H8')
-
-    prot1 = Protein('test')
-    prot1.add_aa(aa1)
-    prot1.add_aa(aa2)
-    prot1.add_aa(aa3)
-    prot1.add_aa(aa4)
-    prot1.add_aa(aa5)
-    prot1.add_aa(aa6)
-    prot1.add_aa(aa7)
-    prot1.add_aa(aa8)
-    prot1.add_aa(aa9)
-    prot1.add_aa(aa10)
-    prot1.add_aa(aa11)
-
-    l1 = Lattice2D(20, 20)
-
-    conf1 = Conformation('C1', prot1, l1)
-    conf2 = Conformation('C2', prot1, l1)
-    conf3 = Conformation('C3', prot1, l1)
-    conf4 = Conformation('C4', prot1, l1)
-
-    
-    # Testing simple Monte Carlo
-    #mc1 = MonteCarlo(conf1, 50, 60)
-    #res = mc1.run_sim()
-
-
-    # TEST 1 - S1 - HPHPPHHPHPPHPHHPPHPH - CONVERGED !!!!
+    # TEST 1 - S1 - HPHPPHHPHPPHPHHPPHPH - CONVERGED in 20 seconds !!!!
 
     res = [f'{aa}{i + 1}' for i, aa in enumerate('HPHPPHHPHPPHPHHPPHPH')]
     conf, temp = create_protein_conformations('s1', res, 10)
@@ -1097,6 +1056,8 @@ if __name__ == "__main__":
 
 
     # TEST 2 - S2 - HPHPPHHPHPPHPHHPPHPH - CONVERGED !!!!
+
+
     
 
 
