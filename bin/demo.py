@@ -31,6 +31,7 @@ import numpy as np
 import math as m
 import copy
 import random
+import time
 
 
 
@@ -351,6 +352,54 @@ class Conformation:
                     #print('too far')
         
         return energy
+
+
+    def check_border(self):
+        '''Function to verify structure is not too close to the edge of the
+        lattice - if this is the case, the whole structure is translated back
+        into the centre of the lattice.
+
+        WARNING : if the lattice size is too small, values may be overwritten on
+        the position manager - make sure lattice is least twice (but ideally three)
+        times the size of the input protein.
+        '''
+        # Check borders of the lattice to see if any aa is there
+        outlier = False
+
+        # Top
+        if np.sum(self.position_manager[0,:]) != 0:
+            outlier = True
+        # Bottom
+        if np.sum(self.position_manager[-1,:]) != 0:
+            outlier = True
+        # Right
+        if np.sum(self.position_manager[:,0]) != 0:
+            outlier = True
+        # Left
+        if np.sum(self.position_manager[:,-1]) != 0:
+            outlier = True
+
+        # Translate structure if true
+        if outlier:
+            
+            # Calculate vector between central aa and lattice centre
+            seq = self.get_protein_sequence()
+            centre_aa = seq[int(len(seq)/2)].coords
+            centre_lattice = np.array([int(self.lattice.width/2), int(self.lattice.length/2)])
+
+            dif_vec = centre_lattice - centre_aa
+
+            # Move all coordinates by the opposite of this vector
+            for aa in seq:
+                aa_y, aa_x = aa.coords
+                self.position_manager[aa_y + dif_vec[0], aa_x + dif_vec[1]] = self.position_manager[aa_y, aa_x]
+                self.position_manager[aa_y, aa_x] = 0
+
+                aa.coords = aa.coords + dif_vec
+            
+            print('Structure translated to centre')
+            time.sleep(5)
+
 
 
 class MonteCarlo:
@@ -684,15 +733,15 @@ class MonteCarlo:
         '''
 
         if move_neighbourhood == 'ALL':
-            options = ['end', 'corner', 'crankshaft']
+            options = ['end', 'corner', 'crankshaft', 'pull']
         elif move_neighbourhood == 'VSHD':
             options = ['end', 'corner', 'crankshaft']
         elif move_neighbourhood == 'PULL':
-            options = ['corner', ]
+            options = ['pull' ]
         else:
             raise ValueError('Not a valid option')
         
-        choice = np.random.choice(options, p = [0.4, 0.4, 0.2])
+        choice = np.random.choice(options, p = [0.2, 0.2, 0.2, 0.4])
 
         if choice == 'end':
             print('End move chosen')
@@ -703,6 +752,9 @@ class MonteCarlo:
         if choice == 'crankshaft':
             print('Crankshaft move chosen')
             self.try_crankshaft_move(conf, k)
+        if choice == 'pull':
+            print('Pull move chosen')
+            self.try_pull_move(conf, k)
 
         return choice
 
@@ -729,8 +781,7 @@ class MonteCarlo:
             print(k)
 
             # Choose a move at random (for now only one move available)
-            #move = self.choose_move(test_conformation, k, 'ALL')
-            move = self.try_pull_move(test_conformation, k)
+            move = self.choose_move(test_conformation, k, 'ALL')
 
             # Calculate energy of current and test
             test = test_conformation.calculate_energy()
@@ -743,6 +794,9 @@ class MonteCarlo:
                 q = np.random.uniform(0, 1)
                 if q > np.exp((-delta_e/self.temperature)):
                     current_conformation = copy.deepcopy(test_conformation)
+            
+            # Check the current conformation has no outliers
+            current_conformation.check_border()
         
         print(current_conformation.position_manager) 
         return current_conformation
@@ -793,16 +847,15 @@ if __name__ == "__main__":
     prot2.add_aa(aa2)
     prot2.build_neighbour_dict()
 
-    l1 = Lattice2D(24, 24)
+    l1 = Lattice2D(13, 13)
 
     conf1 = Conformation('C1', prot1, l1)
     ff = conf1.check_valid_conformation()
-    print(ff)
 
     
     # Testing simple Monte Carlo
-    mc1 = MonteCarlo(conf1, 10, 60)
-    #mc1.run_sim()
+    mc1 = MonteCarlo(conf1, 50, 60)
+    mc1.run_sim()
 
 
 
