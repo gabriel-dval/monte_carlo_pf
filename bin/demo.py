@@ -806,8 +806,34 @@ class MonteCarlo:
 
         
 
+class REMC:
+    '''Implementation of Replica Exchange Monte Carlo
+
+    Attributes
+    ---
+
+    Methods
+    ---
+
+    '''
+    def __init__(self, chi: int, mc: MonteCarlo, temps: int):
+        '''Initialise class
+
+        chi : list of replicates (aka list of conformation objects)
+        mc : Single Monte Carlo method
+        temps : list of temperatures
+
+        '''
+        self.chi = chi
+        self.mc = mc
+        self.temps = temps
+        self.coupling_map = np.array([])
 
 
+    
+    def run_remc_sim(self):
+        '''Main method to run the REMC
+        '''
 
         
 
