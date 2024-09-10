@@ -492,7 +492,10 @@ class MonteCarlo:
 
     def choose_rand_aa(self):
         prot_length = self.conformation.protein.calc_length()
-        k = np.random.randint(0, prot_length)
+        
+        # Create rand number generator
+        rng = np.random.default_rng()
+        k = rng.integers(low = 0, high = prot_length)
         return k     
 
     
@@ -897,7 +900,8 @@ class MonteCarlo:
             if delta_e <= 0:
                 current_conformation = copy.deepcopy(test_conformation)
             else:
-                q = np.random.uniform(0, 1)
+                rng = np.random.default_rng()
+                q = rng.random()
                 if q > np.exp((-delta_e/self.temperature)):
                     current_conformation = copy.deepcopy(test_conformation)
             
@@ -953,6 +957,7 @@ class REMC:
         # Start loop
         while model_E > E_star:
 
+
             # Run single MC on all conformation temperature pairs
             for pair in self.coupling_map:
 
@@ -971,8 +976,8 @@ class REMC:
                     model_E = e
                     saved_conformation = res
 
-                # Update the coupling map
-                pair[0] = res
+                # Update the coupling map with a copy of the new conformation
+                pair[0] = copy.deepcopy(res)
             
             # Log results 
             view = saved_conformation.view_conformation()
@@ -999,7 +1004,8 @@ class REMC:
                     self.coupling_map[i][1] = tempj
                     self.coupling_map[j][1] = tempi
                 else:
-                    q = np.random.uniform(0,1)
+                    rng = np.random.default_rng()
+                    q = rng.random()
                     if q <= np.exp(-delta):
                         self.coupling_map[i][1] = tempj
                         self.coupling_map[j][1] = tempi
@@ -1081,13 +1087,16 @@ if __name__ == "__main__":
     #res = mc1.run_sim()
 
 
-    # TEST 1 - S1 - HPHPPHHPHPPHPHHPPPHP
+    # TEST 1 - S1 - HPHPPHHPHPPHPHHPPHPH - CONVERGED !!!!
 
-    res = [f'{aa}{i + 1}' for i, aa in enumerate('HPHPPHHPHPPHPHHPPPHP')]
+    res = [f'{aa}{i + 1}' for i, aa in enumerate('HPHPPHHPHPPHPHHPPHPH')]
     conf, temp = create_protein_conformations('s1', res, 10)
 
     model = REMC(conf, temp, 500)
     model.run_remc_sim(-9)
+
+
+    # TEST 2 - S2 - HPHPPHHPHPPHPHHPPHPH - CONVERGED !!!!
     
 
 
