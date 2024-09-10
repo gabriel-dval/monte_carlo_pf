@@ -731,6 +731,7 @@ class MonteCarlo:
                 # Case 1 : C is on k - 1
                 if np.array_equal(c, seq[k-1].coords):
                     self.try_corner_move(conf, k)
+                    return True
                 
                 # Case 2 : C is on an empty square 
                 elif conf.position_manager[c[0], c[1]] == 0:
@@ -841,6 +842,28 @@ class MonteCarlo:
         
         random.shuffle(options)
 
+        for choice in options:
+
+            if choice == 'end':
+                print('End move chosen')
+                end = self.try_end_move(conf, k)
+                if end:
+                    break
+            if choice == 'corner':
+                print('Corner move chosen')
+                corner = self.try_corner_move(conf, k)
+                if corner:
+                    break
+            if choice == 'crankshaft':
+                print('Crankshaft move chosen')
+                crankshaft = self.try_crankshaft_move(conf, k)
+                if crankshaft:
+                    break
+            if choice == 'pull':
+                print('Pull move chosen')
+                pull = self.try_pull_move(conf, k)
+                if pull:
+                    break
 
     
     def run_sim(self):
@@ -864,7 +887,7 @@ class MonteCarlo:
             print(k)
 
             # Choose a move at random (for now only one move available)
-            move = self.choose_move(test_conformation, k, 'ALL')
+            self.choose_available_move(test_conformation, k, 'ALL')
 
             # Calculate energy of current and test
             test = test_conformation.calculate_energy()
