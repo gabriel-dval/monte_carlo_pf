@@ -71,7 +71,7 @@ def sequence_to_hp(sequence):
     'V': 'H'   # Valine
     }
 
-    
+
 
 
 
@@ -269,6 +269,26 @@ class Conformation:
         return False
     
 
+    def check_valid_conformation(self):
+        '''Function to make sure that the protein chain is in a valid conformation
+        on the lattice. 
+        '''
+        seq = self.get_protein_sequence()
+
+        # Check that every aa is a distance of one away from each other
+        for i in range(len(seq) - 1):
+            aa1_x, aa1_y = seq[i].coords
+            aa2_x, aa2_y = seq[i + 1].coords
+
+            # Calculate distance
+            dist = np.sqrt((aa2_x - aa1_x)**2 + (aa2_y - aa1_y)**2)
+
+            if dist != 1:
+                return False
+            
+        return True
+
+
     def get_neighbours(self, pos: int):
         '''Returns neighboring positions around a given residue position
         This is based around python index not actual residue position.
@@ -307,7 +327,6 @@ class Conformation:
             return [n for n in neighbors if self.valid_position(n)]
         else:
             raise ValueError('Argument is not of class HPAminoAcid')
-
 
     
     def  calculate_energy(self):
@@ -595,9 +614,39 @@ class MonteCarlo:
                 if np.array_equal(c, seq[k-1].coords):
                     self.try_corner_move(conf, k)
                 
-                # Case 2
+                # Case 2 : C is on an empty square 
                 else:
-                    print('nada')
+                    # Make sure not at beginning of chain
+                    if k > 0:
+
+                        # Save previous coordinates of k and k - 1
+                        tmp1 = seq[k].coords
+                        tmp2 = seq[k-1].coords
+
+                        # Change coordinates of k and k-1 on position manager
+                        conf.position_manager[l[0], l[1]] = conf.position_manager[tmp1[0], tmp1[1]] 
+                        conf.position_manager[tmp1[0], tmp1[1]] = 0
+
+                        conf.position_manager[c[0], c[1]] = conf.position_manager[tmp2[0], tmp2[1]] 
+                        conf.position_manager[tmp2[0], tmp2[1]] = 0
+                        
+                        # Update aa objects
+                        seq[k].coords = l
+                        seq[k-1].coords = c
+
+                    # Implement pull move
+                    ref = k
+                    conf_status = conf.check_valid_conformation()
+
+                    # While index not out of range and the conformation is invalid
+                    while ref - 2 >= 0 and conf_status == False:
+                        
+                        #Store previous coordinates
+                        tmp1 = seq[ref].coords
+                        tmp2 = seq[ref-1].coords
+
+                        seq[ref].coords = l
+                        seq[ref-1].coords = c
             
             
             else:
@@ -730,11 +779,13 @@ if __name__ == "__main__":
     l1 = Lattice2D(24, 24)
 
     conf1 = Conformation('C1', prot1, l1)
-    conf1.calculate_energy()
+    ff = conf1.check_valid_conformation()
+    print(ff)
+
     
     # Testing simple Monte Carlo
     mc1 = MonteCarlo(conf1, 10, 60)
-    mc1.run_sim()
+    #mc1.run_sim()
 
 
 
