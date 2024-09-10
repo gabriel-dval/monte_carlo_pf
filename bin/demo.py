@@ -717,16 +717,16 @@ class MonteCarlo:
                         return True
                     else:
                         print('Pull move skipped')
-                        return(False)
+                        return False
                 else:
                     print('Pull move skipped')
-                    return(False)
+                    return False
             else:
                 print('Pull move skipped')
-                return(False)
+                return False
         else:
-                print('Pull move skipped')
-                return(False)
+            print('Pull move skipped')
+            return False
 
 
     def choose_move(self, conf, k, move_neighbourhood):
@@ -837,7 +837,6 @@ class REMC:
         except:
             ValueError('Incorrect input format')
 
-
     
     def run_remc_sim(self, E_star):
         '''Main method to run the REMC
@@ -845,6 +844,7 @@ class REMC:
         E_star : expected optimal energy
         '''
         # Initialise energy and offset for pair comparisons
+        saved_conformation = None
         model_E = 0
         offset = 0
 
@@ -867,9 +867,16 @@ class REMC:
 
                 if e < model_E:
                     model_E = e
+                    saved_conformation = res
 
                 # Update the coupling map
                 self.coupling_map[n, 0] = res
+            
+            # Log results 
+            with open('../results/results_log.txt', 'a') as filin:
+                filin.write(f'Current best model energy : {model_E}\n')
+                filin.write('Matrix representation of conformation: \n')
+                filin.write(saved_conformation.position_manager)
             
             # Now replica exchange
             i = offset
