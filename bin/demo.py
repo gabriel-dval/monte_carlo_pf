@@ -144,6 +144,7 @@ class HPAminoAcid:
         else: return False
 
 
+
 class Protein:
     '''Represents a protein - this is constructed from multiple HPAminoAcid objects
 
@@ -202,6 +203,7 @@ class Protein:
         print(f'Neighbour map deleted successfully for {self.name}')
         
 
+
 class Lattice2D:
     '''Class representing the lattice on which the protein will be 
     embedded.
@@ -225,6 +227,7 @@ class Lattice2D:
         '''Checks the values present in the lattice - if there is a 1 present
         near the border, the whole structure needs to be re-translated'''
         print('In development')
+
 
 
 class Conformation:
@@ -804,7 +807,7 @@ class MonteCarlo:
         print(current_conformation.position_manager) 
         return current_conformation
 
-        
+
 
 class REMC:
     '''Implementation of Replica Exchange Monte Carlo
@@ -816,21 +819,20 @@ class REMC:
     ---
 
     '''
-    def __init__(self, chi: int, mc: MonteCarlo, temp: int, steps: int):
+    def __init__(self, chi: list, temp: int, steps: int):
         '''Initialise class
 
         chi : list of replicates (aka list of conformation objects)
         mc : Single Monte Carlo method
         temps : list of temperatures
         steps: number of iterations for single MC
-        coupling_map : array with conformations and associated temperatures
+        coupling_map : array with conformations and associated temperatures and energies
         '''
         self.chi = chi
-        self.mc = mc
         self.temp = temp
         self.steps = steps
         try:
-            self.coupling_map = np.array([self.chi, self.temp])
+            self.coupling_map = np.array([self.chi, self.temp, np.zeros(len(self.temp))])
             self.coupling_map = np.transpose(self.coupling_map)
         except:
             ValueError('Incorrect input format')
@@ -850,7 +852,7 @@ class REMC:
         while model_E > E_star:
 
             # Run single MC on all conformation temperature pairs
-            for i, pair in enumerate(self.coupling_map):
+            for n, pair in enumerate(self.coupling_map):
 
                 conf = pair[0]
                 temp = pair[1] 
@@ -861,16 +863,61 @@ class REMC:
 
                 # If the energy of conformation is lower than model E, save it
                 e = res.calculate_energy()
+                pair[2] = e
+
                 if e < model_E:
                     model_E = e
 
                 # Update the coupling map
-                self.coupling_map[i, 0] = res
+                self.coupling_map[n, 0] = res
+            
+            # Now replica exchange
+            i = offset
+            while i + 1 < len(self.chi):
+                
+                j = i + 1
+
+                # Recover corresponding conf energies and temperatures
+                ei = self.coupling_map[i, 2]
+                tempi = self.coupling_map[i, 1]
+                ej = self.coupling_map[j, 2]
+                tempj = self.coupling_map[j, 1]
+
+                # Determine swap conditions
+                delta = ((1/tempj) - (1/tempi)) * (ei - ej)
+                if delta <= 0:
+                    self.coupling_map[i, 1] = tempj
+                    self.coupling_map[j, 1] = tempi
+                else:
+                    q = np.random.uniform(0,1)
+                    if q <= np.exp(-delta):
+                        self.coupling_map[i, 1] = tempj
+                        self.coupling_map[j, 1] = tempi
+                
+                # Increment i
+                i += 2
+            
+            # Increment offset
+            offset = 1 - offset
+                        
+
+                
+
 
 
 
         
+# Draft of full programme function
 
+def main():
+    '''Main programme.
+
+    Arguments
+    ---
+
+    Returns
+    ---
+    '''
 
 
 
@@ -904,21 +951,25 @@ if __name__ == "__main__":
     prot1.add_aa(aa10)
     prot1.add_aa(aa11)
 
-    prot2 = Protein('test2')
-    prot2.add_aa(aa4)
-    prot2.add_aa(aa3)
-    prot2.add_aa(aa2)
-    prot2.build_neighbour_dict()
-
     l1 = Lattice2D(20, 20)
 
     conf1 = Conformation('C1', prot1, l1)
-    ff = conf1.check_valid_conformation()
+    conf2 = Conformation('C2', prot1, l1)
+    conf3 = Conformation('C3', prot1, l1)
+    conf4 = Conformation('C4', prot1, l1)
+
+    confs = [conf1, conf2, conf3, conf4]
+    temperatures = [160, 170, 180, 190]
 
     
     # Testing simple Monte Carlo
-    mc1 = MonteCarlo(conf1, 50, 60)
+    #mc1 = MonteCarlo(conf1, 50, 60)
     #res = mc1.run_sim()
+
+
+    # Testing REMC
+    model = REMC(confs, temperatures, 50)
+
 
 
 
