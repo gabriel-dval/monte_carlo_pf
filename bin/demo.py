@@ -34,6 +34,7 @@ import random
 import time
 import multiprocessing as mp
 from tqdm import tqdm
+import tkinter as tk
 
 
 
@@ -521,9 +522,9 @@ class MonteCarlo:
 
     Attributes
     ---
-    conformation : initial conformation to optimise
+    conformation : conformation to optimise
     steps : number of optimisation steps
-    move_types : which set of moves to use (pull, vhsc or all)
+    temperature : temperature of simulation
 
     Methods
     ---
@@ -964,10 +965,13 @@ class REMC:
 
     Attributes
     ---
+    chi : list of conformations
+    temps : list of temperatures
+    steps : number of steps to use for the individual MC sims
 
     Methods
     ---
-
+    run_remc_sim : run a REMC on the input data
     '''
     def __init__(self, chi: list, temps: list, steps: int):
         '''Initialise class
@@ -989,6 +993,8 @@ class REMC:
     def run_remc_sim(self, E_star):
         '''Main method to run the REMC
 
+        Args
+        ---
         E_star : expected optimal energy
         '''
         # Check input energy
@@ -1083,9 +1089,6 @@ class REMC:
 
                 
 
-
-
-
         
 # Draft of full programme function
 
@@ -1120,7 +1123,7 @@ if __name__ == "__main__":
     # model.run_remc_sim(-9)
 
 
-    # TEST 2 - S2 - HHPPHPPHPPHPPHPPHPPHPPHH
+    # TEST 2 - S2 - HHPPHPPHPPHPPHPPHPPHPPHH - Converged in 10min !!!
 
     start = time.time()
 
@@ -1129,7 +1132,7 @@ if __name__ == "__main__":
 
 
     model = REMC(conf, temp, 5000)
-    model.run_remc_sim(-9)
+    #model.run_remc_sim(-9)
     
     end = time.time()
     print(f'Runtime : {end - start}')
@@ -1137,11 +1140,76 @@ if __name__ == "__main__":
     
     # TEST 3 - S3 - PPHPPHHPPPPHHPPPPHHPPPPHH - CONVERGED in 204 seconds!!!!
 
-    # TEST 4 - S4 - P3H2P2H2P5H7P2H2P4H2P2HP2
-    # PPPHHPPHHPPPPPHHHHHHHPPHHPPPPHHPPHPP
+    # TEST 4 - S4 - PPPHHPPHHPPPPPHHHHHHHPPHHPPPPHHPPHPP
 
 
     print("Number of processors: ", mp.cpu_count())
+
+
+    # GRAPHICAL REPRESENTATION TEST
+
+    # Define the protein structure as a numpy array
+    protein_array = np.array([[ 0,  0,  0,  0,  0, 13, 12,  0,  0],
+                            [ 0,  0,  0, 18, 17, 14, 11, 10,  0],
+                            [ 0, 21, 20, 19, 16, 15,  0,  9,  0],
+                            [ 0, 22, 23, 24,  0,  0,  7,  8,  1],
+                            [ 0,  0,  0,  0,  0,  0,  6,  5,  2],
+                            [ 0,  0,  0,  0,  0,  0,  0,  4,  3]])
+
+    # Create a dictionary to store the coordinates of each residue
+    residue_positions = {}
+
+    # Extract positions of residues (non-zero entries) from the matrix
+    for y in range(protein_array.shape[0]):
+        for x in range(protein_array.shape[1]):
+            residue_num = protein_array[y, x]
+            if residue_num != 0:
+                residue_positions[residue_num] = (x, y)
+
+    # Sort the positions by residue number for correct sequence
+    sorted_residues = sorted(residue_positions.items())
+
+    # Set up the tkinter window
+    window = tk.Tk()
+    window.title("2D Protein Plot")
+
+    # Create a canvas to draw the protein structure
+    canvas_size = 500
+    canvas = tk.Canvas(window, width=canvas_size, height=canvas_size+50)
+    canvas.pack()
+
+    # Add a title above the plot
+    canvas.create_text(canvas_size // 2, 400, text="2D Protein Folding Representation", 
+                       font=("Arial", 16), fill="white")
+
+    # Scaling to fit the grid size to canvas size
+    scale = canvas_size / max(protein_array.shape)
+
+    # Draw the residues and connections
+    previous_coords = None
+
+    for residue_num, (x, y) in sorted_residues:
+        # Calculate the scaled positions on the canvas
+        x_canvas = x * scale + scale // 2
+        y_canvas = y * scale + scale // 2
+        
+        # Draw the residue as a circle
+        radius = scale // 4
+        canvas.create_oval(x_canvas - radius, y_canvas - radius,
+                        x_canvas + radius, y_canvas + radius, fill="blue")
+        
+        # Label the residue with its number
+        canvas.create_text(x_canvas, y_canvas, text=str(residue_num), fill="white")
+        
+        # Draw a line connecting to the previous residue (if any)
+        if previous_coords:
+            canvas.create_line(previous_coords[0], previous_coords[1], x_canvas, y_canvas, width=2, fill="red")
+        
+        # Update the previous residue's coordinates
+        previous_coords = (x_canvas, y_canvas)
+
+    # Start the tkinter main loop
+    window.mainloop()
 
 
     
