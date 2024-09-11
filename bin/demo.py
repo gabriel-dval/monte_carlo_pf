@@ -1017,7 +1017,7 @@ class REMC:
                 else:
                     rng = np.random.default_rng()
                     q = rng.random()
-                    if q >= np.exp(-delta):
+                    if q <= np.exp(-delta):
                         self.coupling_map[i][1] = tempj
                         self.coupling_map[j][1] = tempi
                         swaps += 1
@@ -1079,15 +1079,18 @@ if __name__ == "__main__":
     # model.run_remc_sim(-9)
 
 
-    # TEST 2 - S2 - HPHPPHHPHPPHPHHPPHPH - CONVERGED !!!!
+    # TEST 2 - S2 - HHPPHPPHPPHPPHPPHPPHPPHH
+    
+    
+    # TEST 3 - S3 - PPHPPHHPPPPHHPPPPHHPPPPHH - CONVERGED in 204 seconds!!!!
 
     start = time.time()
 
-    res = [f'{aa}{i + 1}' for i, aa in enumerate('HHPPHPPHPPHPPHPPHPPHPPHH')]
+    res = [f'{aa}{i + 1}' for i, aa in enumerate('PPHPPHHPPPPHHPPPPHHPPPPHH')]
     conf, temp = create_protein_conformations('s1', res, 5)
 
-    model = REMC(conf, temp, 2000)
-    model.run_remc_sim(-9)
+    model = REMC(conf, temp, 5000)
+    model.run_remc_sim(-8)
     
     end = time.time()
     print(f'Runtime : {end - start}')
