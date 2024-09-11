@@ -33,6 +33,7 @@ import copy
 import random
 import time
 import multiprocessing as mp
+from tqdm import tqdm
 
 
 
@@ -96,25 +97,27 @@ def create_protein_conformations(protein_name, hp_sequence, nb_conformations):
     ---
     confs : list
     temperatures : list
-    '''
-    # Create protein
-    prot = Protein(protein_name)
+    ''' 
+    confs = []
+    for i in range(nb_conformations):
+    
+        prot = Protein(protein_name)
+        
+        # Add amino acids
+        for aa in hp_sequence:
+            prot.add_aa(HPAminoAcid(aa))
 
-    # Add amino acids
-    for aa in hp_sequence:
-        prot.add_aa(HPAminoAcid(aa))
+        # Create lattice
+        lattice = Lattice2D(4 * len(hp_sequence), 4 * len(hp_sequence))
 
-    # Create lattice
-    lattice = Lattice2D(4 * len(hp_sequence), 4 * len(hp_sequence))
+        # Create conformation
+        confs.append(Conformation(f'C{i+1}', prot, lattice))
 
-    # Create conformations
-    confs = [Conformation(f'C{i+1}', prot, lattice) for i in range(nb_conformations)]
 
     # Create temperatures - this is the uniform linear function
     def t(k):
         return 160 + ((k - 1) * (220 - 160) / (nb_conformations - 1))
     
-    # This is the geometric temperature spacing
     
     temps = [t(k + 1) for k in range(nb_conformations)]
 
@@ -292,15 +295,7 @@ class Conformation:
         self.protein = protein
         self.lattice = lattice
         self.position_manager = np.zeros((lattice.length, lattice.width), dtype = int)
-
-        # Choose random initial conformation:
-        c = random.choice([1,2,3])
-        if c == 1:
-            self.initialise_diagonal_conformation()
-        if c == 2:
-            self.initialise_horizontal_conformation()
-        if c == 3:
-            self.initialise_vertical_conformation()
+        self.initialise_horizontal_conformation()
 
     
     def initialise_horizontal_conformation(self):
@@ -340,6 +335,17 @@ class Conformation:
             else:
                 ref_x += 1
             i += 1
+
+    
+    def choose_conformation(self):
+        '''Choose initial conformation'''
+        c = random.choice([1,2,3])
+        if c == 1:
+            self.initialise_diagonal_conformation()
+        if c == 2:
+            self.initialise_horizontal_conformation()
+        if c == 3:
+            self.initialise_vertical_conformation()
 
 
     def get_protein_sequence(self):
@@ -882,8 +888,8 @@ class MonteCarlo:
         if move_neighbourhood == 'ALL':
             options = ['end', 'corner', 'crankshaft', 'pull']
         
-        rng = np.random.default_rng()
-        rng.shuffle(options)
+        choice = np.random.choice(options, size = 4, replace = False,
+                                  p = [0.2, 0.2, 0.2, 0.4])
 
         for choice in options:
 
@@ -922,7 +928,8 @@ class MonteCarlo:
         '''
         current_conformation = copy.deepcopy(self.conformation)
 
-        for s in range(self.steps):
+        for s in tqdm(range(self.steps), 
+                      desc = f'Conformation {self.conformation.label}'):
             test_conformation = copy.deepcopy(current_conformation)
 
             # Choose an amino acid at random
@@ -1001,7 +1008,7 @@ class REMC:
         # Start loop
         while model_E > E_star:
 
-            print(f'Iteration : {iteration}')
+            print(f'\nIteration : {iteration}\n')
             # Run single MC on all conformation/temperature pairs
             for pair in self.coupling_map:
 
@@ -1045,8 +1052,6 @@ class REMC:
 
                 # Determine swap conditions
                 delta = ((1/tempj) - (1/tempi)) * (ei - ej)
-                with open('../results/results_log.txt', 'a') as filin:
-                            filin.write(f'Delta : {delta}\n')
                 if delta < 0:
                     self.coupling_map[i][1] = tempj
                     self.coupling_map[j][1] = tempi
@@ -1069,7 +1074,6 @@ class REMC:
                 filin.write(f'Current number of swaps: {swaps}\n')
                 filin.write(f'Current number of non swaps: {non_swaps}\n')
                 filin.write(f'Ratio of swaps: {swaps / (swaps + non_swaps)}\n')
-                filin.write(f'Coupling status : {self.coupling_map}\n')
 
             # Increment offset and iteration
             offset = 1 - offset
@@ -1123,6 +1127,7 @@ if __name__ == "__main__":
     res = [f'{aa}{i + 1}' for i, aa in enumerate('HHPPHPPHPPHPPHPPHPPHPPHH')]
     conf, temp = create_protein_conformations('s2', res, 5)
 
+
     model = REMC(conf, temp, 5000)
     model.run_remc_sim(-9)
     
@@ -1132,7 +1137,8 @@ if __name__ == "__main__":
     
     # TEST 3 - S3 - PPHPPHHPPPPHHPPPPHHPPPPHH - CONVERGED in 204 seconds!!!!
 
-    
+    # TEST 4 - S4 - P3H2P2H2P5H7P2H2P4H2P2HP2
+    # PPPHHPPHHPPPPPHHHHHHHPPHHPPPPHHPPHPP
 
 
     print("Number of processors: ", mp.cpu_count())
