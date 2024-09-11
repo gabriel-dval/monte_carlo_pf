@@ -713,7 +713,7 @@ class MonteCarlo:
                     seq[k-1].coords = np.array([last_new_y, last_new_x])
 
                     #Report
-                    print('Crankshaft move succesful') 
+                    #print('Crankshaft move succesful') 
                     return True
                 
                 else:
