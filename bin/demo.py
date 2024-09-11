@@ -292,7 +292,15 @@ class Conformation:
         self.protein = protein
         self.lattice = lattice
         self.position_manager = np.zeros((lattice.length, lattice.width), dtype = int)
-        self.initialise_vertical_conformation()
+
+        # Choose random initial conformation:
+        c = random.choice([1,2,3])
+        if c == 1:
+            self.initialise_diagonal_conformation()
+        if c == 2:
+            self.initialise_horizontal_conformation()
+        if c == 3:
+            self.initialise_vertical_conformation()
 
     
     def initialise_horizontal_conformation(self):
@@ -316,6 +324,21 @@ class Conformation:
             aa.coords = np.array([ref_y, ref_x])
             self.position_manager[ref_y, ref_x] = i
             ref_y += 1
+            i += 1
+            
+    
+    def initialise_diagonal_conformation(self):
+        '''Function to initialise the conformation diagonally'''
+        ref_x = int((self.lattice.length / 2) - (self.protein.calc_length() / 2))
+        ref_y = int((self.lattice.width / 2) - (self.protein.calc_length() / 2))
+        i = 1
+        for aa in self.protein.sequence:
+            aa.coords = np.array([ref_y, ref_x])
+            self.position_manager[ref_y, ref_x] = i
+            if i % 2 == 0:
+                ref_y += 1
+            else:
+                ref_x += 1
             i += 1
 
 
@@ -391,7 +414,7 @@ class Conformation:
             raise ValueError('Argument is not of class HPAminoAcid')
 
     
-    def  calculate_energy(self):
+    def calculate_energy(self):
         '''Function to calculate the energy of the current conformation
         
         Iterate through atoms of the protein and check its coordinates
