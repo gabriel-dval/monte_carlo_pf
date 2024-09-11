@@ -866,16 +866,12 @@ class MonteCarlo:
         choice = np.random.choice(options, p = [0.2, 0.2, 0.2, 0.4])
 
         if choice == 'end':
-            print('End move chosen')
             self.try_end_move(conf, k)
         if choice == 'corner':
-            print('Corner move chosen')
             self.try_corner_move(conf, k)
         if choice == 'crankshaft':
-            print('Crankshaft move chosen')
             self.try_crankshaft_move(conf, k)
         if choice == 'pull':
-            print('Pull move chosen')
             self.try_pull_move(conf, k)
 
         return choice
@@ -889,10 +885,10 @@ class MonteCarlo:
         if move_neighbourhood == 'ALL':
             options = ['end', 'corner', 'crankshaft', 'pull']
         
-        choice = np.random.choice(options, size = 4, replace = False,
+        choices = np.random.choice(options, size = 4, replace = False,
                                   p = [0.2, 0.2, 0.2, 0.4])
 
-        for choice in options:
+        for choice in choices:
 
             if choice == 'end':
                 #print('End move chosen')
@@ -938,7 +934,7 @@ class MonteCarlo:
             #print(k)
 
             # Choose a move at random
-            self.choose_available_move(test_conformation, k, 'ALL')
+            self.choose_move(test_conformation, k, 'ALL')
 
             # Calculate energy of current and test
             test = test_conformation.calculate_energy()
@@ -1011,8 +1007,13 @@ class REMC:
         swaps = 0
         non_swaps = 0
 
+        # Runtime condition
+        start = time.time()
+        runtime = 0
+        cutoff = 1800
+
         # Start loop
-        while model_E > E_star:
+        while model_E > E_star and runtime < cutoff:
 
             print(f'\nIteration : {iteration}\n')
             # Run single MC on all conformation/temperature pairs
@@ -1072,8 +1073,10 @@ class REMC:
                     else:
                         non_swaps += 1
                 
-                # Increment i
+                # Increment i and runtime
                 i += 2
+                mark = time.time()
+                runtime = mark - start
             
             # Record swap to non swap ratio
             with open('../results/results_log.txt', 'a') as filin:
@@ -1084,6 +1087,15 @@ class REMC:
             # Increment offset and iteration
             offset = 1 - offset
             iteration += 1
+        
+        if runtime > cutoff:
+            print('\nREMC stopped : Maximum computation time reached')
+        else:
+            print('REMC stopped : Conformation with input energy reached')
+        
+        print(f'Runtime : {mark - start}')
+    
+        return saved_conformation
 
                         
 
@@ -1127,16 +1139,11 @@ if __name__ == "__main__":
 
     start = time.time()
 
-    res = [f'{aa}{i + 1}' for i, aa in enumerate('HHPPHPPHPPHPPHPPHPPHPPHH')]
-    conf, temp = create_protein_conformations('s2', res, 5)
-
+    res = [f'{aa}{i + 1}' for i, aa in enumerate('HPHPPHHPHPPHPHHPPHPH')]
+    conf, temp = create_protein_conformations('s1', res, 5)
 
     model = REMC(conf, temp, 5000)
-    #model.run_remc_sim(-9)
-    
-    end = time.time()
-    print(f'Runtime : {end - start}')
-    
+    final = model.run_remc_sim(-9)
     
     # TEST 3 - S3 - PPHPPHHPPPPHHPPPPHHPPPPHH - CONVERGED in 204 seconds!!!!
 
@@ -1179,7 +1186,7 @@ if __name__ == "__main__":
     canvas.pack()
 
     # Add a title above the plot
-    canvas.create_text(canvas_size // 2, 400, text="2D Protein Folding Representation", 
+    canvas.create_text(canvas_size // 2, 20, text="2D Protein Folding Representation", 
                        font=("Arial", 16), fill="white")
 
     # Scaling to fit the grid size to canvas size
@@ -1190,8 +1197,8 @@ if __name__ == "__main__":
 
     for residue_num, (x, y) in sorted_residues:
         # Calculate the scaled positions on the canvas
-        x_canvas = x * scale + scale // 2
-        y_canvas = y * scale + scale // 2
+        x_canvas = x * scale + scale // 2 - 20
+        y_canvas = y * scale + scale // 2 + 40
         
         # Draw the residue as a circle
         radius = scale // 4
