@@ -292,11 +292,11 @@ class Conformation:
         self.protein = protein
         self.lattice = lattice
         self.position_manager = np.zeros((lattice.length, lattice.width), dtype = int)
-        self.initialise_horizontal_conformation()
+        self.initialise_vertical_conformation()
 
     
     def initialise_horizontal_conformation(self):
-        '''Function to initialise the conformation'''
+        '''Function to initialise the conformation horizontally'''
         ref_x = int((self.lattice.length / 2) - (self.protein.calc_length() / 2))
         ref_y = int(self.lattice.width / 2)
         i = 1
@@ -304,6 +304,18 @@ class Conformation:
             aa.coords = np.array([ref_y, ref_x])
             self.position_manager[ref_y, ref_x] = i
             ref_x += 1
+            i += 1
+
+    
+    def initialise_vertical_conformation(self):
+        '''Function to initialise the conformation vertically'''
+        ref_x = int(self.lattice.length / 2)
+        ref_y = int((self.lattice.width / 2) - (self.protein.calc_length() / 2))
+        i = 1
+        for aa in self.protein.sequence:
+            aa.coords = np.array([ref_y, ref_x])
+            self.position_manager[ref_y, ref_x] = i
+            ref_y += 1
             i += 1
 
 
@@ -1082,20 +1094,22 @@ if __name__ == "__main__":
 
 
     # TEST 2 - S2 - HHPPHPPHPPHPPHPPHPPHPPHH
-    
-    
-    # TEST 3 - S3 - PPHPPHHPPPPHHPPPPHHPPPPHH - CONVERGED in 204 seconds!!!!
 
     start = time.time()
 
     res = [f'{aa}{i + 1}' for i, aa in enumerate('HHPPHPPHPPHPPHPPHPPHPPHH')]
-    conf, temp = create_protein_conformations('s1', res, 5)
+    conf, temp = create_protein_conformations('s2', res, 5)
 
     model = REMC(conf, temp, 5000)
-    #model.run_remc_sim(-9)
+    model.run_remc_sim(-9)
     
     end = time.time()
     print(f'Runtime : {end - start}')
+    
+    
+    # TEST 3 - S3 - PPHPPHHPPPPHHPPPPHHPPPPHH - CONVERGED in 204 seconds!!!!
+
+    
 
 
     print("Number of processors: ", mp.cpu_count())
