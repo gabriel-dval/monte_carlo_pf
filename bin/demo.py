@@ -955,6 +955,7 @@ class REMC:
         saved_conformation = None
         model_E = 0
         offset = 0
+        iteration = 1
 
         # Count swaps and non-swaps
         swaps = 0
@@ -963,14 +964,12 @@ class REMC:
         # Start loop
         while model_E > E_star:
 
-            print('New iteration')
+            print(f'Iteration : {iteration}')
             # Run single MC on all conformation/temperature pairs
             for pair in self.coupling_map:
 
                 conf = pair[0]
                 temp = pair[1] 
-
-                print(pair)
 
                 # Run monte carlo and save new conformations
                 sim = MonteCarlo(conf, self.steps, temp)
@@ -990,6 +989,7 @@ class REMC:
             # Log results 
             view = saved_conformation.view_conformation()
             with open('../results/results_log.txt', 'a') as filin:
+                filin.write(f'\nIteration : {iteration}\n')
                 filin.write(f'Current best model energy : {model_E}\n')
                 filin.write('Matrix representation of conformation: \n')
                 filin.write(f'{view}\n')
@@ -1034,10 +1034,10 @@ class REMC:
                 filin.write(f'Ratio of swaps: {swaps / (swaps + non_swaps)}\n')
                 filin.write(f'Coupling status : {self.coupling_map}\n')
 
-            
-            
-            # Increment offset
+            # Increment offset and iteration
             offset = 1 - offset
+            iteration += 1
+
                         
 
                 
@@ -1086,11 +1086,11 @@ if __name__ == "__main__":
 
     start = time.time()
 
-    res = [f'{aa}{i + 1}' for i, aa in enumerate('PPHPPHHPPPPHHPPPPHHPPPPHH')]
+    res = [f'{aa}{i + 1}' for i, aa in enumerate('HHPPHPPHPPHPPHPPHPPHPPHH')]
     conf, temp = create_protein_conformations('s1', res, 5)
 
     model = REMC(conf, temp, 5000)
-    model.run_remc_sim(-8)
+    model.run_remc_sim(-9)
     
     end = time.time()
     print(f'Runtime : {end - start}')
