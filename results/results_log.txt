@@ -1,14 +1,140 @@
 Current best model energy : -7
 Matrix representation of conformation: 
-[[ 0 19 20 21 24  1  0]
- [ 0 18 17 22 23  2  3]
- [ 0  0 16 15 14  5  4]
- [ 0  0  0 12 13  6  0]
- [ 0  0  0 11  8  7  0]
- [ 0  0  0 10  9  0  0]]
-Exp Delta : 1.0013089955226149
-Exp Delta : 0.9996673135600416
+[[ 0  0  0  6  7 12 13 18 19  0  0]
+ [ 0  1  2  5  8 11 14 17 20 23 24]
+ [ 0  0  3  4  9 10 15 16 21 22  0]]
+Delta : -0.0005357142857142861
+Delta : 0.0003851091142490371
+Current number of swaps: 1
+Current number of non swaps: 1
+Ratio of swaps: 0.5
+Coupling status : [[<__main__.Conformation object at 0x104049cd0>, 175.0, -4], [<__main__.Conformation object at 0x1031d9910>, 160.0, -5], [<__main__.Conformation object at 0x104052f30>, 190.0, -6], [<__main__.Conformation object at 0x104053fe0>, 205.0, -5], [<__main__.Conformation object at 0x104052510>, 220.0, -7]]
+Current best model energy : -7
+Matrix representation of conformation: 
+[[ 0  0  0  0  0  0 22 21  0]
+ [ 0  0  0  0  0  0 23 20 19]
+ [ 0  1  6  7 12 13 24 17 18]
+ [ 0  2  5  8 11 14 15 16  0]
+ [ 0  3  4  9 10  0  0  0  0]]
+Delta : 0.0009868421052631584
+Delta : -0.00033259423503325964
 Current number of swaps: 2
-Current number of non swaps: 0
-Ratio of swaps: 1.0
-Coupling status : [[<__main__.Conformation object at 0x103ad7470>, np.float64(172.0), -4], [<__main__.Conformation object at 0x103ad67b0>, np.float64(160.0), -7], [<__main__.Conformation object at 0x103adbf50>, np.float64(196.0), -7], [<__main__.Conformation object at 0x103adbc50>, np.float64(184.0), -6], [<__main__.Conformation object at 0x103adf8c0>, np.float64(208.0), -7]]
+Current number of non swaps: 2
+Ratio of swaps: 0.5
+Coupling status : [[<__main__.Conformation object at 0x104023830>, 175.0, -7], [<__main__.Conformation object at 0x104053cb0>, 160.0, -6], [<__main__.Conformation object at 0x104049cd0>, 190.0, -5], [<__main__.Conformation object at 0x10404aea0>, 220.0, -6], [<__main__.Conformation object at 0x1031d9910>, 205.0, -7]]
+Current best model energy : -8
+Matrix representation of conformation: 
+[[ 0  0  3  4  0  0]
+ [ 0  1  2  5  6  0]
+ [ 0  0  9  8  7  0]
+ [ 0  0 10 11 12  0]
+ [ 0  0  0 24 13  0]
+ [ 0  0 22 23 14 15]
+ [ 0  0 21 20 17 16]
+ [ 0  0  0 19 18  0]]
+Delta : 0.0005357142857142861
+Delta : -0.0007177033492822968
+Current number of swaps: 3
+Current number of non swaps: 3
+Ratio of swaps: 0.5
+Coupling status : [[<__main__.Conformation object at 0x104053e60>, 175.0, -5], [<__main__.Conformation object at 0x104023830>, 160.0, -6], [<__main__.Conformation object at 0x104050a10>, 220.0, -7], [<__main__.Conformation object at 0x104053bf0>, 190.0, -8], [<__main__.Conformation object at 0x104053500>, 205.0, -6]]
+Current best model energy : -8
+Matrix representation of conformation: 
+[[ 0  0  3  4  0  0]
+ [ 0  1  2  5  6  0]
+ [ 0  0  9  8  7  0]
+ [ 0  0 10 11 12  0]
+ [ 0  0  0 24 13  0]
+ [ 0  0 22 23 14 15]
+ [ 0  0 21 20 17 16]
+ [ 0  0  0 19 18  0]]
+Delta : 0.005113636363636365
+Delta : -0.0
+Current number of swaps: 4
+Current number of non swaps: 4
+Ratio of swaps: 0.5
+Coupling status : [[<__main__.Conformation object at 0x104052f30>, 175.0, -6], [<__main__.Conformation object at 0x104022060>, 160.0, -6], [<__main__.Conformation object at 0x10404aea0>, 220.0, -3], [<__main__.Conformation object at 0x104052510>, 205.0, -6], [<__main__.Conformation object at 0x104050a10>, 190.0, -6]]
+Current best model energy : -8
+Matrix representation of conformation: 
+[[ 0  0  3  4  0  0]
+ [ 0  1  2  5  6  0]
+ [ 0  0  9  8  7  0]
+ [ 0  0 10 11 12  0]
+ [ 0  0  0 24 13  0]
+ [ 0  0 22 23 14 15]
+ [ 0  0 21 20 17 16]
+ [ 0  0  0 19 18  0]]
+Delta : 0.0016071428571428582
+Delta : 0.00033259423503325964
+Current number of swaps: 4
+Current number of non swaps: 6
+Ratio of swaps: 0.4
+Coupling status : [[<__main__.Conformation object at 0x1031d9910>, 175.0, -3], [<__main__.Conformation object at 0x104053500>, 160.0, -6], [<__main__.Conformation object at 0x104053fe0>, 220.0, -6], [<__main__.Conformation object at 0x103466900>, 205.0, -7], [<__main__.Conformation object at 0x104052510>, 190.0, -5]]
+Current best model energy : -8
+Matrix representation of conformation: 
+[[ 0  0  3  4  0  0]
+ [ 0  1  2  5  6  0]
+ [ 0  0  9  8  7  0]
+ [ 0  0 10 11 12  0]
+ [ 0  0  0 24 13  0]
+ [ 0  0 22 23 14 15]
+ [ 0  0 21 20 17 16]
+ [ 0  0  0 19 18  0]]
+Delta : -0.0017045454545454551
+Delta : -0.0003851091142490371
+Current number of swaps: 6
+Current number of non swaps: 6
+Ratio of swaps: 0.5
+Coupling status : [[<__main__.Conformation object at 0x104053e60>, 175.0, -4], [<__main__.Conformation object at 0x104052f30>, 220.0, -4], [<__main__.Conformation object at 0x104022c00>, 160.0, -5], [<__main__.Conformation object at 0x104053fe0>, 190.0, -6], [<__main__.Conformation object at 0x10404aea0>, 205.0, -5]]
+Current best model energy : -8
+Matrix representation of conformation: 
+[[ 0  0  0  0  0  1  2  3]
+ [ 0  0 21 22  9  8  5  4]
+ [ 0 19 20 23 10  7  6  0]
+ [ 0 18 17 24 11 12  0  0]
+ [ 0  0 16 15 14 13  0  0]]
+Delta : -0.001168831168831169
+Delta : -0.0019736842105263167
+Current number of swaps: 8
+Current number of non swaps: 6
+Ratio of swaps: 0.5714285714285714
+Coupling status : [[<__main__.Conformation object at 0x103fe1f40>, 220.0, -5], [<__main__.Conformation object at 0x104022060>, 175.0, -6], [<__main__.Conformation object at 0x103466900>, 190.0, -6], [<__main__.Conformation object at 0x104053cb0>, 160.0, -8], [<__main__.Conformation object at 0x104022c00>, 205.0, -6]]
+Current best model energy : -8
+Matrix representation of conformation: 
+[[ 0  0  0  0  0  1  2  3]
+ [ 0  0 21 22  9  8  5  4]
+ [ 0 19 20 23 10  7  6  0]
+ [ 0 18 17 24 11 12  0  0]
+ [ 0  0 16 15 14 13  0  0]]
+Delta : -0.0
+Delta : -0.0013719512195121955
+Current number of swaps: 10
+Current number of non swaps: 6
+Ratio of swaps: 0.625
+Coupling status : [[<__main__.Conformation object at 0x104053a70>, 220.0, -5], [<__main__.Conformation object at 0x104052510>, 190.0, -6], [<__main__.Conformation object at 0x104049cd0>, 175.0, -6], [<__main__.Conformation object at 0x104050a10>, 205.0, -6], [<__main__.Conformation object at 0x102fce960>, 160.0, -7]]
+Current best model energy : -8
+Matrix representation of conformation: 
+[[ 0  0  0  0  0  1  2  3]
+ [ 0  0 21 22  9  8  5  4]
+ [ 0 19 20 23 10  7  6  0]
+ [ 0 18 17 24 11 12  0  0]
+ [ 0  0 16 15 14 13  0  0]]
+Delta : 0.0014354066985645935
+Delta : 0.0008362369337979094
+Current number of swaps: 10
+Current number of non swaps: 8
+Ratio of swaps: 0.5555555555555556
+Coupling status : [[<__main__.Conformation object at 0x103fb8320>, 220.0, -4], [<__main__.Conformation object at 0x104053fe0>, 190.0, -6], [<__main__.Conformation object at 0x104053bf0>, 175.0, -7], [<__main__.Conformation object at 0x103466900>, 205.0, -6], [<__main__.Conformation object at 0x10404aea0>, 160.0, -4]]
+Current best model energy : -8
+Matrix representation of conformation: 
+[[ 0  0  0  0  0  1  2  3]
+ [ 0  0 21 22  9  8  5  4]
+ [ 0 19 20 23 10  7  6  0]
+ [ 0 18 17 24 11 12  0  0]
+ [ 0  0 16 15 14 13  0  0]]
+Delta : 0.0
+Delta : -0.002743902439024391
+Current number of swaps: 12
+Current number of non swaps: 8
+Ratio of swaps: 0.6
+Coupling status : [[<__main__.Conformation object at 0x104052e40>, 220.0, -6], [<__main__.Conformation object at 0x104053a70>, 175.0, -6], [<__main__.Conformation object at 0x104053cb0>, 190.0, -6], [<__main__.Conformation object at 0x104053680>, 160.0, -7], [<__main__.Conformation object at 0x104053fe0>, 205.0, -5]]

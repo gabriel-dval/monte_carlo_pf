@@ -110,13 +110,11 @@ def create_protein_conformations(protein_name, hp_sequence, nb_conformations):
 
     # Create temperatures - this is the uniform linear function
     def t(k):
-        return (160 + (k - 1)) * (220 - 160) / (nb_conformations - 1)
+        return 160 + ((k - 1) * (220 - 160) / (nb_conformations - 1))
     
     # This is the geometric temperature spacing
     
-    #temps = [t(k + 1) for k in range(nb_conformations)]
-    step = (220 - 160) / nb_conformations
-    temps = list(np.arange(160, 221, step))
+    temps = [t(k + 1) for k in range(nb_conformations)]
 
     return confs, temps
 
@@ -645,7 +643,7 @@ class MonteCarlo:
                     seq[k+1].coords = np.array([next_new_y, next_new_x])
 
                     #Report
-                    print('Crankshaft move succesful') 
+                    #print('Crankshaft move succesful') 
                     return True
                 
                 else:
@@ -787,19 +785,19 @@ class MonteCarlo:
                             # Substract from ref
                             ref -= 1
                         
-                        print('Pull move succesful')
+                        #print('Pull move succesful')
                         return True
                     else:
-                        print('Pull move skipped')
+                        #print('Pull move skipped')
                         return False
                 else:
-                    print('Pull move skipped')
+                    #print('Pull move skipped')
                     return False
             else:
-                print('Pull move skipped')
+                #print('Pull move skipped')
                 return False
         else:
-            print('Pull move skipped')
+            #print('Pull move skipped')
             return False
 
 
@@ -892,7 +890,7 @@ class MonteCarlo:
 
             # Choose an amino acid at random
             k = self.choose_rand_aa() 
-            print(k)
+            #print(k)
 
             # Choose a move at random
             self.choose_available_move(test_conformation, k, 'ALL')
@@ -913,7 +911,6 @@ class MonteCarlo:
             # Check the current conformation has no outliers
             current_conformation.check_border()
         
-        print(current_conformation.position_manager) 
         return current_conformation
 
 
@@ -966,22 +963,24 @@ class REMC:
         # Start loop
         while model_E > E_star:
 
-
+            print('New iteration')
             # Run single MC on all conformation/temperature pairs
             for pair in self.coupling_map:
 
                 conf = pair[0]
                 temp = pair[1] 
 
+                print(pair)
+
                 # Run monte carlo and save new conformations
                 sim = MonteCarlo(conf, self.steps, temp)
                 res = sim.run_sim()
 
-                # If the energy of conformation is lower than model E, save it
+                # If the energy of conformation is lower or equal than model E, save it
                 e = res.calculate_energy()
                 pair[2] = e
 
-                if e < model_E:
+                if e <= model_E:
                     model_E = e
                     saved_conformation = copy.deepcopy(res)
 
@@ -1010,15 +1009,15 @@ class REMC:
                 # Determine swap conditions
                 delta = ((1/tempj) - (1/tempi)) * (ei - ej)
                 with open('../results/results_log.txt', 'a') as filin:
-                            filin.write(f'Exp Delta : {np.exp(-delta)}\n')
-                if delta <= 0:
+                            filin.write(f'Delta : {delta}\n')
+                if delta < 0:
                     self.coupling_map[i][1] = tempj
                     self.coupling_map[j][1] = tempi
                     swaps += 1
                 else:
                     rng = np.random.default_rng()
                     q = rng.random()
-                    if q <= np.exp(-delta):
+                    if q >= np.exp(-delta):
                         self.coupling_map[i][1] = tempj
                         self.coupling_map[j][1] = tempi
                         swaps += 1
@@ -1087,7 +1086,7 @@ if __name__ == "__main__":
     res = [f'{aa}{i + 1}' for i, aa in enumerate('HHPPHPPHPPHPPHPPHPPHPPHH')]
     conf, temp = create_protein_conformations('s1', res, 5)
 
-    model = REMC(conf, temp, 5000)
+    model = REMC(conf, temp, 2000)
     model.run_remc_sim(-9)
     
     end = time.time()
