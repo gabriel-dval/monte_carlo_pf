@@ -32,6 +32,8 @@ import math as m
 import copy
 import random
 import time
+import multiprocessing as mp
+
 
 
 
@@ -1090,10 +1092,13 @@ if __name__ == "__main__":
     conf, temp = create_protein_conformations('s1', res, 5)
 
     model = REMC(conf, temp, 5000)
-    model.run_remc_sim(-9)
+    #model.run_remc_sim(-9)
     
     end = time.time()
     print(f'Runtime : {end - start}')
+
+
+    print("Number of processors: ", mp.cpu_count())
 
 
     
