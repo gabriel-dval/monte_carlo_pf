@@ -1,69 +1,14 @@
 Current best model energy : -7
 Matrix representation of conformation: 
-[[ 0  2  1 20 19  0  0]
- [ 0  3  6  7 18 17  0]
- [ 0  4  5  8  9 16  0]
- [ 0  0  0  0 10 15 14]
- [ 0  0  0  0 11 12 13]]
-Coupling map : 
-[[<__main__.Conformation object at 0x1068ebbc0>, 1073.3333333333333, -5], [<__main__.Conformation object at 0x1068eb050>, 1066.6666666666667, -6], [<__main__.Conformation object at 0x1068eb170>, 1080.0, -5], [<__main__.Conformation object at 0x1068eff20>, 1086.6666666666667, -5], [<__main__.Conformation object at 0x1068eddf0>, 1093.3333333333333, -5], [<__main__.Conformation object at 0x1068ed400>, 1100.0, -5], [<__main__.Conformation object at 0x1068efb90>, 1106.6666666666667, -5], [<__main__.Conformation object at 0x1068efd10>, 1113.3333333333333, -7], [<__main__.Conformation object at 0x1068ecda0>, 1120.0, -4], [<__main__.Conformation object at 0x1068ef860>, 1126.6666666666667, -6]]
-Coupling map : 
-[[<__main__.Conformation object at 0x1068ebbc0>, 1073.3333333333333, -5], [<__main__.Conformation object at 0x1068eb050>, 1066.6666666666667, -6], [<__main__.Conformation object at 0x1068eb170>, 1086.6666666666667, -5], [<__main__.Conformation object at 0x1068eff20>, 1080.0, -5], [<__main__.Conformation object at 0x1068eddf0>, 1093.3333333333333, -5], [<__main__.Conformation object at 0x1068ed400>, 1100.0, -5], [<__main__.Conformation object at 0x1068efb90>, 1106.6666666666667, -5], [<__main__.Conformation object at 0x1068efd10>, 1113.3333333333333, -7], [<__main__.Conformation object at 0x1068ecda0>, 1120.0, -4], [<__main__.Conformation object at 0x1068ef860>, 1126.6666666666667, -6]]
-Coupling map : 
-[[<__main__.Conformation object at 0x1068ebbc0>, 1073.3333333333333, -5], [<__main__.Conformation object at 0x1068eb050>, 1066.6666666666667, -6], [<__main__.Conformation object at 0x1068eb170>, 1086.6666666666667, -5], [<__main__.Conformation object at 0x1068eff20>, 1080.0, -5], [<__main__.Conformation object at 0x1068eddf0>, 1100.0, -5], [<__main__.Conformation object at 0x1068ed400>, 1093.3333333333333, -5], [<__main__.Conformation object at 0x1068efb90>, 1106.6666666666667, -5], [<__main__.Conformation object at 0x1068efd10>, 1113.3333333333333, -7], [<__main__.Conformation object at 0x1068ecda0>, 1120.0, -4], [<__main__.Conformation object at 0x1068ef860>, 1126.6666666666667, -6]]
-Coupling map : 
-[[<__main__.Conformation object at 0x1068ebbc0>, 1073.3333333333333, -5], [<__main__.Conformation object at 0x1068eb050>, 1066.6666666666667, -6], [<__main__.Conformation object at 0x1068eb170>, 1086.6666666666667, -5], [<__main__.Conformation object at 0x1068eff20>, 1080.0, -5], [<__main__.Conformation object at 0x1068eddf0>, 1100.0, -5], [<__main__.Conformation object at 0x1068ed400>, 1093.3333333333333, -5], [<__main__.Conformation object at 0x1068efb90>, 1113.3333333333333, -5], [<__main__.Conformation object at 0x1068efd10>, 1106.6666666666667, -7], [<__main__.Conformation object at 0x1068ecda0>, 1120.0, -4], [<__main__.Conformation object at 0x1068ef860>, 1126.6666666666667, -6]]
-Coupling map : 
-[[<__main__.Conformation object at 0x1068ebbc0>, 1073.3333333333333, -5], [<__main__.Conformation object at 0x1068eb050>, 1066.6666666666667, -6], [<__main__.Conformation object at 0x1068eb170>, 1086.6666666666667, -5], [<__main__.Conformation object at 0x1068eff20>, 1080.0, -5], [<__main__.Conformation object at 0x1068eddf0>, 1100.0, -5], [<__main__.Conformation object at 0x1068ed400>, 1093.3333333333333, -5], [<__main__.Conformation object at 0x1068efb90>, 1113.3333333333333, -5], [<__main__.Conformation object at 0x1068efd10>, 1106.6666666666667, -7], [<__main__.Conformation object at 0x1068ecda0>, 1126.6666666666667, -4], [<__main__.Conformation object at 0x1068ef860>, 1120.0, -6]]
-Current best model energy : -7
-Matrix representation of conformation: 
-[[ 0  2  1 20 19  0  0]
- [ 0  3  6  7 18 17  0]
- [ 0  4  5  8  9 16  0]
- [ 0  0  0  0 10 15 14]
- [ 0  0  0  0 11 12 13]]
-Coupling map : 
-[[<__main__.Conformation object at 0x1068ef3b0>, 1073.3333333333333, -5], [<__main__.Conformation object at 0x105aeea80>, 1086.6666666666667, -6], [<__main__.Conformation object at 0x1068ef350>, 1066.6666666666667, -5], [<__main__.Conformation object at 0x1068efaa0>, 1080.0, -5], [<__main__.Conformation object at 0x1068defc0>, 1100.0, -5], [<__main__.Conformation object at 0x1068ec950>, 1093.3333333333333, -5], [<__main__.Conformation object at 0x1068eeff0>, 1113.3333333333333, -5], [<__main__.Conformation object at 0x1068ea8d0>, 1106.6666666666667, -7], [<__main__.Conformation object at 0x1068ebd40>, 1126.6666666666667, -4], [<__main__.Conformation object at 0x1068eba40>, 1120.0, -6]]
-Coupling map : 
-[[<__main__.Conformation object at 0x1068ef3b0>, 1073.3333333333333, -5], [<__main__.Conformation object at 0x105aeea80>, 1086.6666666666667, -6], [<__main__.Conformation object at 0x1068ef350>, 1066.6666666666667, -5], [<__main__.Conformation object at 0x1068efaa0>, 1100.0, -5], [<__main__.Conformation object at 0x1068defc0>, 1080.0, -5], [<__main__.Conformation object at 0x1068ec950>, 1093.3333333333333, -5], [<__main__.Conformation object at 0x1068eeff0>, 1113.3333333333333, -5], [<__main__.Conformation object at 0x1068ea8d0>, 1106.6666666666667, -7], [<__main__.Conformation object at 0x1068ebd40>, 1126.6666666666667, -4], [<__main__.Conformation object at 0x1068eba40>, 1120.0, -6]]
-Coupling map : 
-[[<__main__.Conformation object at 0x1068ef3b0>, 1073.3333333333333, -5], [<__main__.Conformation object at 0x105aeea80>, 1086.6666666666667, -6], [<__main__.Conformation object at 0x1068ef350>, 1066.6666666666667, -5], [<__main__.Conformation object at 0x1068efaa0>, 1100.0, -5], [<__main__.Conformation object at 0x1068defc0>, 1080.0, -5], [<__main__.Conformation object at 0x1068ec950>, 1113.3333333333333, -5], [<__main__.Conformation object at 0x1068eeff0>, 1093.3333333333333, -5], [<__main__.Conformation object at 0x1068ea8d0>, 1106.6666666666667, -7], [<__main__.Conformation object at 0x1068ebd40>, 1126.6666666666667, -4], [<__main__.Conformation object at 0x1068eba40>, 1120.0, -6]]
-Coupling map : 
-[[<__main__.Conformation object at 0x1068ef3b0>, 1073.3333333333333, -5], [<__main__.Conformation object at 0x105aeea80>, 1086.6666666666667, -6], [<__main__.Conformation object at 0x1068ef350>, 1066.6666666666667, -5], [<__main__.Conformation object at 0x1068efaa0>, 1100.0, -5], [<__main__.Conformation object at 0x1068defc0>, 1080.0, -5], [<__main__.Conformation object at 0x1068ec950>, 1113.3333333333333, -5], [<__main__.Conformation object at 0x1068eeff0>, 1093.3333333333333, -5], [<__main__.Conformation object at 0x1068ea8d0>, 1126.6666666666667, -7], [<__main__.Conformation object at 0x1068ebd40>, 1106.6666666666667, -4], [<__main__.Conformation object at 0x1068eba40>, 1120.0, -6]]
-Current best model energy : -7
-Matrix representation of conformation: 
-[[ 0  2  1 20 19  0  0]
- [ 0  3  6  7 18 17  0]
- [ 0  4  5  8  9 16  0]
- [ 0  0  0  0 10 15 14]
- [ 0  0  0  0 11 12 13]]
-Coupling map : 
-[[<__main__.Conformation object at 0x1068ee450>, 1086.6666666666667, -5], [<__main__.Conformation object at 0x1068efe30>, 1073.3333333333333, -6], [<__main__.Conformation object at 0x1068ed700>, 1066.6666666666667, -5], [<__main__.Conformation object at 0x10684a000>, 1100.0, -7], [<__main__.Conformation object at 0x1068ebbc0>, 1080.0, -5], [<__main__.Conformation object at 0x1068eb050>, 1113.3333333333333, -6], [<__main__.Conformation object at 0x1068efa40>, 1093.3333333333333, -5], [<__main__.Conformation object at 0x1068ee000>, 1126.6666666666667, -7], [<__main__.Conformation object at 0x1068eede0>, 1106.6666666666667, -5], [<__main__.Conformation object at 0x106848b00>, 1120.0, -5]]
-Coupling map : 
-[[<__main__.Conformation object at 0x1068ee450>, 1086.6666666666667, -5], [<__main__.Conformation object at 0x1068efe30>, 1073.3333333333333, -6], [<__main__.Conformation object at 0x1068ed700>, 1100.0, -5], [<__main__.Conformation object at 0x10684a000>, 1066.6666666666667, -7], [<__main__.Conformation object at 0x1068ebbc0>, 1080.0, -5], [<__main__.Conformation object at 0x1068eb050>, 1113.3333333333333, -6], [<__main__.Conformation object at 0x1068efa40>, 1093.3333333333333, -5], [<__main__.Conformation object at 0x1068ee000>, 1126.6666666666667, -7], [<__main__.Conformation object at 0x1068eede0>, 1106.6666666666667, -5], [<__main__.Conformation object at 0x106848b00>, 1120.0, -5]]
-Coupling map : 
-[[<__main__.Conformation object at 0x1068ee450>, 1086.6666666666667, -5], [<__main__.Conformation object at 0x1068efe30>, 1073.3333333333333, -6], [<__main__.Conformation object at 0x1068ed700>, 1100.0, -5], [<__main__.Conformation object at 0x10684a000>, 1066.6666666666667, -7], [<__main__.Conformation object at 0x1068ebbc0>, 1113.3333333333333, -5], [<__main__.Conformation object at 0x1068eb050>, 1080.0, -6], [<__main__.Conformation object at 0x1068efa40>, 1093.3333333333333, -5], [<__main__.Conformation object at 0x1068ee000>, 1126.6666666666667, -7], [<__main__.Conformation object at 0x1068eede0>, 1106.6666666666667, -5], [<__main__.Conformation object at 0x106848b00>, 1120.0, -5]]
-Coupling map : 
-[[<__main__.Conformation object at 0x1068ee450>, 1086.6666666666667, -5], [<__main__.Conformation object at 0x1068efe30>, 1073.3333333333333, -6], [<__main__.Conformation object at 0x1068ed700>, 1100.0, -5], [<__main__.Conformation object at 0x10684a000>, 1066.6666666666667, -7], [<__main__.Conformation object at 0x1068ebbc0>, 1113.3333333333333, -5], [<__main__.Conformation object at 0x1068eb050>, 1080.0, -6], [<__main__.Conformation object at 0x1068efa40>, 1126.6666666666667, -5], [<__main__.Conformation object at 0x1068ee000>, 1093.3333333333333, -7], [<__main__.Conformation object at 0x1068eede0>, 1106.6666666666667, -5], [<__main__.Conformation object at 0x106848b00>, 1120.0, -5]]
-Coupling map : 
-[[<__main__.Conformation object at 0x1068ee450>, 1086.6666666666667, -5], [<__main__.Conformation object at 0x1068efe30>, 1073.3333333333333, -6], [<__main__.Conformation object at 0x1068ed700>, 1100.0, -5], [<__main__.Conformation object at 0x10684a000>, 1066.6666666666667, -7], [<__main__.Conformation object at 0x1068ebbc0>, 1113.3333333333333, -5], [<__main__.Conformation object at 0x1068eb050>, 1080.0, -6], [<__main__.Conformation object at 0x1068efa40>, 1126.6666666666667, -5], [<__main__.Conformation object at 0x1068ee000>, 1093.3333333333333, -7], [<__main__.Conformation object at 0x1068eede0>, 1120.0, -5], [<__main__.Conformation object at 0x106848b00>, 1106.6666666666667, -5]]
-Current best model energy : -9
-Matrix representation of conformation: 
-[[ 0  0  0 19 18 17]
- [ 0  2  1 20 15 16]
- [ 0  3  6  7 14 13]
- [ 0  4  5  8  9 12]
- [ 0  0  0  0 10 11]]
-Coupling map : 
-[[<__main__.Conformation object at 0x1068ea8d0>, 1086.6666666666667, -5], [<__main__.Conformation object at 0x1068ed400>, 1100.0, -6], [<__main__.Conformation object at 0x105aeea80>, 1073.3333333333333, -5], [<__main__.Conformation object at 0x1068efe00>, 1066.6666666666667, -6], [<__main__.Conformation object at 0x1068eba40>, 1113.3333333333333, -5], [<__main__.Conformation object at 0x1068ebd40>, 1080.0, -9], [<__main__.Conformation object at 0x10684a000>, 1126.6666666666667, -6], [<__main__.Conformation object at 0x1068eddf0>, 1093.3333333333333, -5], [<__main__.Conformation object at 0x1068ee000>, 1120.0, -5], [<__main__.Conformation object at 0x1068edc70>, 1106.6666666666667, -5]]
-Coupling map : 
-[[<__main__.Conformation object at 0x1068ea8d0>, 1086.6666666666667, -5], [<__main__.Conformation object at 0x1068ed400>, 1100.0, -6], [<__main__.Conformation object at 0x105aeea80>, 1073.3333333333333, -5], [<__main__.Conformation object at 0x1068efe00>, 1113.3333333333333, -6], [<__main__.Conformation object at 0x1068eba40>, 1066.6666666666667, -5], [<__main__.Conformation object at 0x1068ebd40>, 1080.0, -9], [<__main__.Conformation object at 0x10684a000>, 1126.6666666666667, -6], [<__main__.Conformation object at 0x1068eddf0>, 1093.3333333333333, -5], [<__main__.Conformation object at 0x1068ee000>, 1120.0, -5], [<__main__.Conformation object at 0x1068edc70>, 1106.6666666666667, -5]]
-Coupling map : 
-[[<__main__.Conformation object at 0x1068ea8d0>, 1086.6666666666667, -5], [<__main__.Conformation object at 0x1068ed400>, 1100.0, -6], [<__main__.Conformation object at 0x105aeea80>, 1073.3333333333333, -5], [<__main__.Conformation object at 0x1068efe00>, 1113.3333333333333, -6], [<__main__.Conformation object at 0x1068eba40>, 1066.6666666666667, -5], [<__main__.Conformation object at 0x1068ebd40>, 1126.6666666666667, -9], [<__main__.Conformation object at 0x10684a000>, 1080.0, -6], [<__main__.Conformation object at 0x1068eddf0>, 1093.3333333333333, -5], [<__main__.Conformation object at 0x1068ee000>, 1120.0, -5], [<__main__.Conformation object at 0x1068edc70>, 1106.6666666666667, -5]]
-Coupling map : 
-[[<__main__.Conformation object at 0x1068ea8d0>, 1086.6666666666667, -5], [<__main__.Conformation object at 0x1068ed400>, 1100.0, -6], [<__main__.Conformation object at 0x105aeea80>, 1073.3333333333333, -5], [<__main__.Conformation object at 0x1068efe00>, 1113.3333333333333, -6], [<__main__.Conformation object at 0x1068eba40>, 1066.6666666666667, -5], [<__main__.Conformation object at 0x1068ebd40>, 1126.6666666666667, -9], [<__main__.Conformation object at 0x10684a000>, 1080.0, -6], [<__main__.Conformation object at 0x1068eddf0>, 1120.0, -5], [<__main__.Conformation object at 0x1068ee000>, 1093.3333333333333, -5], [<__main__.Conformation object at 0x1068edc70>, 1106.6666666666667, -5]]
-
-
-
-
-
+[[ 0 19 20 21 24  1  0]
+ [ 0 18 17 22 23  2  3]
+ [ 0  0 16 15 14  5  4]
+ [ 0  0  0 12 13  6  0]
+ [ 0  0  0 11  8  7  0]
+ [ 0  0  0 10  9  0  0]]
+Exp Delta : 1.0013089955226149
+Exp Delta : 0.9996673135600416
+Current number of swaps: 2
+Current number of non swaps: 0
+Ratio of swaps: 1.0
+Coupling status : [[<__main__.Conformation object at 0x103ad7470>, np.float64(172.0), -4], [<__main__.Conformation object at 0x103ad67b0>, np.float64(160.0), -7], [<__main__.Conformation object at 0x103adbf50>, np.float64(196.0), -7], [<__main__.Conformation object at 0x103adbc50>, np.float64(184.0), -6], [<__main__.Conformation object at 0x103adf8c0>, np.float64(208.0), -7]]

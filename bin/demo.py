@@ -108,11 +108,15 @@ def create_protein_conformations(protein_name, hp_sequence, nb_conformations):
     # Create conformations
     confs = [Conformation(f'C{i+1}', prot, lattice) for i in range(nb_conformations)]
 
-    # Create temperatures (NOTE THAT OTHER TEMPERATURE SPACINGS ARE POSSIBLE !!)
+    # Create temperatures - this is the uniform linear function
     def t(k):
         return (160 + (k - 1)) * (220 - 160) / (nb_conformations - 1)
     
-    temps = [t(k + 1) for k in range(nb_conformations)]
+    # This is the geometric temperature spacing
+    
+    #temps = [t(k + 1) for k in range(nb_conformations)]
+    step = (220 - 160) / nb_conformations
+    temps = list(np.arange(160, 221, step))
 
     return confs, temps
 
@@ -532,14 +536,14 @@ class MonteCarlo:
                 seq[k].coords = np.array([new_y, new_x])
 
                 # Report results
-                print('End move successful')
+                #print('End move successful')
                 return True
             else:
-                print('End move skipped')
+                #print('End move skipped')
                 return False
         
         else:
-            print('End move skipped')
+            #print('End move skipped')
             return False
         
 
@@ -580,17 +584,17 @@ class MonteCarlo:
                     seq[k].coords = np.array([new_y, new_x])
 
                     #Report
-                    print('Corner move succesful') 
+                    #print('Corner move succesful') 
                     return True
 
                 else:
-                    print('Corner move skipped')
+                    #print('Corner move skipped')
                     return False
             else:
-                print('Corner move skipped')
+                #print('Corner move skipped')
                 return False
         else:
-            print('Corner move skipped')
+            #print('Corner move skipped')
             return False
 
 
@@ -645,7 +649,7 @@ class MonteCarlo:
                     return True
                 
                 else:
-                    print('Crankshaft move skipped')
+                    #print('Crankshaft move skipped')
                     return False
   
             
@@ -678,13 +682,13 @@ class MonteCarlo:
                     return True
                 
                 else:
-                    print('Crankshaft move skipped')
+                    #print('Crankshaft move skipped')
                     return False
             else:
-                print('Crankshaft move skipped')
+                #print('Crankshaft move skipped')
                 return False
         else:
-            print('Crankshaft move skipped')
+            #print('Crankshaft move skipped')
             return False
 
 
@@ -843,27 +847,28 @@ class MonteCarlo:
         if move_neighbourhood == 'ALL':
             options = ['end', 'corner', 'crankshaft', 'pull']
         
-        random.shuffle(options)
+        rng = np.random.default_rng()
+        rng.shuffle(options)
 
         for choice in options:
 
             if choice == 'end':
-                print('End move chosen')
+                #print('End move chosen')
                 end = self.try_end_move(conf, k)
                 if end:
                     break
             if choice == 'corner':
-                print('Corner move chosen')
+                #print('Corner move chosen')
                 corner = self.try_corner_move(conf, k)
                 if corner:
                     break
             if choice == 'crankshaft':
-                print('Crankshaft move chosen')
+                #print('Crankshaft move chosen')
                 crankshaft = self.try_crankshaft_move(conf, k)
                 if crankshaft:
                     break
             if choice == 'pull':
-                print('Pull move chosen')
+                #print('Pull move chosen')
                 pull = self.try_pull_move(conf, k)
                 if pull:
                     break
@@ -889,7 +894,7 @@ class MonteCarlo:
             k = self.choose_rand_aa() 
             print(k)
 
-            # Choose a move at random (for now only one move available)
+            # Choose a move at random
             self.choose_available_move(test_conformation, k, 'ALL')
 
             # Calculate energy of current and test
@@ -954,11 +959,15 @@ class REMC:
         model_E = 0
         offset = 0
 
+        # Count swaps and non-swaps
+        swaps = 0
+        non_swaps = 0
+
         # Start loop
         while model_E > E_star:
 
 
-            # Run single MC on all conformation temperature pairs
+            # Run single MC on all conformation/temperature pairs
             for pair in self.coupling_map:
 
                 conf = pair[0]
@@ -974,7 +983,7 @@ class REMC:
 
                 if e < model_E:
                     model_E = e
-                    saved_conformation = res
+                    saved_conformation = copy.deepcopy(res)
 
                 # Update the coupling map with a copy of the new conformation
                 pair[0] = copy.deepcopy(res)
@@ -1000,18 +1009,33 @@ class REMC:
 
                 # Determine swap conditions
                 delta = ((1/tempj) - (1/tempi)) * (ei - ej)
+                with open('../results/results_log.txt', 'a') as filin:
+                            filin.write(f'Exp Delta : {np.exp(-delta)}\n')
                 if delta <= 0:
                     self.coupling_map[i][1] = tempj
                     self.coupling_map[j][1] = tempi
+                    swaps += 1
                 else:
                     rng = np.random.default_rng()
                     q = rng.random()
                     if q <= np.exp(-delta):
                         self.coupling_map[i][1] = tempj
                         self.coupling_map[j][1] = tempi
+                        swaps += 1
+                    else:
+                        non_swaps += 1
                 
                 # Increment i
                 i += 2
+            
+            # Record swap to non swap ratio
+            with open('../results/results_log.txt', 'a') as filin:
+                filin.write(f'Current number of swaps: {swaps}\n')
+                filin.write(f'Current number of non swaps: {non_swaps}\n')
+                filin.write(f'Ratio of swaps: {swaps / (swaps + non_swaps)}\n')
+                filin.write(f'Coupling status : {self.coupling_map}\n')
+
+            
             
             # Increment offset
             offset = 1 - offset
@@ -1043,6 +1067,9 @@ def main():
 
 if __name__ == "__main__":
 
+    # Set seed for reproducible testing
+    np.random.seed(34895)
+
 
     # TEST 1 - S1 - HPHPPHHPHPPHPHHPPHPH - CONVERGED in 20 seconds !!!!
 
@@ -1055,11 +1082,16 @@ if __name__ == "__main__":
 
     # TEST 2 - S2 - HPHPPHHPHPPHPHHPPHPH - CONVERGED !!!!
 
-    res = [f'{aa}{i + 1}' for i, aa in enumerate('HHPPHPPHPPHPPHPPHPPHPPHH')]
-    conf, temp = create_protein_conformations('s1', res, 10)
+    start = time.time()
 
-    model = REMC(conf, temp, 2000)
+    res = [f'{aa}{i + 1}' for i, aa in enumerate('HHPPHPPHPPHPPHPPHPPHPPHH')]
+    conf, temp = create_protein_conformations('s1', res, 5)
+
+    model = REMC(conf, temp, 5000)
     model.run_remc_sim(-9)
+    
+    end = time.time()
+    print(f'Runtime : {end - start}')
 
 
     
