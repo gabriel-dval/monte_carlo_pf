@@ -1,0 +1,174 @@
+
+Iteration : 1
+Current best model energy : -7
+Matrix representation of conformation: 
+[[ 0  0  0  5  4  0]
+ [ 0  8  7  6  3  2]
+ [ 0  9 12 13 14  1]
+ [ 0 10 11 20 15 16]
+ [ 0  0  0 19 18 17]]
+Current number of swaps: 5
+Current number of non swaps: 0
+Ratio of swaps: 1.0
+
+Iteration : 2
+Current best model energy : -7
+Matrix representation of conformation: 
+[[ 0  0  0  5  4  0]
+ [ 0  8  7  6  3  2]
+ [ 0  9 12 13 14  1]
+ [ 0 10 11 20 15 16]
+ [ 0  0  0 19 18 17]]
+Current number of swaps: 9
+Current number of non swaps: 0
+Ratio of swaps: 1.0
+
+Iteration : 3
+Current best model energy : -8
+Matrix representation of conformation: 
+[[ 0 10 11  0  0  0  0]
+ [ 0  9 12 13 16 17  0]
+ [ 0  8  7 14 15 18 19]
+ [ 0  0  6  3  2  1 20]
+ [ 0  0  5  4  0  0  0]]
+Current number of swaps: 14
+Current number of non swaps: 0
+Ratio of swaps: 1.0
+
+Iteration : 4
+Current best model energy : -8
+Matrix representation of conformation: 
+[[ 0 10 11  0  0  0  0]
+ [ 0  9 12 13 16 17  0]
+ [ 0  8  7 14 15 18 19]
+ [ 0  0  6  3  2  1 20]
+ [ 0  0  5  4  0  0  0]]
+Current number of swaps: 18
+Current number of non swaps: 0
+Ratio of swaps: 1.0
+
+Iteration : 5
+Current best model energy : -8
+Matrix representation of conformation: 
+[[ 0 10 11  0  0  0  0]
+ [ 0  9 12 13 16 17  0]
+ [ 0  8  7 14 15 18 19]
+ [ 0  0  6  3  2  1 20]
+ [ 0  0  5  4  0  0  0]]
+Current number of swaps: 23
+Current number of non swaps: 0
+Ratio of swaps: 1.0
+
+Iteration : 6
+Current best model energy : -8
+Matrix representation of conformation: 
+[[ 0 17 16 13 12 11]
+ [ 0 18 15 14  9 10]
+ [ 0 19 20  7  8  0]
+ [ 0  0  5  6  1  0]
+ [ 0  0  4  3  2  0]]
+Current number of swaps: 27
+Current number of non swaps: 0
+Ratio of swaps: 1.0
+
+Iteration : 7
+Current best model energy : -8
+Matrix representation of conformation: 
+[[ 0  0  1 20  0]
+ [ 0  0  2 19  0]
+ [ 0  4  3 18 17]
+ [ 0  5  6 15 16]
+ [ 0  8  7 14  0]
+ [ 0  9 12 13  0]
+ [ 0 10 11  0  0]]
+Current number of swaps: 32
+Current number of non swaps: 0
+Ratio of swaps: 1.0
+
+Iteration : 8
+Current best model energy : -8
+Matrix representation of conformation: 
+[[ 0 11 10  5  4  0]
+ [ 0 12  9  6  3  2]
+ [ 0 13  8  7 20  1]
+ [ 0 14 15 18 19  0]
+ [ 0  0 16 17  0  0]]
+Current number of swaps: 36
+Current number of non swaps: 0
+Ratio of swaps: 1.0
+
+Iteration : 9
+Current best model energy : -8
+Matrix representation of conformation: 
+[[ 0  0  0  0  0  5  4]
+ [ 0 10  9  8  7  6  3]
+ [ 0 11 12 13 14  1  2]
+ [ 0  0  0 16 15 20  0]
+ [ 0  0  0 17 18 19  0]]
+Current number of swaps: 41
+Current number of non swaps: 0
+Ratio of swaps: 1.0
+
+Iteration : 10
+Current best model energy : -9
+Matrix representation of conformation: 
+[[ 0  0 17 18 19  0]
+ [ 0  0 16 15 20  0]
+ [ 0  0 13 14  1  2]
+ [ 0 11 12  7  6  3]
+ [ 0 10  9  8  5  4]]
+Current number of swaps: 45
+Current number of non swaps: 0
+Ratio of swaps: 1.0
+
+-------------------------------------------
+
+
+Iteration : 1
+Current best model energy : -8
+Matrix representation of conformation: 
+[[ 0 10  9  8  5  4]
+ [ 0 11 12  7  6  3]
+ [ 0  0 13 14  1  2]
+ [ 0  0  0 15 18 19]
+ [ 0  0  0 16 17 20]]
+Current number of swaps: 5
+Current number of non swaps: 0
+Ratio of swaps: 1.0
+
+Iteration : 2
+Current best model energy : -8
+Matrix representation of conformation: 
+[[ 0 10  9  8  5  4]
+ [ 0 11 12  7  6  3]
+ [ 0  0 13 14  1  2]
+ [ 0  0  0 15 18 19]
+ [ 0  0  0 16 17 20]]
+Current number of swaps: 9
+Current number of non swaps: 0
+Ratio of swaps: 1.0
+
+Iteration : 3
+Current best model energy : -8
+Matrix representation of conformation: 
+[[ 0  0  0  1  2  0]
+ [ 0 18 19 20  3  4]
+ [ 0 17 16 15  6  5]
+ [ 0  0  0 14  7  8]
+ [ 0  0  0 13 12  9]
+ [ 0  0  0  0 11 10]]
+Current number of swaps: 14
+Current number of non swaps: 0
+Ratio of swaps: 1.0
+
+Iteration : 4
+Current best model energy : -9
+Matrix representation of conformation: 
+[[ 0 10  9  8  5  4]
+ [ 0 11 12  7  6  3]
+ [ 0  0 13 14  1  2]
+ [ 0  0 16 15 20  0]
+ [ 0  0 17 18 19  0]]
+Current number of swaps: 18
+Current number of non swaps: 0
+Ratio of swaps: 1.0
