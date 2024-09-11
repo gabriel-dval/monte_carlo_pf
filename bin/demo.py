@@ -924,11 +924,11 @@ class MonteCarlo:
 
         for s in tqdm(range(self.steps), 
                       desc = f'Conformation {self.conformation.label}'):
+            
             test_conformation = copy.deepcopy(current_conformation)
 
             # Choose an amino acid at random
             k = self.choose_rand_aa() 
-            #print(k)
 
             # Choose a move at random
             self.choose_available_move(test_conformation, k, 'ALL')
@@ -1137,7 +1137,7 @@ def plot_final_conformation(conformation: Conformation):
     canvas.pack()
 
     # Add a title above the plot
-    canvas.create_text(canvas_size // 2, 20, text="2D Protein Folding Representation", 
+    canvas.create_text(canvas_size // 2, 20, text=f"{conformation.protein.name} 2D Folding Representation", 
                        font=("Arial", 16), fill="white")
 
     # Scaling to fit the grid size to canvas size
@@ -1148,7 +1148,7 @@ def plot_final_conformation(conformation: Conformation):
 
     for aa, (residue_num, (x, y)) in zip(seq, sorted_residues):
         # Calculate the scaled positions on the canvas
-        x_canvas = x * scale + scale // 2 - 20
+        x_canvas = x * scale + scale // 2
         y_canvas = y * scale + scale // 2 + 40
         
         # Draw the residue as a circle
@@ -1191,7 +1191,8 @@ def main():
 if __name__ == "__main__":
 
     # Set seed for reproducible testing
-    np.random.seed(34895)
+    #SEED = 34895
+    #np.random.seed(SEED)
 
 
     # TEST 1 - S1 - HPHPPHHPHPPHPHHPPHPH - CONVERGED in 3min but also 1min with 260 as max temp !!!!
@@ -1208,12 +1209,12 @@ if __name__ == "__main__":
     start = time.time()
 
     res = [f'{aa}{i + 1}' for i, aa in enumerate('HPHPPHHPHPPHPHHPPHPH')]
-    conf, temp = create_protein_conformations('s1', res, 8)
+    conf, temp = create_protein_conformations('s1', res, 5)
 
     model = REMC(conf, temp, 5000)
-    final = model.run_remc_sim(-9)
+    #final = model.run_remc_sim(-9)
     
-    plot_final_conformation(final)
+    plot_final_conformation(conf[0])
     
     # TEST 3 - S3 - PPHPPHHPPPPHHPPPPHHPPPPHH - CONVERGED in 204 seconds!!!!
 
