@@ -1252,7 +1252,7 @@ if __name__ == "__main__":
 
     # TEST 2 - S2 - HHPPHPPHPPHPPHPPHPPHPPHH - Converged in 10min !!!
     
-    remc_full_sim('HPHPPHHPHPPHPHHPPHPH', 'S1', -9)
+    remc_full_sim('HHPPHPPHPPHPPHPPHPPHPPHH', 'S2', -9)
     
 
     
