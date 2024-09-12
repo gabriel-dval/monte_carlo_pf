@@ -60,7 +60,7 @@ Launch a simulation of protein S1-1
 ## Authors
 
   - **GabrielDuval** - *Provided README Template* -
-    [PurpleBooth](https://github.com/gabriel-dval)
+    [gabriel-dval](https://github.com/gabriel-dval)
 
 
 ## References
