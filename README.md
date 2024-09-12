@@ -45,6 +45,10 @@ Example usage
 
     python remc.py HPHPPHHPHPPHPHHPPHPH test -9
 
+IMPORTANT - make sure the components.py file is in the same directory as remc.py
+so all necessary modules can be imported. 
+
+The program outputs two 
 
 ### Results on example proteins
 

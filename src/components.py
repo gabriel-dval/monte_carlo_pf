@@ -1090,9 +1090,10 @@ def plot_final_conformation(conformation: Conformation, figure_path, name):
     ---
     Nothing - saves matplotlib plot
     '''
-    # Extract matrix form of conformation and recover sequence
+    # Extract matrix form of conformation and recover sequence + energy
     protein_array = conformation.view_conformation()
     seq = conformation.get_protein_sequence()
+    energy = conformation.calculate_energy()
 
     # Find the coordinates and sequence numbers of the residues
     coords = {}
@@ -1127,7 +1128,7 @@ def plot_final_conformation(conformation: Conformation, figure_path, name):
     plt.xlim(-1, protein_array.shape[1])
     plt.ylim(-protein_array.shape[0], 1)
     plt.gca().set_aspect('equal', adjustable='box')
-    plt.title(f"{conformation.protein.name} 2D Representation")
+    plt.title(f"{conformation.protein.name} 2D Representation - E = {energy}")
     plt.xticks([])
     plt.yticks([])
     plt.grid(True)

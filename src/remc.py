@@ -67,6 +67,19 @@ def remc_full_sim(sequence,
     # Create lists of temperatures and conformations
     conf, temp = create_protein_conformations(protein_name, n_sequence, min_t, max_t, replica_number)
 
+    # Re-initialise results log
+    with open('results_log.txt', 'w') as filin:
+        filin.write('New REMC Simulation\n')
+        filin.write(f"Protein Name: {protein_name}\n")
+        filin.write(f'Sequence = {sequence}\n')
+        filin.write(f"Optimal Energy: {optimal_E}\n")
+        filin.write(f"Min Temperature: {min_t}\n")
+        filin.write(f"Max Temperature: {max_t}\n")
+        filin.write(f"Monte Carlo Steps: {mc_steps}\n")
+        filin.write(f"Number of Replicas: {replica_number}\n")
+        filin.write(f"Cutoff Runtime: {cutoff_runtime} seconds\n")
+        filin.write(f"Number of Runs: {nb_of_runs}\n")
+
     # Init multiprocessing.Pool()
     print("Number of processors: ", mp.cpu_count())
     pool = mp.Pool(mp.cpu_count())
@@ -84,8 +97,11 @@ def remc_full_sim(sequence,
     pool.close()    
     
     # Plot and save every final plot
+    if not os.path.exists("FIGURES"):  
+        os.makedirs("FIGURES")
+
     for i, c in enumerate(final) :
-        plot_final_conformation(c, '../results', f'Run{i}')
+        plot_final_conformation(c, 'FIGURES', f'Run{i}')
 
 
 def main():
