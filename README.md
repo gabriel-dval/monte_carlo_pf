@@ -9,11 +9,14 @@ These instructions will give you a copy of the project up and running on
 your local machine for development and testing purposes. See deployment
 for notes on deploying the project on a live system.
 
-### Prerequisites
+### Prerequisite packages
 
-Requirements for the software and other tools to build, test and push 
-- [Example 1](https://www.example.com)
-- [Example 2](https://www.example.com)
+To run the following script, the following modules are necessary. An environment
+.yml file has also been provided to recreate this environment.
+
+- [numpy](https://www.example.com), v
+- [matplotlib](https://www.example.com), v
+- [tqdm](https://www.example.com), v
 
 ### Installing
 
