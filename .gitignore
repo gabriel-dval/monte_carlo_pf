@@ -3,4 +3,4 @@ data
 src/__pycache__
 src/FIGURES
 src/results_log.txt
-.pdf
+*.pdf
