@@ -12,7 +12,7 @@ for notes on deploying the project on a live system.
 ### Prerequisite packages
 
 To run the following script, the following modules are necessary. An environment
-.yml file has also been provided to recreate this environment.
+.yml file has also been provided to recreate the development environment.
 
 - [numpy](https://www.example.com), v
 - [matplotlib](https://www.example.com), v
