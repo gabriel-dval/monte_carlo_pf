@@ -34,7 +34,8 @@ import random
 import time
 import multiprocessing as mp
 from tqdm import tqdm
-import tkinter as tk
+import matplotlib.pyplot as plt
+
 
 
 
@@ -84,7 +85,7 @@ def sequence_to_hp(sequence):
     return hp_sequence
 
 
-def create_protein_conformations(protein_name, hp_sequence, nb_conformations):
+def create_protein_conformations(protein_name, hp_sequence, min_t, max_t, nb_conformations):
     '''Function to create protein object from an input
     HP sequence
 
@@ -117,7 +118,7 @@ def create_protein_conformations(protein_name, hp_sequence, nb_conformations):
 
     # Create temperatures - this is the uniform linear function
     def t(k):
-        return 160 + ((k - 1) * (240 - 160) / (nb_conformations - 1))
+        return min_t + ((k - 1) * (max_t - min_t) / (nb_conformations - 1))
     
     
     temps = [t(k + 1) for k in range(nb_conformations)]
@@ -495,7 +496,7 @@ class Conformation:
 
         Returns a window of the conformation
         '''
-        window = self.position_manager
+        window = copy.deepcopy(self.position_manager)
 
         # Top
         while np.sum(window[0,:]) == 0:
@@ -888,22 +889,18 @@ class MonteCarlo:
         for choice in choices:
 
             if choice == 'end':
-                #print('End move chosen')
                 end = self.try_end_move(conf, k)
                 if end:
                     break
             if choice == 'corner':
-                #print('Corner move chosen')
                 corner = self.try_corner_move(conf, k)
                 if corner:
                     break
             if choice == 'crankshaft':
-                #print('Crankshaft move chosen')
                 crankshaft = self.try_crankshaft_move(conf, k)
                 if crankshaft:
                     break
             if choice == 'pull':
-                #print('Pull move chosen')
                 pull = self.try_pull_move(conf, k)
                 if pull:
                     break
@@ -983,7 +980,7 @@ class REMC:
             raise ValueError('Incorrect input format')
 
     
-    def run_remc_sim(self, E_star):
+    def run_remc_sim(self, E_star, max_runtime):
         '''Main method to run the REMC
 
         Args
@@ -1007,12 +1004,13 @@ class REMC:
         # Runtime condition
         start = time.time()
         runtime = 0
-        cutoff = 1800
+        cutoff = max_runtime
 
         # Start loop
         while model_E > E_star and runtime < cutoff:
 
             print(f'\nIteration : {iteration}\n')
+            
             # Run single MC on all conformation/temperature pairs
             for pair in self.coupling_map:
 
@@ -1023,11 +1021,11 @@ class REMC:
                 sim = MonteCarlo(conf, self.steps, temp)
                 res = sim.run_sim()
 
-                # If the energy of conformation is lower or equal than model E, save it
+                # If the energy of conformation is lower than model E, save it
                 e = res.calculate_energy()
                 pair[2] = e
 
-                if e <= model_E:
+                if e < model_E:
                     model_E = e
                     saved_conformation = copy.deepcopy(res)
 
@@ -1114,63 +1112,108 @@ def plot_final_conformation(conformation: Conformation):
     protein_array = conformation.view_conformation()
     seq = conformation.get_protein_sequence()
 
-    # Create a dictionary to store the coordinates of each residue
-    residue_positions = {}
+    # Find the coordinates and sequence numbers of the residues
+    coords = {}
+    for i in range(protein_array.shape[0]):
+        for j in range(protein_array.shape[1]):
+            if protein_array[i, j] != 0:
+                coords[protein_array[i, j]] = (i, j)
 
-    # Extract positions of residues (non-zero entries) from the matrix
-    for y in range(protein_array.shape[0]):
-        for x in range(protein_array.shape[1]):
-            residue_num = protein_array[y, x]
-            if residue_num != 0:
-                residue_positions[residue_num] = (x, y)
+    # Sort the coordinates by the residue sequence number
+    sorted_coords = [coords[key] for key in sorted(coords.keys())]
 
-    # Sort the positions by residue number for correct sequence
-    sorted_residues = sorted(residue_positions.items())
+    # Separate the coordinates into x and y lists for plotting
+    x_coords = [coord[1] for coord in sorted_coords]
+    y_coords = [-coord[0] for coord in sorted_coords]  # Negate to keep the plot intuitive (higher on top)
 
-    # Set up the tkinter window
-    window = tk.Tk()
-    window.title("2D Protein Plot")
+    # Create the plot
+    plt.figure(figsize=(6, 6))
 
-    # Create a canvas to draw the protein structure
-    canvas_size = 500
-    canvas = tk.Canvas(window, width=canvas_size, height=canvas_size+50)
-    canvas.pack()
+    # Plot the connections (lines between residues)
+    plt.plot(x_coords, y_coords, '-o', color='blue')
 
-    # Add a title above the plot
-    canvas.create_text(canvas_size // 2, 20, text=f"{conformation.protein.name} 2D Folding Representation", 
-                       font=("Arial", 16), fill="white")
+    # Plot each residue as a circle with a label
+    for i, (x, y, aa) in enumerate(zip(x_coords, y_coords, seq), start=1):
+        if aa.type == 'H':
+            plt.text(x, y, f"{aa.name}", fontsize=10, ha='center', va='center', color='white', 
+                     bbox=dict(facecolor='blue', edgecolor='black', boxstyle='circle,pad=0.3'))
+        else:
+            plt.text(x, y, f"{aa.name}", fontsize=10, ha='center', va='center', color='white', 
+                     bbox=dict(facecolor='darkgreen', edgecolor='black', boxstyle='circle,pad=0.3'))
 
-    # Scaling to fit the grid size to canvas size
-    scale = canvas_size / max(protein_array.shape)
+    # Set axis limits and labels
+    plt.xlim(-1, protein_array.shape[1])
+    plt.ylim(-protein_array.shape[0], 1)
+    plt.gca().set_aspect('equal', adjustable='box')
+    plt.title(f"{conformation.protein.name} 2D Representation")
+    plt.xticks([])
+    plt.yticks([])
+    plt.grid(True)
 
-    # Draw the residues and connections
-    previous_coords = None
-
-    for aa, (residue_num, (x, y)) in zip(seq, sorted_residues):
-        # Calculate the scaled positions on the canvas
-        x_canvas = x * scale + scale // 2
-        y_canvas = y * scale + scale // 2 + 40
-        
-        # Draw the residue as a circle
-        radius = scale // 4
-        canvas.create_oval(x_canvas - radius, y_canvas - radius,
-                        x_canvas + radius, y_canvas + radius, fill="blue")
-        
-        # Label the residue with its number
-        canvas.create_text(x_canvas, y_canvas, text=str(aa.name), fill="white")
-        
-        # Draw a line connecting to the previous residue (if any)
-        if previous_coords:
-            canvas.create_line(previous_coords[0], previous_coords[1], x_canvas, y_canvas, width=2, fill="red")
-        
-        # Update the previous residue's coordinates
-        previous_coords = (x_canvas, y_canvas)
-
-        # Start the tkinter main loop
-        window.mainloop()                
+    # Show the plot
+    plt.show()                
 
         
 # Draft of full programme function
+
+
+def remc_full_sim(sequence,
+                  protein_name, 
+                  optimal_E, 
+                  min_t = 160, 
+                  max_t = 220, 
+                  mc_steps = 1000, 
+                  replica_number = 20,
+                  cutoff_runtime = 120,
+                  nb_of_runs = 2):
+    '''
+    Run a full REMC simulation on a HP sequence.
+
+    Args
+    ---
+    sequence 
+    protein_name
+    optimal_E 
+    min_t 
+    max_t 
+    mc_steps  
+    replica_number
+    cutoff_runtime
+    nb_of_runs
+
+    Returns
+    ---
+    calculated_conformation
+    '''
+    # Create lists of temperatures and conformations
+    conf, temp = create_protein_conformations(protein_name, sequence, min_t, max_t, replica_number)
+
+    # Launch the model
+
+    # Parallelizing using Pool.apply()
+
+    # Step 1: Init multiprocessing.Pool()
+    pool = mp.Pool(mp.cpu_count())
+
+    # Step 2: `pool.apply` the `howmany_within_range()
+    models = []
+    for run in range(nb_of_runs):
+        model = REMC(conf, temp, mc_steps)
+        models.append(model)
+    
+    
+    final = [pool.apply(model.run_remc_sim, args=(optimal_E, cutoff_runtime)) for model in models]
+
+    # Step 3: Don't forget to close
+    pool.close()    
+
+    # model = REMC(conf, temp, mc_steps)
+    # final = model.run_remc_sim(optimal_E)
+    
+    #plot_final_conformation()
+    print(final)
+
+
 
 def main():
     '''Main programme.
@@ -1191,8 +1234,8 @@ def main():
 if __name__ == "__main__":
 
     # Set seed for reproducible testing
-    #SEED = 34895
-    #np.random.seed(SEED)
+    SEED = 34895
+    np.random.seed(SEED)
 
 
     # TEST 1 - S1 - HPHPPHHPHPPHPHHPPHPH - CONVERGED in 3min but also 1min with 260 as max temp !!!!
@@ -1209,12 +1252,10 @@ if __name__ == "__main__":
     start = time.time()
 
     res = [f'{aa}{i + 1}' for i, aa in enumerate('HPHPPHHPHPPHPHHPPHPH')]
-    conf, temp = create_protein_conformations('s1', res, 5)
-
-    model = REMC(conf, temp, 5000)
-    #final = model.run_remc_sim(-9)
     
-    plot_final_conformation(conf[0])
+    remc_full_sim(res, 'S1', -9)
+    
+
     
     # TEST 3 - S3 - PPHPPHHPPPPHHPPPPHHPPPPHH - CONVERGED in 204 seconds!!!!
 
