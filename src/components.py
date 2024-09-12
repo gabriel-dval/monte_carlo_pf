@@ -36,6 +36,10 @@ class HPAminoAcid:
     ---
     get_coords : access the coordinates of the amino acid
     set_coords : set the coordinates of the amino acid
+    is_above : is this amino acid above another ?
+    is_below : is this amino acid below another ?
+    is_right_of : is this amino acid right of another ?
+    is_left_of : is this amino acid left of another ?
     '''
     def __init__(self, name):
         self.name = name
@@ -104,6 +108,8 @@ class Protein:
     get_sequence : print the composition of the protein
     build_neighbour_dict : fill in the neighbour map - can only be done 
                            if the neighbour map is empty
+    show_neighbour_map : display neighbours of each amino acid
+    delete_neighbour_map : delete the neighbour map
     '''
     def __init__(self, name):
         self.name = name
@@ -149,7 +155,7 @@ class Protein:
 
 class Lattice2D:
     '''Class representing the lattice on which the protein will be 
-    embedded.
+    embedded. A little redundant but more user-friendly
     
     Attributes
     ---
@@ -159,17 +165,11 @@ class Lattice2D:
 
     Methods
     ---
-    border_control : checks that the protein is not too close to the border
+    none
     '''
     def __init__(self, length, width):
         self.length = length
         self.width = width
-
-    
-    def border_control(self):
-        '''Checks the values present in the lattice - if there is a 1 present
-        near the border, the whole structure needs to be re-translated'''
-        print('In development')
 
 
 
@@ -180,9 +180,23 @@ class Conformation:
     Attributes
     ---
     label : this is the id of the conformation - will be used when RE is implemented
-    position_matrix
+    protein : Protein instance
+    lattice : Lattice2D instanec
+    position_manager : numpy array keeping track of amino acid positions
+
+    Methods
+    ---
+    initialise_x_conformation : methods to initialise first position of the conformation
+    get_protein_sequence : return the amino acids of the protein
+    valid_position : check if a position is free
+    check_valid_conformation : is the adopted conformation possible ?
+    get_neighbours : return free adjacent neighbours
+    get_diagonal_neighbbours : return free diagonal neighbours
+    calculate_energy : what is the current energy of the conformation ?
+    check_border : is the protein about to run off the lattice ?
+    view_conformation : strip all the zero rows and columns to view the conformation only
     '''
-    def __init__(self, label, protein: Protein, lattice: Lattice2D):
+    def __init__(self, label: str, protein: Protein, lattice: Lattice2D):
         '''Automatically initialise the first conformation'''
         self.label = label
         self.protein = protein
@@ -419,7 +433,10 @@ class MonteCarlo:
 
     Methods
     ---
-    Implementation of each move is in this class
+    choose_rand_aa : select a random position in the sequence
+    try_x_move : try a particular MC move - skip if impossible
+    choose_move, choose_available_move : different functions to select a random move
+    run_sim : launch a single MC sim on the input conformation
     '''
     def __init__(self, conformation: Conformation, steps: int, temperature: float):
         self.conformation = conformation
@@ -873,12 +890,13 @@ class REMC:
             raise ValueError('Incorrect input format')
 
     
-    def run_remc_sim(self, E_star, max_runtime):
+    def run_remc_sim(self, E_star: int, max_runtime: float):
         '''Main method to run the REMC
 
         Args
         ---
         E_star : expected optimal energy
+        max_runtime : how long can a run take ?
         '''
         # Check input energy
         if E_star > 0:
@@ -1048,6 +1066,8 @@ def create_protein_conformations(protein_name, hp_sequence, min_t, max_t, nb_con
     ---
     protein_name : str
     hp_sequence : list of strings
+    min_t : minimum temperature (int)
+    max_t : maximum temperature (int)
     nb_conformations : int
 
     Returns

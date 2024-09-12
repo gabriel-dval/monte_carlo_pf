@@ -34,15 +34,15 @@ def remc_full_sim(sequence,
 
     Args
     ---
-    sequence 
-    protein_name
-    optimal_E 
-    min_t 
-    max_t 
-    mc_steps  
-    replica_number
-    cutoff_runtime
-    nb_of_runs
+    sequence : str
+    protein_name : str
+    optimal_E : int
+    min_t : int
+    max_t : int
+    mc_steps : int
+    replica_number : int
+    cutoff_runtime : float
+    nb_of_runs : int
 
     Returns
     ---
