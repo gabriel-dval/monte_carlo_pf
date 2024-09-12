@@ -118,7 +118,7 @@ def main():
     parser.add_argument("--max_t", type=int, default=220, help="Maximum temperature (default: 220).")
     parser.add_argument("--mc_steps", type=int, default=500, help="Monte Carlo steps (default: 500).")
     parser.add_argument("--replica_number", type=int, default=25, help="Number of replicas (default: 25).")
-    parser.add_argument("--cutoff_runtime", type=int, default=120, help="Cutoff runtime in seconds (default: 120).")
+    parser.add_argument("--cutoff_runtime", type=int, default=900, help="Cutoff runtime in seconds (default: 120).")
     parser.add_argument("--nb_of_runs", type=int, default=5, help="Number of runs (default: 5).")
 
     # Parse the arguments from the command line

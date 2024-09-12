@@ -987,6 +987,9 @@ class REMC:
             print('REMC stopped : Conformation with input energy reached')
         
         print(f'Runtime : {mark - start}')
+        with open('results_log.txt', 'a') as filin:
+                filin.write(f'Run finished\n')
+                filin.write(f'Runtime: {mark - start}\n')
 
         return saved_conformation
 
