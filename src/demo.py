@@ -1093,8 +1093,13 @@ def plot_final_conformation(conformation: Conformation, figure_path, name):
     Nothing - saves matplotlib plot
     '''
     # Extract matrix form of conformation and recover sequence
-    protein_array = conformation.view_conformation()
-    seq = conformation.get_protein_sequence()
+    protein_array = np.array([[ 0, 15, 16,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 62, 63,  0,  0,  0,  0, 0,  0,  0,  0,  0,  0,  0],
+    [ 0, 14, 17, 20, 21, 22, 23,  0,  0,  0, 31, 32, 33,  0,  0, 46, 47, 48, 61, 64,  0,  0,  0,  0, 0,  0, 73, 74, 77, 78,  0],
+    [ 0, 13, 18, 19,  8,  7, 24, 25, 26, 27, 30, 35, 34,  0,  0, 45, 44, 49, 60, 65, 66, 67, 68, 69, 70, 71, 72, 75, 76, 79,  0],
+    [ 0, 12, 11, 10,  9,  6,  0,  0,  0, 28, 29, 36, 37, 38, 39, 42, 43, 50, 59, 58, 57, 56,  0,  0, 0,  0,  0,  0, 85, 80, 81],
+    [ 0,  1,  2,  3,  4,  5,  0,  0,  0,  0,  0,  0,  0,  0, 40, 41,  0, 51, 52, 53, 54, 55,  0,  0, 0,  0,  0,  0, 84, 83, 82]
+    ])
+    #seq = conformation.get_protein_sequence()
 
     # Find the coordinates and sequence numbers of the residues
     coords = {}
@@ -1111,31 +1116,33 @@ def plot_final_conformation(conformation: Conformation, figure_path, name):
     y_coords = [-coord[0] for coord in sorted_coords]  # Negate to keep the plot intuitive (higher on top)
 
     # Create the plot
-    plt.figure(figsize=(6, 6))
+    plt.figure(figsize=(12, 8))
 
     # Plot the connections (lines between residues)
     plt.plot(x_coords, y_coords, '-o', color='blue')
 
     # Plot each residue as a circle with a label
-    for i, (x, y, aa) in enumerate(zip(x_coords, y_coords, seq), start=1):
-        if aa.type == 'H':
-            plt.text(x, y, f"{aa.name}", fontsize=10, ha='center', va='center', color='white', 
+    for i, (x, y) in enumerate(zip(x_coords, y_coords), start=1):
+        k = random.choice(['H', 'P'])
+        if k == 'H':
+            plt.text(x, y, f"{i}", fontsize=10, ha='center', va='center', color='white', 
                      bbox=dict(facecolor='blue', edgecolor='black', boxstyle='circle,pad=0.3'))
         else:
-            plt.text(x, y, f"{aa.name}", fontsize=10, ha='center', va='center', color='white', 
+            plt.text(x, y, f"{i}", fontsize=10, ha='center', va='center', color='white', 
                      bbox=dict(facecolor='darkgreen', edgecolor='black', boxstyle='circle,pad=0.3'))
 
     # Set axis limits and labels
     plt.xlim(-1, protein_array.shape[1])
     plt.ylim(-protein_array.shape[0], 1)
     plt.gca().set_aspect('equal', adjustable='box')
-    plt.title(f"{conformation.protein.name} 2D Representation")
+    plt.title(f"Random 2D Representation")
     plt.xticks([])
     plt.yticks([])
     plt.grid(True)
 
     # Save the plot
-    plt.savefig(f'{figure_path}/{name}_{conformation.protein.name}.png')                
+    #plt.savefig(f'{figure_path}/{name}_{conformation.protein.name}.png')    
+    plt.show()            
 
         
 # Draft of full programme function
@@ -1231,13 +1238,15 @@ if __name__ == "__main__":
 
     # TEST 2 - S2 - HHPPHPPHPPHPPHPPHPPHPPHH - Converged in 10min !!!
     
-    remc_full_sim('HHPPHPPHPPHPPHPPHPPHPPHH', 'S2', -9)
+    ex = None
+    plot_final_conformation(ex, ex, ex)
     
 
     
     # TEST 3 - S3 - PPHPPHHPPPPHHPPPPHHPPPPHH - CONVERGED in 204 seconds!!!!
 
-    # TEST 4 - S4 - PPPHHPPHHPPPPPHHHHHHHPPHHPPPPHHPPHPP
+    # TEST 4 - S9 - H4P4H12P6(H12P3)3HP2(H2P2)2HPH
+    # HHHHPPPPHHHHHHHHHHHHPPPPPPHHHHHHHHHHHHPPPHHHHHHHHHHHHPPPHHHHHHHHHHHHPPPHPPHHPPHHPPHPH
 
 
     

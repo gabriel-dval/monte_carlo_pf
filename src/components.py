@@ -1115,18 +1115,27 @@ def plot_final_conformation(conformation: Conformation, figure_path, name):
     y_coords = [-coord[0] for coord in sorted_coords]  # Negate to keep the plot intuitive (higher on top)
 
     # Create the plot
-    plt.figure(figsize=(6, 6))
+    plt.figure(figsize=(10, 6))
 
     # Plot the connections (lines between residues)
     plt.plot(x_coords, y_coords, '-o', color='black')
 
     # Plot each residue as a circle with a label
+    if len(seq) < 30:
+        fs = 10
+    elif len(seq) < 60:
+        fs = 8
+    elif len(seq) < 100:
+        fs = 6
+    else:
+        fs = 5
+
     for i, (x, y, aa) in enumerate(zip(x_coords, y_coords, seq), start=1):
         if aa.type == 'H':
-            plt.text(x, y, f"{aa.name}", fontsize=10, ha='center', va='center', color='white', 
+            plt.text(x, y, f"{aa.name}", fontsize=fs, ha='center', va='center', color='white', 
                      bbox=dict(facecolor='blue', edgecolor='black', boxstyle='circle,pad=0.3'))
         else:
-            plt.text(x, y, f"{aa.name}", fontsize=10, ha='center', va='center', color='white', 
+            plt.text(x, y, f"{aa.name}", fontsize=fs, ha='center', va='center', color='white', 
                      bbox=dict(facecolor='darkgreen', edgecolor='black', boxstyle='circle,pad=0.3'))
 
     # Set axis limits and labels
