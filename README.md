@@ -42,7 +42,7 @@ known. A cutoff time for each run can equally be passed as argument.
 
 Example usage
 
-    python remc.py HPHPPHHPHPPHPHHPPHPH test -9
+    python remc.py HPHPPHHPHPPHPHPH test -5
 
 IMPORTANT - make sure the components.py file is in the same directory as remc.py
 so all necessary modules can be imported. 
@@ -50,21 +50,11 @@ so all necessary modules can be imported.
 The program outputs a results_log.txt file, containing results for each iteration 
 of the simulation, and a FIGURES directory with the final conformation for each run.
 
-### Results on example proteins
+### Launch an example proteins
 
-Explain what these tests test and why
+Launch a simulation of protein S1-1
 
-    Give an example
-
-### Style test
-
-Checks if the best practices and the right coding style has been used.
-
-    Give an example
-
-## Deployment
-
-Add additional notes to deploy this on a live system
+    python remc.py HPHPPHHPHPPHPHHPPHPH S1 -9
 
 
 ## Authors
@@ -75,7 +65,5 @@ Add additional notes to deploy this on a live system
 
 ## References
 
-This project is licensed under the [CC0 1.0 Universal](LICENSE.md)
-Creative Commons License - see the [LICENSE.md](LICENSE.md) file for
-details
+(1) Thachuk, C., Shmygelska, A. & Hoos, H.H. A replica exchange Monte Carlo algorithm for protein folding in the HP model. BMC Bioinformatics 8, 342 (2007). https://doi.org/10.1186/1471-2105-8-342
 
