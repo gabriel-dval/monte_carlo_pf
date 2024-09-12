@@ -1096,17 +1096,19 @@ class REMC:
 
 # Plotting function to represent results
 
-def plot_final_conformation(conformation: Conformation):
+def plot_final_conformation(conformation: Conformation, figure_path, name):
     '''Function to plot the calculated conformation of the input 
     protein using tkinter. 
     
     Args
     ---
     conformation : Conformation object
+    figure_path : Location to save the figure
+    name : Save name of the figure
 
     Returns
     ---
-    Nothing - plots Tkinter window
+    Nothing - saves matplotlib plot
     '''
     # Extract matrix form of conformation and recover sequence
     protein_array = conformation.view_conformation()
@@ -1150,8 +1152,8 @@ def plot_final_conformation(conformation: Conformation):
     plt.yticks([])
     plt.grid(True)
 
-    # Show the plot
-    plt.show()                
+    # Save the plot
+    plt.figsave(f'{figure_path}/{name}_{conformation.protein.name}.png')                
 
         
 # Draft of full programme function
@@ -1188,30 +1190,26 @@ def remc_full_sim(sequence,
     # Create lists of temperatures and conformations
     conf, temp = create_protein_conformations(protein_name, sequence, min_t, max_t, replica_number)
 
-    # Launch the model
-
-    # Parallelizing using Pool.apply()
-
-    # Step 1: Init multiprocessing.Pool()
+    # Init multiprocessing.Pool()
+    print("Number of processors: ", mp.cpu_count())
     pool = mp.Pool(mp.cpu_count())
 
-    # Step 2: `pool.apply` the `howmany_within_range()
+    # Create as many model instances as runs
     models = []
     for run in range(nb_of_runs):
+        print(f'\nRun : {run}\n')
         model = REMC(conf, temp, mc_steps)
         models.append(model)
     
-    
+    # Run the the remc sims in parallel and save final conformations for each run
     final = [pool.apply(model.run_remc_sim, args=(optimal_E, cutoff_runtime)) for model in models]
 
-    # Step 3: Don't forget to close
+    # Close pooling
     pool.close()    
-
-    # model = REMC(conf, temp, mc_steps)
-    # final = model.run_remc_sim(optimal_E)
     
-    #plot_final_conformation()
-    print(final)
+    # Plot and save every final plot
+    for i, c in enumerate(final) :
+        plot_final_conformation(c, 'results', f'Run{i}')
 
 
 
@@ -1262,6 +1260,6 @@ if __name__ == "__main__":
     # TEST 4 - S4 - PPPHHPPHHPPPPPHHHHHHHPPHHPPPPHHPPHPP
 
 
-    print("Number of processors: ", mp.cpu_count())
+    
 
     
