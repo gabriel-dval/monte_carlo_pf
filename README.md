@@ -48,7 +48,8 @@ Example usage
 IMPORTANT - make sure the components.py file is in the same directory as remc.py
 so all necessary modules can be imported. 
 
-The program outputs two 
+The program outputs a results_log.txt file, containing results for each iteration 
+of the simulation, and a FIGURES directory with the final conformation for each run.
 
 ### Results on example proteins
 

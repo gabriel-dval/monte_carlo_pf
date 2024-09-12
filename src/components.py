@@ -901,6 +901,8 @@ class REMC:
 
         with open('results_log.txt', 'a') as filin:
                 filin.write(f'\nNew Run\n')
+        
+        print(f'\nNew Run\n')
 
         # Start loop
         while model_E > E_star and runtime < cutoff:
