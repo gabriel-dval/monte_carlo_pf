@@ -12,20 +12,21 @@ for notes on deploying the project on a live system.
 ### Prerequisite packages
 
 To run the following script, the following modules are necessary. An environment
-.yml file has also been provided to recreate the development environment.
+.yml file (remc_env.yml) has also been provided. This program was written using 
+Python v3.12.5
 
-- [numpy](https://www.example.com), v
-- [matplotlib](https://www.example.com), v
-- [tqdm](https://www.example.com), v
+- [numpy](https://numpy.org/), v2.1
+- [matplotlib](https://matplotlib.org/stable/users/explain/quick_start.html), v3.9.2
+- [tqdm](https://pypi.org/project/tqdm/), v4.66.5
 
 ### Installing
 
-A step by step series of examples that tell you how to get a development
-environment running
+If you wish to use the provided environment, you can install it with conda 
+using this command.
 
-Say what the step will be
+macOS
 
-    Give the example
+    conda env create -f remc_env.yml
 
 And repeat
 
