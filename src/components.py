@@ -899,7 +899,7 @@ class REMC:
         runtime = 0
         cutoff = max_runtime
 
-        with open('../results/results_log.txt', 'a') as filin:
+        with open('results_log.txt', 'a') as filin:
                 filin.write(f'\nNew Run\n')
 
         # Start loop
@@ -930,7 +930,7 @@ class REMC:
             
             # Log results 
             view = saved_conformation.view_conformation()
-            with open('../results/results_log.txt', 'a') as filin:
+            with open('results_log.txt', 'a') as filin:
                 filin.write(f'\nIteration : {iteration}\n')
                 filin.write(f'Current best model energy : {model_E}\n')
                 filin.write('Matrix representation of conformation: \n')
@@ -970,7 +970,7 @@ class REMC:
                 runtime = mark - start
             
             # Record swap to non swap ratio
-            with open('../results/results_log.txt', 'a') as filin:
+            with open('results_log.txt', 'a') as filin:
                 filin.write(f'Current number of swaps: {swaps}\n')
                 filin.write(f'Current number of non swaps: {non_swaps}\n')
                 filin.write(f'Ratio of swaps: {swaps / (swaps + non_swaps)}\n')
@@ -1112,7 +1112,7 @@ def plot_final_conformation(conformation: Conformation, figure_path, name):
     plt.figure(figsize=(6, 6))
 
     # Plot the connections (lines between residues)
-    plt.plot(x_coords, y_coords, '-o', color='blue')
+    plt.plot(x_coords, y_coords, '-o', color='black')
 
     # Plot each residue as a circle with a label
     for i, (x, y, aa) in enumerate(zip(x_coords, y_coords, seq), start=1):
