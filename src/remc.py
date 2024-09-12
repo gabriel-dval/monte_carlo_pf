@@ -46,7 +46,7 @@ def remc_full_sim(sequence,
 
     Returns
     ---
-    calculated_conformation
+    nothing
     '''
     # Start messages
 
