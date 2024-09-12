@@ -1006,6 +1006,9 @@ class REMC:
         runtime = 0
         cutoff = max_runtime
 
+        with open('../results/results_log.txt', 'a') as filin:
+                filin.write(f'\nNew Run\n')
+
         # Start loop
         while model_E > E_star and runtime < cutoff:
 
@@ -1089,7 +1092,7 @@ class REMC:
             print('REMC stopped : Conformation with input energy reached')
         
         print(f'Runtime : {mark - start}')
-    
+
         return saved_conformation
 
                         
@@ -1153,7 +1156,7 @@ def plot_final_conformation(conformation: Conformation, figure_path, name):
     plt.grid(True)
 
     # Save the plot
-    plt.figsave(f'{figure_path}/{name}_{conformation.protein.name}.png')                
+    plt.savefig(f'{figure_path}/{name}_{conformation.protein.name}.png')                
 
         
 # Draft of full programme function
@@ -1164,10 +1167,10 @@ def remc_full_sim(sequence,
                   optimal_E, 
                   min_t = 160, 
                   max_t = 220, 
-                  mc_steps = 1000, 
-                  replica_number = 20,
+                  mc_steps = 500, 
+                  replica_number = 25,
                   cutoff_runtime = 120,
-                  nb_of_runs = 2):
+                  nb_of_runs = 5):
     '''
     Run a full REMC simulation on a HP sequence.
 
@@ -1187,8 +1190,11 @@ def remc_full_sim(sequence,
     ---
     calculated_conformation
     '''
+    # Number elements of the input sequence
+    n_sequence = [f'{aa.upper()}{i + 1}' for i, aa in enumerate(sequence)]
+
     # Create lists of temperatures and conformations
-    conf, temp = create_protein_conformations(protein_name, sequence, min_t, max_t, replica_number)
+    conf, temp = create_protein_conformations(protein_name, n_sequence, min_t, max_t, replica_number)
 
     # Init multiprocessing.Pool()
     print("Number of processors: ", mp.cpu_count())
@@ -1197,7 +1203,6 @@ def remc_full_sim(sequence,
     # Create as many model instances as runs
     models = []
     for run in range(nb_of_runs):
-        print(f'\nRun : {run}\n')
         model = REMC(conf, temp, mc_steps)
         models.append(model)
     
@@ -1209,7 +1214,7 @@ def remc_full_sim(sequence,
     
     # Plot and save every final plot
     for i, c in enumerate(final) :
-        plot_final_conformation(c, 'results', f'Run{i}')
+        plot_final_conformation(c, '../results', f'Run{i}')
 
 
 
@@ -1246,12 +1251,8 @@ if __name__ == "__main__":
 
 
     # TEST 2 - S2 - HHPPHPPHPPHPPHPPHPPHPPHH - Converged in 10min !!!
-
-    start = time.time()
-
-    res = [f'{aa}{i + 1}' for i, aa in enumerate('HPHPPHHPHPPHPHHPPHPH')]
     
-    remc_full_sim(res, 'S1', -9)
+    remc_full_sim('HPHPPHHPHPPHPHHPPHPH', 'S1', -9)
     
 
     

@@ -1,177 +1,525 @@
 
+New Run
+
 Iteration : 1
 Current best model energy : -7
 Matrix representation of conformation: 
-[[ 0  0 20  0  0  0]
- [ 0  0 19  0 11 10]
- [ 0 17 18 13 12  9]
- [ 0 16 15 14  7  8]
- [ 0  0  0  1  6  5]
- [ 0  0  0  2  3  4]]
-Current number of swaps: 10
-Current number of non swaps: 0
-Ratio of swaps: 1.0
-
-Iteration : 2
-Current best model energy : -7
-Matrix representation of conformation: 
-[[ 0  0 20  0  0  0]
- [ 0  0 19  0 11 10]
- [ 0 17 18 13 12  9]
- [ 0 16 15 14  7  8]
- [ 0  0  0  1  6  5]
- [ 0  0  0  2  3  4]]
-Current number of swaps: 19
-Current number of non swaps: 0
-Ratio of swaps: 1.0
-
-Iteration : 3
-Current best model energy : -8
-Matrix representation of conformation: 
-[[ 0  0 16 17  0  0]
- [ 0 14 15 18 19  0]
- [ 0 13  8  7 20  1]
- [ 0 12  9  6  3  2]
- [ 0 11 10  5  4  0]]
-Current number of swaps: 29
-Current number of non swaps: 0
-Ratio of swaps: 1.0
-
-Iteration : 4
-Current best model energy : -8
-Matrix representation of conformation: 
-[[ 0  0 16 17  0  0]
- [ 0 14 15 18 19  0]
- [ 0 13  8  7 20  1]
- [ 0 12  9  6  3  2]
- [ 0 11 10  5  4  0]]
-Current number of swaps: 38
-Current number of non swaps: 0
-Ratio of swaps: 1.0
-
-Iteration : 5
-Current best model energy : -8
-Matrix representation of conformation: 
-[[ 0  0 16 17  0  0]
- [ 0 14 15 18 19  0]
- [ 0 13  8  7 20  1]
- [ 0 12  9  6  3  2]
- [ 0 11 10  5  4  0]]
-Current number of swaps: 48
-Current number of non swaps: 0
-Ratio of swaps: 1.0
-
-Iteration : 6
-Current best model energy : -8
-Matrix representation of conformation: 
-[[ 0  0 16 17  0  0]
- [ 0 14 15 18 19  0]
- [ 0 13  8  7 20  1]
- [ 0 12  9  6  3  2]
- [ 0 11 10  5  4  0]]
-Current number of swaps: 57
-Current number of non swaps: 0
-Ratio of swaps: 1.0
-
-Iteration : 7
-Current best model energy : -8
-Matrix representation of conformation: 
-[[ 0  0 16 17  0  0]
- [ 0 14 15 18 19  0]
- [ 0 13  8  7 20  1]
- [ 0 12  9  6  3  2]
- [ 0 11 10  5  4  0]]
-Current number of swaps: 67
-Current number of non swaps: 0
-Ratio of swaps: 1.0
-
-Iteration : 1
-Current best model energy : -8
-Matrix representation of conformation: 
-[[ 0  0  0 18 17  0]
- [ 0  0  0 19 16  0]
- [ 0  2  1 20 15  0]
- [ 0  3  6  7 14 13]
- [ 0  4  5  8  9 12]
- [ 0  0  0  0 10 11]]
-Current number of swaps: 10
+[[ 0 10 11  0  0  0]
+ [ 0  9 12 13 16 17]
+ [ 0  8  7 14 15 18]
+ [ 0  1  6  5 20 19]
+ [ 0  2  3  4  0  0]]
+Current number of swaps: 12
 Current number of non swaps: 0
 Ratio of swaps: 1.0
 
 Iteration : 2
 Current best model energy : -8
 Matrix representation of conformation: 
-[[ 0  0  0 18 17  0]
- [ 0  0  0 19 16  0]
- [ 0  2  1 20 15  0]
- [ 0  3  6  7 14 13]
- [ 0  4  5  8  9 12]
- [ 0  0  0  0 10 11]]
-Current number of swaps: 19
+[[ 0  0  0  8  9 10]
+ [ 0  5  6  7 12 11]
+ [ 0  4  3 14 13  0]
+ [ 0  0  2 15 16  0]
+ [ 0  0  1 18 17  0]
+ [ 0  0 20 19  0  0]]
+Current number of swaps: 24
 Current number of non swaps: 0
 Ratio of swaps: 1.0
 
 Iteration : 3
 Current best model energy : -8
 Matrix representation of conformation: 
-[[ 0  0  0 18 17  0]
- [ 0  0  0 19 16  0]
- [ 0  2  1 20 15  0]
- [ 0  3  6  7 14 13]
- [ 0  4  5  8  9 12]
- [ 0  0  0  0 10 11]]
-Current number of swaps: 29
+[[ 0  0  0  8  9 10]
+ [ 0  5  6  7 12 11]
+ [ 0  4  3 14 13  0]
+ [ 0  0  2 15 16  0]
+ [ 0  0  1 18 17  0]
+ [ 0  0 20 19  0  0]]
+Current number of swaps: 36
 Current number of non swaps: 0
 Ratio of swaps: 1.0
 
 Iteration : 4
 Current best model energy : -8
 Matrix representation of conformation: 
-[[ 0  0  0 18 17  0]
- [ 0  0  0 19 16  0]
- [ 0  2  1 20 15  0]
- [ 0  3  6  7 14 13]
- [ 0  4  5  8  9 12]
- [ 0  0  0  0 10 11]]
-Current number of swaps: 38
+[[ 0  0  0  8  9 10]
+ [ 0  5  6  7 12 11]
+ [ 0  4  3 14 13  0]
+ [ 0  0  2 15 16  0]
+ [ 0  0  1 18 17  0]
+ [ 0  0 20 19  0  0]]
+Current number of swaps: 48
 Current number of non swaps: 0
 Ratio of swaps: 1.0
 
 Iteration : 5
 Current best model energy : -8
 Matrix representation of conformation: 
-[[ 0  0  0 18 17  0]
- [ 0  0  0 19 16  0]
- [ 0  2  1 20 15  0]
- [ 0  3  6  7 14 13]
- [ 0  4  5  8  9 12]
- [ 0  0  0  0 10 11]]
-Current number of swaps: 48
+[[ 0  0  0  8  9 10]
+ [ 0  5  6  7 12 11]
+ [ 0  4  3 14 13  0]
+ [ 0  0  2 15 16  0]
+ [ 0  0  1 18 17  0]
+ [ 0  0 20 19  0  0]]
+Current number of swaps: 60
 Current number of non swaps: 0
 Ratio of swaps: 1.0
 
 Iteration : 6
 Current best model energy : -8
 Matrix representation of conformation: 
-[[ 0  0  0 18 17  0]
- [ 0  0  0 19 16  0]
- [ 0  2  1 20 15  0]
- [ 0  3  6  7 14 13]
- [ 0  4  5  8  9 12]
- [ 0  0  0  0 10 11]]
-Current number of swaps: 57
+[[ 0  0  0  8  9 10]
+ [ 0  5  6  7 12 11]
+ [ 0  4  3 14 13  0]
+ [ 0  0  2 15 16  0]
+ [ 0  0  1 18 17  0]
+ [ 0  0 20 19  0  0]]
+Current number of swaps: 72
 Current number of non swaps: 0
 Ratio of swaps: 1.0
 
 Iteration : 7
 Current best model energy : -8
 Matrix representation of conformation: 
-[[ 0  0  0 18 17  0]
- [ 0  0  0 19 16  0]
- [ 0  2  1 20 15  0]
+[[ 0  0  0  8  9 10]
+ [ 0  5  6  7 12 11]
+ [ 0  4  3 14 13  0]
+ [ 0  0  2 15 16  0]
+ [ 0  0  1 18 17  0]
+ [ 0  0 20 19  0  0]]
+Current number of swaps: 84
+Current number of non swaps: 0
+Ratio of swaps: 1.0
+
+Iteration : 8
+Current best model energy : -8
+Matrix representation of conformation: 
+[[ 0  0  0  8  9 10]
+ [ 0  5  6  7 12 11]
+ [ 0  4  3 14 13  0]
+ [ 0  0  2 15 16  0]
+ [ 0  0  1 18 17  0]
+ [ 0  0 20 19  0  0]]
+Current number of swaps: 96
+Current number of non swaps: 0
+Ratio of swaps: 1.0
+
+Iteration : 9
+Current best model energy : -8
+Matrix representation of conformation: 
+[[ 0  0  0  8  9 10]
+ [ 0  5  6  7 12 11]
+ [ 0  4  3 14 13  0]
+ [ 0  0  2 15 16  0]
+ [ 0  0  1 18 17  0]
+ [ 0  0 20 19  0  0]]
+Current number of swaps: 108
+Current number of non swaps: 0
+Ratio of swaps: 1.0
+
+Iteration : 10
+Current best model energy : -8
+Matrix representation of conformation: 
+[[ 0  0  0  8  9 10]
+ [ 0  5  6  7 12 11]
+ [ 0  4  3 14 13  0]
+ [ 0  0  2 15 16  0]
+ [ 0  0  1 18 17  0]
+ [ 0  0 20 19  0  0]]
+Current number of swaps: 120
+Current number of non swaps: 0
+Ratio of swaps: 1.0
+
+Iteration : 11
+Current best model energy : -8
+Matrix representation of conformation: 
+[[ 0  0  0  8  9 10]
+ [ 0  5  6  7 12 11]
+ [ 0  4  3 14 13  0]
+ [ 0  0  2 15 16  0]
+ [ 0  0  1 18 17  0]
+ [ 0  0 20 19  0  0]]
+Current number of swaps: 132
+Current number of non swaps: 0
+Ratio of swaps: 1.0
+
+New Run
+
+Iteration : 1
+Current best model energy : -8
+Matrix representation of conformation: 
+[[ 0  0  2  1 20 19]
+ [ 0  4  3 14 15 18]
+ [ 0  5  6 13 16 17]
+ [ 0  0  7 12 11  0]
+ [ 0  0  8  9 10  0]]
+Current number of swaps: 12
+Current number of non swaps: 0
+Ratio of swaps: 1.0
+
+Iteration : 2
+Current best model energy : -8
+Matrix representation of conformation: 
+[[ 0  0  2  1 20 19]
+ [ 0  4  3 14 15 18]
+ [ 0  5  6 13 16 17]
+ [ 0  0  7 12 11  0]
+ [ 0  0  8  9 10  0]]
+Current number of swaps: 24
+Current number of non swaps: 0
+Ratio of swaps: 1.0
+
+Iteration : 3
+Current best model energy : -8
+Matrix representation of conformation: 
+[[ 0  0  2  1 20 19]
+ [ 0  4  3 14 15 18]
+ [ 0  5  6 13 16 17]
+ [ 0  0  7 12 11  0]
+ [ 0  0  8  9 10  0]]
+Current number of swaps: 36
+Current number of non swaps: 0
+Ratio of swaps: 1.0
+
+Iteration : 4
+Current best model energy : -8
+Matrix representation of conformation: 
+[[ 0  0  2  1 20 19]
+ [ 0  4  3 14 15 18]
+ [ 0  5  6 13 16 17]
+ [ 0  0  7 12 11  0]
+ [ 0  0  8  9 10  0]]
+Current number of swaps: 48
+Current number of non swaps: 0
+Ratio of swaps: 1.0
+
+Iteration : 5
+Current best model energy : -8
+Matrix representation of conformation: 
+[[ 0  0  2  1 20 19]
+ [ 0  4  3 14 15 18]
+ [ 0  5  6 13 16 17]
+ [ 0  0  7 12 11  0]
+ [ 0  0  8  9 10  0]]
+Current number of swaps: 60
+Current number of non swaps: 0
+Ratio of swaps: 1.0
+
+Iteration : 6
+Current best model energy : -8
+Matrix representation of conformation: 
+[[ 0  0  2  1 20 19]
+ [ 0  4  3 14 15 18]
+ [ 0  5  6 13 16 17]
+ [ 0  0  7 12 11  0]
+ [ 0  0  8  9 10  0]]
+Current number of swaps: 72
+Current number of non swaps: 0
+Ratio of swaps: 1.0
+
+Iteration : 7
+Current best model energy : -8
+Matrix representation of conformation: 
+[[ 0  0  2  1 20 19]
+ [ 0  4  3 14 15 18]
+ [ 0  5  6 13 16 17]
+ [ 0  0  7 12 11  0]
+ [ 0  0  8  9 10  0]]
+Current number of swaps: 84
+Current number of non swaps: 0
+Ratio of swaps: 1.0
+
+Iteration : 8
+Current best model energy : -8
+Matrix representation of conformation: 
+[[ 0  0  2  1 20 19]
+ [ 0  4  3 14 15 18]
+ [ 0  5  6 13 16 17]
+ [ 0  0  7 12 11  0]
+ [ 0  0  8  9 10  0]]
+Current number of swaps: 96
+Current number of non swaps: 0
+Ratio of swaps: 1.0
+
+Iteration : 9
+Current best model energy : -8
+Matrix representation of conformation: 
+[[ 0  0  2  1 20 19]
+ [ 0  4  3 14 15 18]
+ [ 0  5  6 13 16 17]
+ [ 0  0  7 12 11  0]
+ [ 0  0  8  9 10  0]]
+Current number of swaps: 108
+Current number of non swaps: 0
+Ratio of swaps: 1.0
+
+Iteration : 10
+Current best model energy : -8
+Matrix representation of conformation: 
+[[ 0  0  2  1 20 19]
+ [ 0  4  3 14 15 18]
+ [ 0  5  6 13 16 17]
+ [ 0  0  7 12 11  0]
+ [ 0  0  8  9 10  0]]
+Current number of swaps: 120
+Current number of non swaps: 0
+Ratio of swaps: 1.0
+
+Iteration : 11
+Current best model energy : -8
+Matrix representation of conformation: 
+[[ 0  0  2  1 20 19]
+ [ 0  4  3 14 15 18]
+ [ 0  5  6 13 16 17]
+ [ 0  0  7 12 11  0]
+ [ 0  0  8  9 10  0]]
+Current number of swaps: 132
+Current number of non swaps: 0
+Ratio of swaps: 1.0
+
+New Run
+
+Iteration : 1
+Current best model energy : -7
+Matrix representation of conformation: 
+[[ 0  4  5  0  0  0]
+ [ 0  3  6  7 20  0]
+ [ 0  2  1  8 19  0]
+ [ 0  0 10  9 18 17]
+ [ 0  0 11 12 15 16]
+ [ 0  0  0 13 14  0]]
+Current number of swaps: 12
+Current number of non swaps: 0
+Ratio of swaps: 1.0
+
+Iteration : 2
+Current best model energy : -8
+Matrix representation of conformation: 
+[[ 0  0  2  1  0  0]
+ [ 0  4  3 20 19  0]
+ [ 0  5  6  7 18 17]
+ [ 0 10  9  8 15 16]
+ [ 0 11 12 13 14  0]]
+Current number of swaps: 24
+Current number of non swaps: 0
+Ratio of swaps: 1.0
+
+Iteration : 3
+Current best model energy : -8
+Matrix representation of conformation: 
+[[ 0  0  2  1  0  0]
+ [ 0  4  3 20 19  0]
+ [ 0  5  6  7 18 17]
+ [ 0 10  9  8 15 16]
+ [ 0 11 12 13 14  0]]
+Current number of swaps: 36
+Current number of non swaps: 0
+Ratio of swaps: 1.0
+
+Iteration : 4
+Current best model energy : -8
+Matrix representation of conformation: 
+[[ 0  0  2  1  0  0]
+ [ 0  4  3 20 19  0]
+ [ 0  5  6  7 18 17]
+ [ 0 10  9  8 15 16]
+ [ 0 11 12 13 14  0]]
+Current number of swaps: 48
+Current number of non swaps: 0
+Ratio of swaps: 1.0
+
+Iteration : 5
+Current best model energy : -8
+Matrix representation of conformation: 
+[[ 0  0  2  1  0  0]
+ [ 0  4  3 20 19  0]
+ [ 0  5  6  7 18 17]
+ [ 0 10  9  8 15 16]
+ [ 0 11 12 13 14  0]]
+Current number of swaps: 60
+Current number of non swaps: 0
+Ratio of swaps: 1.0
+
+Iteration : 6
+Current best model energy : -8
+Matrix representation of conformation: 
+[[ 0  0  2  1  0  0]
+ [ 0  4  3 20 19  0]
+ [ 0  5  6  7 18 17]
+ [ 0 10  9  8 15 16]
+ [ 0 11 12 13 14  0]]
+Current number of swaps: 72
+Current number of non swaps: 0
+Ratio of swaps: 1.0
+
+Iteration : 7
+Current best model energy : -8
+Matrix representation of conformation: 
+[[ 0  0  2  1  0  0]
+ [ 0  4  3 20 19  0]
+ [ 0  5  6  7 18 17]
+ [ 0 10  9  8 15 16]
+ [ 0 11 12 13 14  0]]
+Current number of swaps: 84
+Current number of non swaps: 0
+Ratio of swaps: 1.0
+
+Iteration : 8
+Current best model energy : -8
+Matrix representation of conformation: 
+[[ 0  0  2  1  0  0]
+ [ 0  4  3 20 19  0]
+ [ 0  5  6  7 18 17]
+ [ 0 10  9  8 15 16]
+ [ 0 11 12 13 14  0]]
+Current number of swaps: 96
+Current number of non swaps: 0
+Ratio of swaps: 1.0
+
+Iteration : 9
+Current best model energy : -8
+Matrix representation of conformation: 
+[[ 0  0  2  1  0  0]
+ [ 0  4  3 20 19  0]
+ [ 0  5  6  7 18 17]
+ [ 0 10  9  8 15 16]
+ [ 0 11 12 13 14  0]]
+Current number of swaps: 108
+Current number of non swaps: 0
+Ratio of swaps: 1.0
+
+Iteration : 10
+Current best model energy : -8
+Matrix representation of conformation: 
+[[ 0  0  2  1  0  0]
+ [ 0  4  3 20 19  0]
+ [ 0  5  6  7 18 17]
+ [ 0 10  9  8 15 16]
+ [ 0 11 12 13 14  0]]
+Current number of swaps: 120
+Current number of non swaps: 0
+Ratio of swaps: 1.0
+
+Iteration : 11
+Current best model energy : -8
+Matrix representation of conformation: 
+[[ 0  0  2  1  0  0]
+ [ 0  4  3 20 19  0]
+ [ 0  5  6  7 18 17]
+ [ 0 10  9  8 15 16]
+ [ 0 11 12 13 14  0]]
+Current number of swaps: 132
+Current number of non swaps: 0
+Ratio of swaps: 1.0
+
+New Run
+
+Iteration : 1
+Current best model energy : -7
+Matrix representation of conformation: 
+[[ 0  0  0  0 16 17]
+ [ 0  0  1 14 15 18]
+ [ 0  0  2 13 20 19]
+ [ 0  4  3 12 11  0]
+ [ 0  5  6  9 10  0]
+ [ 0  0  7  8  0  0]]
+Current number of swaps: 12
+Current number of non swaps: 0
+Ratio of swaps: 1.0
+
+Iteration : 2
+Current best model energy : -7
+Matrix representation of conformation: 
+[[ 0  0  0  0 16 17]
+ [ 0  0  1 14 15 18]
+ [ 0  0  2 13 20 19]
+ [ 0  4  3 12 11  0]
+ [ 0  5  6  9 10  0]
+ [ 0  0  7  8  0  0]]
+Current number of swaps: 24
+Current number of non swaps: 0
+Ratio of swaps: 1.0
+
+Iteration : 3
+Current best model energy : -8
+Matrix representation of conformation: 
+[[ 0  0  0  4  5  8  9 10]
+ [ 0  1  2  3  6  7 12 11]
+ [ 0 20 19 18 15 14 13  0]
+ [ 0  0  0 17 16  0  0  0]]
+Current number of swaps: 36
+Current number of non swaps: 0
+Ratio of swaps: 1.0
+
+Iteration : 4
+Current best model energy : -8
+Matrix representation of conformation: 
+[[ 0  0  0  4  5  8  9 10]
+ [ 0  1  2  3  6  7 12 11]
+ [ 0 20 19 18 15 14 13  0]
+ [ 0  0  0 17 16  0  0  0]]
+Current number of swaps: 48
+Current number of non swaps: 0
+Ratio of swaps: 1.0
+
+Iteration : 5
+Current best model energy : -9
+Matrix representation of conformation: 
+[[ 0 10  9  8  5  4]
+ [ 0 11 12  7  6  3]
+ [ 0  0 13 14  1  2]
+ [ 0  0 16 15 20  0]
+ [ 0  0 17 18 19  0]]
+Current number of swaps: 60
+Current number of non swaps: 0
+Ratio of swaps: 1.0
+
+New Run
+
+Iteration : 1
+Current best model energy : -8
+Matrix representation of conformation: 
+[[ 0  0  0  0 10 11]
+ [ 0  2  1  8  9 12]
  [ 0  3  6  7 14 13]
- [ 0  4  5  8  9 12]
- [ 0  0  0  0 10 11]]
-Current number of swaps: 67
+ [ 0  4  5 20 15 16]
+ [ 0  0  0 19 18 17]]
+Current number of swaps: 12
+Current number of non swaps: 0
+Ratio of swaps: 1.0
+
+Iteration : 2
+Current best model energy : -8
+Matrix representation of conformation: 
+[[ 0  0  0  0 10 11]
+ [ 0  2  1  8  9 12]
+ [ 0  3  6  7 14 13]
+ [ 0  4  5 20 15 16]
+ [ 0  0  0 19 18 17]]
+Current number of swaps: 24
+Current number of non swaps: 0
+Ratio of swaps: 1.0
+
+Iteration : 3
+Current best model energy : -8
+Matrix representation of conformation: 
+[[ 0  0  0  0 10 11]
+ [ 0  2  1  8  9 12]
+ [ 0  3  6  7 14 13]
+ [ 0  4  5 20 15 16]
+ [ 0  0  0 19 18 17]]
+Current number of swaps: 36
+Current number of non swaps: 0
+Ratio of swaps: 1.0
+
+Iteration : 4
+Current best model energy : -9
+Matrix representation of conformation: 
+[[ 0  4  5  8  9 10]
+ [ 0  3  6  7 12 11]
+ [ 0  2  1 14 13  0]
+ [ 0  0 20 15 16  0]
+ [ 0  0 19 18 17  0]]
+Current number of swaps: 48
 Current number of non swaps: 0
 Ratio of swaps: 1.0
