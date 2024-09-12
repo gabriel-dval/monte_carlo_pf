@@ -24,20 +24,27 @@ Python v3.12.5
 If you wish to use the provided environment, you can install it with conda 
 using this command.
 
-macOS
+macOS command line
 
     conda env create -f remc_env.yml
 
-And repeat
+You can equally create a new environment with the three packages if this is 
+simpler.
 
-    until finished
+    conda create -n myenv python=3.12.5 numpy=2.1 matplotlib=3.9.2 tqdm=4.66.5
 
-End with an example of getting some data out of the system or using it
-for a little demo
 
 ## Running the tests
 
-Explain how to run the automated tests for this system
+The program is run from the command line like any python script. Below is an 
+example with a sequence of length 20 called 'test'. Although most parameters have
+default options, please make sure to input an optimal energy even if it is not 
+known. A cutoff time for each run can equally be passed as argument.
+
+Example usage
+
+    python remc.py HPHPPHHPHPPHPHHPPHPH test -9
+
 
 ### Sample Tests
 
