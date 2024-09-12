@@ -1,6 +1,7 @@
 '''Test script for structuring and organising ideas
 
-All development record is on this file.
+All development record is on this file - none of the final program is
+dependent on this file.
 '''
 
 
