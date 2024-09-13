@@ -1236,14 +1236,8 @@ if __name__ == "__main__":
     # model = REMC(conf, temp, 500)
     # model.run_remc_sim(-9)
 
-
     # TEST 2 - S2 - HHPPHPPHPPHPPHPPHPPHPPHH - Converged in 10min !!!
-    
-    ex = None
-    plot_final_conformation(ex, ex, ex)
-    
 
-    
     # TEST 3 - S3 - PPHPPHHPPPPHHPPPPHHPPPPHH - CONVERGED in 204 seconds!!!!
 
     # TEST 4 - S9 - H4P4H12P6(H12P3)3HP2(H2P2)2HPH
